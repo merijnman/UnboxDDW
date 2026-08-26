@@ -1,0 +1,20 @@
+# Config (contains device names / calibration specific to one setup)
+config.json
+
+# Recorded/seed media and the library index
+media/videos/
+media/seeds/
+media/index.jsonl
+
+# Logs (including per-recording ffmpeg logs)
+logs/
+*.ffmpeg.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor
+.vscode/
