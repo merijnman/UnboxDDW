@@ -31,6 +31,11 @@ Controleer dat ffmpeg werkt:
 ffmpeg -version
 ```
 
+`config.json` is apparaatspecifiek (device-namen, kalibratie) en staat daarom
+niet in git. Bij de eerste `python main.py` wordt hij automatisch met
+standaardwaarden aangemaakt; `config.example.json` in de repo toont dezelfde
+structuur ter referentie.
+
 ## Voor de eerste run
 
 Doe dit één keer (en na elke Windows-update, want sommige instellingen

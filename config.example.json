@@ -1,0 +1,42 @@
+{
+  "table_surface_size": [1200, 800],
+  "display_index": 1,
+  "window_fallback_size": [1280, 800],
+
+  "countdown_seconds": 3,
+  "record_seconds": 30,
+  "review_enabled": true,
+  "lockout_seconds": 1.0,
+
+  "recording_light_color": [245, 245, 240],
+  "countdown_light_color": [255, 255, 255],
+  "idle_overlay_alpha": 160,
+  "recording_border_color": [200, 0, 0],
+  "recording_border_width": 24,
+
+  "text_idle_prompt": "Druk op de knop om jouw verhaal te vertellen",
+  "text_recording": "Je verhaal wordt opgenomen",
+  "text_review": "Dit is jouw verhaal. Dank je wel.",
+  "text_review_waiting": "Een moment...",
+  "text_error_no_video": "Geen video beschikbaar",
+  "text_error_generic": "Er ging iets mis. Probeer het opnieuw.",
+
+  "ffmpeg_path": "ffmpeg",
+  "video_device": "",
+  "audio_device": "",
+  "video_size": [1280, 720],
+  "fps": 30,
+  "force_mjpeg": true,
+
+  "media_dir": "media",
+  "videos_subdir": "videos",
+  "seeds_subdir": "seeds",
+  "index_file": "index.jsonl",
+  "selection_strategy": "latest",
+  "selection_n": 5,
+
+  "H_cam": null,
+  "H_proj": null,
+  "calibration_step_px": 1,
+  "calibration_step_px_shift": 10
+}
