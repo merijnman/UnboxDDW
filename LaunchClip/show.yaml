@@ -1,0 +1,379 @@
+# =============================================================================
+# UNBOX - Mission to Metaphorical Space
+# Cue sheet: the single source of truth for the 15-minute public-event video.
+#
+# Edit THIS file to change the show. Then re-render. Audio that did not change
+# is taken from the cache and costs nothing.
+#
+# How to read it
+#   at:       show time "MM:SS" at which the entry starts
+#   say:      a speaker (see `voices`) says the `lines`. One entry = one TTS
+#             request, so the voice flows naturally across its lines.
+#   lines:    one subtitle unit each. `en` is spoken and shown, `nl` is shown.
+#             A line can carry actions (screen/overlay/big/sound/ops) that fire
+#             at the moment that line starts being spoken.
+#   screen:   replace what is on screen (see `screens`)
+#   overlay:  add an image on top of the current screen (cleared on next screen)
+#   big:      giant centred text (countdown numbers)
+#   sound:    play a sound from `sounds`
+#   timer:    countdown clock on screen. `seconds:` or `until: "MM:SS"`
+#   ops:      instruction for the humans in the room. Goes to the printed
+#             run sheet and shows as a small marker in the corner of the video.
+# =============================================================================
+
+show:
+  title: "Unbox - Mission to Metaphorical Space"
+  duration: "15:00"
+  audio_language: en
+  subtitles: [en, nl]          # both on screen at the same time
+  video: {width: 1920, height: 1080, fps: 25}
+  bed: [bridge_hum, console_beeps]   # ambient layers under the whole show
+  ops_markers: true            # show room cues small in the corner; false = run sheet only
+  bed_gain_db: -22
+  duck_bed_under_speech_db: -6
+
+# -----------------------------------------------------------------------------
+voices:
+  commander:
+    label: "COMMANDER"
+    voice_id: "TODO_COMMANDER_VOICE_ID"       # warm, authoritative, a bit dry
+    model_id: eleven_multilingual_v2
+    settings: {stability: 0.45, similarity_boost: 0.75, style: 0.35, use_speaker_boost: true, speed: 0.95}
+    seed: 1101
+    fx: radio_light            # close mic, slight radio colour
+  mission_control:
+    label: "MISSION CONTROL"
+    voice_id: "TODO_MISSION_CONTROL_VOICE_ID" # clipped, procedural, neutral
+    model_id: eleven_multilingual_v2
+    settings: {stability: 0.70, similarity_boost: 0.75, style: 0.10, use_speaker_boost: true, speed: 1.0}
+    seed: 2202
+    fx: radio                  # band-limited, compressed, squelch in/out
+
+# -----------------------------------------------------------------------------
+# Sounds are generated once (ElevenLabs sound effects, max 30 s each) and
+# cached, or point to a file you supply yourself with `file:`.
+sounds:
+  radio_crackle:   {prompt: "Short burst of radio static and squelch as a two-way radio channel opens", seconds: 1.5}
+  bridge_hum:      {prompt: "Low steady spaceship bridge ambience, soft engine hum and air circulation, no melody, no voices", seconds: 30, loop: true}
+  console_beeps:   {prompt: "Sparse quiet computer console beeps and blips on a spaceship bridge, irregular, no melody", seconds: 22, loop: true}
+  timer_end:       {prompt: "Three short clean electronic beeps, timer finished", seconds: 1.5}
+  alarm:           {prompt: "Spaceship red alert klaxon, urgent repeating alarm", seconds: 7}
+  computer_bleeps: {prompt: "Retro computer calculating, rapid bleeps and bloops, data processing", seconds: 5}
+  rocket_launch:   {prompt: "Rocket launch: engine ignition, building rumble and roar, then fading into the distance", seconds: 25}
+  celebration:     {file: "assets/music/celebration.mp3", gain_db: -10, fade_in: 3, fade_out: 6}   # TODO: supply or generate
+
+# -----------------------------------------------------------------------------
+# Screens. `image` files live in assets/screens/. Until the real artwork is
+# there, the build generates labelled placeholders with the same file names.
+screens:
+  title:         {image: title.png,         text_en: "UNBOX MISSION CONTROL",                 text_nl: ""}
+  pen:           {image: pen.png}
+  introduce:     {image: bridge.png,        text_en: "Introduce yourself to your crew",       text_nl: "Stel jezelf voor aan je crew"}
+  pick:          {image: stickers.png,      text_en: "Pick one sticker. What does it mean to you on this mission?", text_nl: "Kies een sticker. Wat betekent die voor jou op deze missie?"}
+  share:         {image: bridge.png,        text_en: "Explain your object to your crew",      text_nl: "Leg je voorwerp uit aan je crew"}
+  alert:         {image: alert.png,         text_en: "ALERT",                                 text_nl: "ALARM"}
+  recalculating: {image: alert.png,         text_en: "RECALCULATING STORAGE VOLUME...",       text_nl: "OPSLAGRUIMTE WORDT HERBEREKEND..."}
+  one_item:      {image: one_item.png,      text_en: "Choose ONE item for the whole crew",    text_nl: "Kies EEN voorwerp voor de hele crew"}
+  load_rocket:   {image: rocket.png,        text_en: "Put your item in the rocket. Record your reasoning.", text_nl: "Stop je voorwerp in de raket. Leg jullie redenering vast."}
+  all_go:        {image: rocket.png,        text_en: "ALL SYSTEMS GO",                        text_nl: "ALLE SYSTEMEN GEREED"}
+  countdown:     {image: rocket.png}
+  liftoff:       {image: liftoff.png}
+  end:           {image: unbox_logo.png,    text_en: "Visit the Unbox exhibition around the corner  |  TODO website", text_nl: "Bezoek de Unbox-tentoonstelling om de hoek"}
+
+overlays:
+  cloud_rocket: {image: cloud_rocket.png}
+  cloud_text:   {image: cloud_text.png}
+  cloud_carrot: {image: cloud_carrot.png}
+
+# =============================================================================
+# THE SHOW
+# =============================================================================
+timeline:
+
+  # ---- 1. Warming up ---------------------------------------------- 00:00 ---
+  - at: "00:00"
+    screen: title
+    sound: radio_crackle
+
+  - at: "00:03"
+    id: cmd_welcome
+    say: commander
+    lines:
+      - en: "Welcome, crew. My name is Commander Lockton, but you can call me Dan."
+        nl: "Welkom, crew. Ik ben Commander Lockton, maar zeg maar Dan."
+      - en: "I will be your mission commander."
+        nl: "Ik ben jullie missiecommandant."
+      - en: "In fifteen minutes, we launch to explore metaphorical space!"
+        nl: "Over vijftien minuten vertrekken we om de metaforische ruimte te verkennen!"
+
+  - at: "00:18"
+    id: cmd_aside
+    say: commander
+    delivery: aside            # off-mic, quieter, subtitle in italics
+    lines:
+      - en: "Brave idiots."
+        nl: "Dappere dwazen."
+
+  - at: "00:22"
+    id: cmd_metaphors
+    say: commander
+    lines:
+      - en: "Ahem. Metaphors help us find a shared language."
+        nl: "Ahum. Metaforen helpen ons een gedeelde taal te vinden."
+      - en: "You all use metaphors, even if you didn't know it yet."
+        nl: "Jullie gebruiken allemaal metaforen, ook als je dat nog niet wist."
+      - en: "It's not rocket science."
+        nl: "Het is geen raketwetenschap."
+      - en: "For example: this is a pen."
+        nl: "Bijvoorbeeld: dit is een pen."
+        screen: pen
+      - en: "For me, as commander, this pen might be a metaphor for a spaceship, because it is long and pointy."
+        nl: "Voor mij, als commander, kan deze pen een metafoor zijn voor een ruimteschip: lang en puntig."
+        overlay: cloud_rocket
+      - en: "But it can also be a metaphor for a memory, because you can write things down."
+        nl: "Maar hij kan ook een metafoor zijn voor een herinnering, omdat je er dingen mee opschrijft."
+        overlay: cloud_text
+      - en: "And it might even represent a carrot. So: food!"
+        nl: "En misschien staat hij zelfs voor een wortel. Eten dus!"
+        overlay: cloud_carrot
+      - en: "You get the point. One thing can mean many different things to different people."
+        nl: "Je snapt het idee. Een ding kan voor verschillende mensen heel verschillende dingen betekenen."
+
+  # ---- 2. Crew introduction and picking a metaphor ----------------- 01:12 ---
+  - at: "01:12"
+    id: mc_ready
+    say: mission_control
+    lines:
+      - en: "Mission Control here. Crew, are you ready for your first task?"
+        nl: "Hier Mission Control. Crew, zijn jullie klaar voor je eerste opdracht?"
+      - en: "Of course you are. You are highly trained astronauts, about to embark on a voyage to metaphorical space."
+        nl: "Natuurlijk zijn jullie dat. Jullie zijn topgetrainde astronauten, aan de vooravond van een reis naar de metaforische ruimte."
+      - en: "To get you started: introduce yourself to your crew members."
+        nl: "Om te beginnen: stel jezelf voor aan je crewgenoten."
+        screen: introduce
+      - en: "Briefly! You have thirty seconds."
+        nl: "Kort! Jullie hebben dertig seconden."
+
+  - at: "01:34"
+    timer: {seconds: 30}
+
+  - at: "02:06"
+    id: mc_pick
+    say: mission_control
+    lines:
+      - en: "Time is up. Now look at the stickers on your table."
+        nl: "De tijd is om. Kijk nu naar de stickers op je tafel."
+        screen: pick
+      - en: "Pick one. This is your metaphor."
+        nl: "Kies er een. Dit is jouw metafoor."
+      - en: "Think to yourself: what does this object mean to you on this mission?"
+        nl: "Bedenk voor jezelf: wat betekent dit voorwerp voor jou op deze missie?"
+
+  # ---- 3. Sharing the metaphors ------------------------------------ 02:50 ---
+  - at: "02:50"
+    id: cmd_share
+    say: commander
+    lines:
+      - en: "Crew, your next task: explain to your crew what your metaphorical object means to you."
+        nl: "Crew, je volgende opdracht: leg je crewgenoten uit wat jouw metaforische voorwerp voor jou betekent."
+        screen: share
+      - en: "Why did you pick it? What does it represent on your journey together?"
+        nl: "Waarom koos je het? Waar staat het voor op jullie gezamenlijke reis?"
+      - en: "You have five minutes."
+        nl: "Jullie hebben vijf minuten."
+
+  - at: "03:06"
+    timer: {until: "08:00"}
+
+  - at: "04:00"
+    id: mc_spotlight
+    say: mission_control
+    lines:
+      - en: "Attention: all crew members are required to share their object. Share the spotlight."
+        nl: "Attentie: alle crewleden moeten hun voorwerp delen. Geef elkaar de ruimte."
+
+  - at: "05:00"
+    id: mc_nominal
+    say: mission_control
+    lines:
+      - en: "All systems nominal. Proceed with preparations."
+        nl: "Alle systemen nominaal. Ga door met de voorbereidingen."
+
+  - at: "06:00"
+    id: mc_propellant
+    say: mission_control
+    lines:
+      - en: "Propellant loading complete. Starting flight computer."
+        nl: "Brandstof geladen. Boordcomputer wordt opgestart."
+
+  - at: "07:00"
+    id: mc_warning
+    say: mission_control
+    lines:
+      - en: "Mission Control here. Attention, all stations: sharing time is coming to an end."
+        nl: "Hier Mission Control. Attentie, alle stations: de tijd om te delen loopt ten einde."
+      - en: "Crew is requested to collect materials for space travel, so make sure you understand the objects of all your crewmates."
+        nl: "De crew wordt verzocht materialen voor de ruimtereis te verzamelen. Zorg dus dat je de voorwerpen van al je crewgenoten begrijpt."
+      - en: "Just a little time remaining before launch!"
+        nl: "Nog maar even tot de lancering!"
+
+  - at: "07:45"
+    ops: "Stand by: smoke machine and alarm light, in 15 seconds"
+
+  # ---- 4. Emergency: only one item fits ---------------------------- 08:00 ---
+  - at: "08:00"
+    screen: alert
+    sound: alarm
+    ops: "SMOKE MACHINE ON, alarm light on"
+
+  - at: "08:02"
+    id: mc_alert
+    say: mission_control
+    lines:
+      - en: "Alert! Alert!"
+        nl: "Alarm! Alarm!"
+      - en: "Mission Control here. An anomaly in the space-time continuum has been detected."
+        nl: "Hier Mission Control. Er is een anomalie in het ruimte-tijdcontinuum gedetecteerd."
+      - en: "Recalculating total storage volume."
+        nl: "Totale opslagruimte wordt herberekend."
+        screen: recalculating
+
+  - at: "08:12"
+    sound: computer_bleeps
+
+  - at: "08:18"
+    id: mc_done
+    say: mission_control
+    lines:
+      - en: "Done! New calculations show that we only have space to take one item."
+        nl: "Klaar! Uit de nieuwe berekeningen blijkt dat we maar ruimte hebben voor een voorwerp."
+        screen: one_item
+
+  - at: "08:25"
+    id: cmd_yikes
+    say: commander
+    lines:
+      - en: "Yikes."
+        nl: "Oei."
+
+  - at: "08:28"
+    id: cmd_select
+    say: commander
+    lines:
+      - en: "Crew, please select the one item that represents the largest number of crew members."
+        nl: "Crew, kies het ene voorwerp dat voor zo veel mogelijk crewleden iets betekent."
+      - en: "Put your final item in the rocket, and record what this item represents for you all."
+        nl: "Stop jullie definitieve voorwerp in de raket en leg vast waar het voor jullie allemaal voor staat."
+      - en: "You have three minutes to make your final decision."
+        nl: "Jullie hebben drie minuten voor de definitieve keuze."
+
+  - at: "08:47"
+    timer: {until: "11:45"}
+    ops: "Smoke machine off, alarm light off"
+
+  - at: "09:45"
+    id: mc_two_minutes
+    say: mission_control
+    lines:
+      - en: "Storage bay recalibrated. Two minutes remaining."
+        nl: "Laadruim opnieuw gekalibreerd. Nog twee minuten."
+
+  - at: "10:45"
+    id: mc_one_minute
+    say: mission_control
+    lines:
+      - en: "One minute remaining. Choose wisely, crew."
+        nl: "Nog een minuut. Kies verstandig, crew."
+
+  # ---- 5. Countdown and launch ------------------------------------- 11:46 ---
+  - at: "11:46"
+    id: cmd_go
+    say: commander
+    lines:
+      - en: "All crew members: it is go time!"
+        nl: "Alle crewleden: het is zover!"
+        screen: load_rocket
+      - en: "Place your final item in the rocket and record your reasoning for posterity."
+        nl: "Leg jullie definitieve voorwerp in de raket en leg jullie redenering vast voor het nageslacht."
+      - en: "Brace yourselves: preparing for launch!"
+        nl: "Zet je schrap: we maken ons klaar voor de lancering!"
+
+  - at: "12:15"
+    ops: "Stand by for launch: smoke machine, flashing lights, curtain"
+
+  - at: "12:30"
+    id: mc_all_go
+    say: mission_control
+    lines:
+      - en: "Mission Control to crew: all systems go. Prepare to unbox the unexpected!"
+        nl: "Mission Control aan crew: alle systemen gereed. Maak je klaar om het onverwachte uit te pakken!"
+        screen: all_go
+
+  - at: "12:38"
+    id: mc_countdown
+    say: mission_control
+    pace_seconds: 1.0          # after the first line: one line per second, each rendered separately
+    lines:
+      - {en: "T minus ten seconds.", nl: "Nog tien seconden.", screen: countdown}
+      - {en: "Ten.",   nl: "Tien.",   big: "10"}
+      - {en: "Nine.",  nl: "Negen.",  big: "9"}
+      - {en: "Eight.", nl: "Acht.",   big: "8"}
+      - {en: "Seven.", nl: "Zeven.",  big: "7"}
+      - {en: "Six.",   nl: "Zes.",    big: "6"}
+      - {en: "Five.",  nl: "Vijf.",   big: "5"}
+      - {en: "Four.",  nl: "Vier.",   big: "4"}
+      - {en: "Three.", nl: "Drie.",   big: "3", ops: "SMOKE MACHINE ON"}
+      - {en: "Two.",   nl: "Twee.",   big: "2"}
+      - {en: "One.",   nl: "Een.",    big: "1"}
+      - {en: "Liftoff!", nl: "Lancering!", screen: liftoff, sound: rocket_launch, ops: "CURTAIN DROPS, flashing lights"}
+
+  # ---- 6. Unbox revealed, sign-off --------------------------------- 13:15 ---
+  - at: "13:15"
+    sound: celebration
+    ops: "Smoke machine off"
+
+  - at: "13:22"
+    id: cmd_outro
+    say: commander
+    lines:
+      - en: "Thank you, Unbox crew, for taking on new perspectives and exploring Unbox together."
+        nl: "Dank je wel, Unbox-crew, dat jullie nieuwe perspectieven hebben ingenomen en samen Unbox hebben verkend."
+        screen: end
+      - en: "This was a small taste of the new worlds that metaphors can help us discover."
+        nl: "Dit was een voorproefje van de nieuwe werelden die metaforen ons kunnen helpen ontdekken."
+      - en: "You can use Unbox and its metaphors in many different settings that require working as a group."
+        nl: "Je kunt Unbox en zijn metaforen gebruiken in allerlei situaties waarin je als groep samenwerkt."
+      - en: "If you would like to dive deeper into metaphors, visit the Unbox exhibition space around the corner, or check out our website."
+        nl: "Wil je dieper in metaforen duiken? Bezoek de Unbox-tentoonstelling om de hoek, of kijk op onze website."
+      - en: "For now, this was Commander Lockton, signing off."
+        nl: "Voor nu was dit Commander Lockton. Over en uit."
+
+  - at: "14:05"
+    ops: "House lights up. Point people to the exhibition and the bar."
+
+# =============================================================================
+# BETWEEN SESSIONS: 25 minutes of ambient bridge sound with a launch clock.
+# Rendered as its own video (and as the first part of the 40-minute loop).
+# =============================================================================
+preshow:
+  duration: "25:00"
+  screen: {image: bridge.png, text_en: "NEXT LAUNCH IN", text_nl: "VOLGENDE LANCERING OVER"}
+  timer: {until: "25:00"}
+  bed: [bridge_hum, console_beeps]
+  bed_gain_db: -18
+  chatter:
+    voice: mission_control
+    every_seconds: [60, 150]     # random gap between two chatter lines
+    random_seed: 7
+    subtitles: false
+    lines:
+      - "Telemetry is nominal on all channels."
+      - "Flight, this is guidance. We are go for crew boarding."
+      - "Copy that. Holding at the current mark."
+      - "Cabin pressure is stable."
+      - "Ground, please confirm the metaphor manifest."
+      - "Roger. Sticker inventory is complete."
+      - "Weather is green across metaphorical space."
+      - "Stand by for crew arrival."
+      - "All stations, report readiness."
+      - "Comms check. Loud and clear."
