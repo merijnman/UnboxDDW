@@ -279,6 +279,12 @@
   },
   {
    "t": 105.0,
+   "type": "sound",
+   "name": "timer_end",
+   "end": 106.541
+  },
+  {
+   "t": 105.0,
    "type": "voice",
    "end": 118.75,
    "clip": "mc_pick",
@@ -698,6 +704,12 @@
   },
   {
    "t": 668.0,
+   "type": "sound",
+   "name": "timer_end",
+   "end": 669.541
+  },
+  {
+   "t": 668.0,
    "type": "voice",
    "end": 679.4,
    "clip": "cmd_go",
@@ -1112,8 +1124,7 @@
    "t": 733.0,
    "type": "sound",
    "name": "celebration",
-   "end": 733.0,
-   "missing": true
+   "end": 812.0
   },
   {
    "t": 740.0,

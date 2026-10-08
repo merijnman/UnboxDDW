@@ -1,0 +1,57 @@
+{
+  "alert.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "d92f1c0a752767afb9b46fd6eea90950d165194099658ae6cc39223f8fa3bc4a"
+  },
+  "bridge.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "756d87f6ef7ca82381da6814faccc306d381a58481a08ff1148db163df872c6e"
+  },
+  "cloud_carrot.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "0c8c299d14f1dde916d0adec1d54ae4c786f283bb5d1f5b493653da3174bccae"
+  },
+  "cloud_rocket.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "c1f430bb811162476c7fbc7b2d5ca459e28d390f425e0b90fe7165592fd01c11"
+  },
+  "cloud_text.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "57243d7c38578be791ca84fe479b4cba957c84e989117a17c509076071914c50"
+  },
+  "liftoff.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "b0461aea8305f22732af9c31fd09d8c4d320697d1637243c5246a8868b839d01"
+  },
+  "one_item.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "e663a289843b6bc267e38f9213420056236ba9c00f1279eebefff082a4887902"
+  },
+  "pen.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "29e003821211e2f7ad1e6702c1062ba82c47ff8e3ca7b58f0b1c6e6a9c590b85"
+  },
+  "rocket.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "3e43661d0e22bd7d7767465185dc4b94475458f3a3782f8b37c3404e142bd12b"
+  },
+  "stickers.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "1b9f58bb6f6d612c7f8f7697a41a37b0cbe1c69e528972a1cf581dbfc0cfb15c"
+  },
+  "title.png": {
+    "key": "drawn",
+    "take": 0,
+    "sha256": "438ddcd05ed90e06575f308145db1bb2588010f60c23fa9487a0546dff1cde4a"
+  }
+}

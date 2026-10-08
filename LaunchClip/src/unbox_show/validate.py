@@ -56,8 +56,9 @@ def check(show: ShowFile) -> list[Issue]:
         where = f"sounds.{name}"
         if (sound.prompt is None) == (sound.file is None):
             error(where, "needs exactly one of `prompt` or `file`")
-        if sound.prompt is not None and not (sound.seconds and 0.5 <= sound.seconds <= 30):
-            error(where, "a generated sound needs `seconds` between 0.5 and 30")
+        limit = 600 if sound.music else 30
+        if sound.prompt is not None and not (sound.seconds and 0.5 <= sound.seconds <= limit):
+            error(where, f"a generated {'music track' if sound.music else 'sound'} needs `seconds` between 0.5 and {limit}")
         if sound.file is not None and not (show.base_dir / sound.file).exists():
             warning(where, f"file {sound.file} not found; it will be silent until supplied")
 

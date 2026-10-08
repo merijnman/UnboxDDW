@@ -120,6 +120,7 @@ class Sound(Strict):
     file: str | None = None
     seconds: float | None = None
     loop: bool = False
+    music: bool = False  # generate with ElevenLabs Music instead of sound effects
     gain_db: float = 0.0
     fade_in: float = 0.0
     fade_out: float = 0.0

@@ -26,6 +26,7 @@ API_URL = "https://api.elevenlabs.io"
 OUTPUT_FORMAT = "mp3_44100_128"
 SFX_MODEL = "eleven_text_to_sound_v2"
 SFX_PROMPT_INFLUENCE = 0.5
+MUSIC_MODEL = "music_v1"
 
 
 class ElevenError(RuntimeError):
@@ -77,6 +78,11 @@ def tts_request(text: str, voice: Voice, seed: int | None) -> tuple[str, dict]:
     return path, body
 
 
+def music_body(prompt: str, seconds: float) -> dict:
+    return {"prompt": prompt, "music_length_ms": round(seconds * 1000), "model_id": MUSIC_MODEL,
+            "force_instrumental": True}
+
+
 def sfx_body(prompt: str, seconds: float, loop: bool) -> dict:
     return {
         "text": prompt,
@@ -95,6 +101,8 @@ class Client(Protocol):
     def sfx(self, prompt: str, seconds: float, loop: bool = False) -> bytes: ...
 
     def image(self, prompt: str, model_id: str, aspect_ratio: str, resolution: str) -> bytes: ...
+
+    def music(self, prompt: str, seconds: float) -> bytes: ...
 
 
 class ElevenClient:
@@ -149,6 +157,9 @@ class ElevenClient:
             sfx_body(prompt, seconds, loop),
             params={"output_format": OUTPUT_FORMAT},
         ).content
+
+    def music(self, prompt: str, seconds: float) -> bytes:
+        return self._post("/v1/music", music_body(prompt, seconds), params={"output_format": OUTPUT_FORMAT}).content
 
     def image(self, prompt: str, model_id: str, aspect_ratio: str, resolution: str,
               poll_seconds: float = 2.0, timeout: float = 300.0) -> bytes:
@@ -226,6 +237,10 @@ class FakeElevenClient:
 
     def sfx(self, prompt: str, seconds: float, loop: bool = False) -> bytes:
         self.calls.append(("sfx", prompt))
+        return silence_mp3(round(seconds, 3))
+
+    def music(self, prompt: str, seconds: float) -> bytes:
+        self.calls.append(("music", prompt))
         return silence_mp3(round(seconds, 3))
 
     def image(self, prompt: str, model_id: str, aspect_ratio: str, resolution: str) -> bytes:

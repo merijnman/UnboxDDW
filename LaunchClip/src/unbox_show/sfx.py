@@ -12,13 +12,13 @@ from pathlib import Path
 from . import cache as cache_mod
 from .audio import probe_duration, to_wav
 from .cache import Cache
-from .eleven import Client, sfx_body
+from .eleven import Client, music_body, sfx_body
 from .model import ShowFile, Sound
 from .tts import StageStats
 
 
 def sound_key(sound: Sound, client_name: str) -> str:
-    data = sfx_body(sound.prompt, sound.seconds, sound.loop)
+    data = music_body(sound.prompt, sound.seconds) if sound.music else sfx_body(sound.prompt, sound.seconds, sound.loop)
     if client_name == "fake":
         data["fake"] = True
     return cache_mod.key(data)
@@ -41,7 +41,9 @@ def render(show: ShowFile, client: Client, cache: Cache, build_dir: Path, warn=p
             if cache.get("sfx", digest, "mp3"):
                 stats.reused.append(name)
             else:
-                cache.put("sfx", digest, "mp3", client.sfx(sound.prompt, sound.seconds, sound.loop))
+                audio = (client.music(sound.prompt, sound.seconds) if sound.music
+                         else client.sfx(sound.prompt, sound.seconds, sound.loop))
+                cache.put("sfx", digest, "mp3", audio)
                 stats.generated.append(name)
             source = cache.path("sfx", digest, "mp3")
         else:
