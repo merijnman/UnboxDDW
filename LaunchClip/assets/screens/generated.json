@@ -42,7 +42,7 @@
   "rocket.png": {
     "key": "drawn",
     "take": 0,
-    "sha256": "3e43661d0e22bd7d7767465185dc4b94475458f3a3782f8b37c3404e142bd12b"
+    "sha256": "aa3c9edf622b2a7b9dff4a33f6ef0d3cbc4f63ba508283b6fccc7812859067a2"
   },
   "stickers.png": {
     "key": "drawn",
@@ -52,6 +52,6 @@
   "title.png": {
     "key": "drawn",
     "take": 0,
-    "sha256": "438ddcd05ed90e06575f308145db1bb2588010f60c23fa9487a0546dff1cde4a"
+    "sha256": "2f5332c776467c93b8132e46868ea23ccd8be2898b9531f1c3ba74de023118da"
   }
 }

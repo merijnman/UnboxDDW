@@ -151,7 +151,7 @@ def gantry(draw, x, ground, height, width=90):
     col = (*MAUVE, 255)
     draw.rectangle(p(x, ground - height, x + 14, ground), fill=col)
     draw.rectangle(p(x + width - 14, ground - height, x + width, ground), fill=col)
-    for y in range(int(ground - height), int(ground), 70):
+    for y in range(int(ground - height), int(ground) - 69, 70):  # braces stop at the ground
         draw.line(p(x, y, x + width, y + 70), fill=col, width=8 * S)
         draw.line(p(x + width, y, x, y + 70), fill=col, width=8 * S)
     for y in range(int(ground - height) + 40, int(ground), 140):
@@ -167,9 +167,9 @@ def draw_title():
     d.ellipse(p(170, 90, 330, 250), fill=(*YELLOW_LIGHT, 255))           # moon
     d.ellipse(p(-500, 760, 900, 1900), fill=(*MAUVE, 255))               # planet rim
     d.rectangle(p(0, 930, W, H), fill=(*NIGHT, 255))                     # ground
-    gantry(d, 1440, 930, 560)
-    rocket(d, 1640, 930, 600)
-    d.rectangle(p(1520, 920, 1760, 945), fill=(*DARK, 255))
+    gantry(d, 1560, 930, 520)          # right of the title panel, which ends near x=1520
+    rocket(d, 1740, 930, 560)
+    d.rectangle(p(1620, 920, 1860, 945), fill=(*DARK, 255))
     for x in (260, 420, 1180):
         sparkle(d, x, 330 if x != 1180 else 180, 18)
     paste(img, over)
