@@ -152,6 +152,7 @@ def build(
     yes: bool = YesOption,
     draft: bool = typer.Option(False, "--draft", help="Render 960x540 for quick checks."),
     only: str = typer.Option("show", "--only", help="show | preshow | loop"),
+    no_sfx: bool = typer.Option(False, "--no-sfx", help="Clean version: voices and picture only, no sound effects."),
 ) -> None:
     """Run every stage in order and report what was reused and what was regenerated."""
     if only != "show":
@@ -161,7 +162,8 @@ def build(
     show = _load(show_path)
     try:
         report = pipeline.build_show(
-            show, _client(show, fake), _paths(show), draft=draft, confirm=_confirm(yes), echo=typer.echo
+            show, _client(show, fake), _paths(show), draft=draft, confirm=_confirm(yes), echo=typer.echo,
+            with_sfx=not no_sfx,
         )
     except (pipeline.Aborted, ElevenError) as exc:
         typer.echo(str(exc), err=True)

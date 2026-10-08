@@ -126,13 +126,13 @@ timeline:
         nl: "Jullie gebruiken allemaal metaforen, ook als je dat nog niet wist."
       - en: "[chuckles] It's not rocket science."
         nl: "Het is geen raketwetenschap."
-      - en: "For example: this is a pen."
+      - en: "[proudly] For example: this is a pen."
         nl: "Bijvoorbeeld: dit is een pen."
         screen: pen
       - en: "For me, as commander, this pen might be a metaphor for a spaceship, because it is long and pointy."
         nl: "Voor mij, als commander, kan deze pen een metafoor zijn voor een ruimteschip: lang en puntig."
         overlay: cloud_rocket
-      - en: "But it can also be a metaphor for a memory, because you can write things down."
+      - en: "[thoughtfully] But it can also be a metaphor for a memory, because you can write things down."
         nl: "Maar hij kan ook een metafoor zijn voor een herinnering, omdat je er dingen mee opschrijft."
         overlay: cloud_text
       - en: "[amused] And it might even represent a carrot. So: food!"
@@ -153,7 +153,7 @@ timeline:
       - en: "To get you started: introduce yourself to your crew members."
         nl: "Om te beginnen: stel jezelf voor aan je crewgenoten."
         screen: introduce
-      - en: "Briefly! You have thirty seconds."
+      - en: "[firmly] Briefly! You have thirty seconds."
         nl: "Kort! Jullie hebben dertig seconden."
 
   - at: "01:34"
@@ -284,7 +284,7 @@ timeline:
     id: mc_one_minute
     say: mission_control
     lines:
-      - en: "One minute remaining. Choose wisely, crew."
+      - en: "[serious] One minute remaining. Choose wisely, crew."
         nl: "Nog een minuut. Kies verstandig, crew."
 
   # ---- 5. Countdown and launch ------------------------------------- 11:46 ---

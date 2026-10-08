@@ -120,3 +120,12 @@ def test_single_entry_only_asks_for_and_renders_that_entry(tmp_path, mini_data):
     assert list(index) == ["hello"] and stats.generated == ["hello"]
     assert [text for _, text in client.calls] == [show.timeline[1].text]
     assert not (paths.build / "tts.json").exists()  # a partial run leaves the full index alone
+
+
+def test_full_real_run_exports_takes_with_readable_names(tmp_path, mini_data):
+    show = load_show(write_show(tmp_path, mini_data))
+    paths = pipeline.Paths(show.base_dir)
+    pipeline.run_tts(show, _PretendRealClient(), paths, lambda m: True)
+    names = sorted(p.name for p in (paths.dist / "voices").glob("*.mp3"))
+    assert names == ["0002_hello.mp3", "0022_count_00.mp3", "0022_count_01.mp3", "0022_count_02.mp3",
+                     "0022_count_03.mp3", "0040_bye.mp3"]

@@ -1,0 +1,188 @@
+{
+  "cmd_aside": {
+    "hash": "0cd586e949214969eb486833b68205f5754ad4bf613c3ba156c96d37b8bfb475",
+    "duration": 1.84,
+    "characters": 25,
+    "date": "2026-10-08T19:08:34+00:00"
+  },
+  "cmd_go": {
+    "hash": "e125e97c59c93304a54505712b0fbcc291ce634763b8e228936645f291c23980",
+    "duration": 9.44,
+    "characters": 170,
+    "date": "2026-10-08T19:09:12+00:00"
+  },
+  "cmd_metaphors": {
+    "hash": "9836286efb75d1d358e70bfef2915ad16f29ccb8476e4312870b5f3f8d6eae5e",
+    "duration": 33.6,
+    "characters": 516,
+    "date": "2026-10-08T19:08:41+00:00"
+  },
+  "cmd_outro": {
+    "hash": "80a2530aa111957a2546eb950ab3a09d55c29e2fca26f962a8546a2b52f7b18e",
+    "duration": 26.4,
+    "characters": 453,
+    "date": "2026-10-08T19:09:29+00:00"
+  },
+  "cmd_select": {
+    "hash": "e6d52fe59b4105dde95f90d12378f310e1a9a2454b1af46d46e9bcc515cce4ef",
+    "duration": 12.88,
+    "characters": 231,
+    "date": "2026-10-08T19:09:07+00:00"
+  },
+  "cmd_share": {
+    "hash": "8976c891b928ead2460a4047ae2dcdc0d3eb4691d5679ec6e13abf95cde5f7c1",
+    "duration": 11.12,
+    "characters": 193,
+    "date": "2026-10-08T19:08:51+00:00"
+  },
+  "cmd_welcome": {
+    "hash": "7cc9a4687724e9381068de84de902d726946aa2519d1f49ebcfadba1422809bd",
+    "duration": 12.56,
+    "characters": 202,
+    "date": "2026-10-08T18:53:00+00:00"
+  },
+  "cmd_yikes": {
+    "hash": "677fa1c5551b9b8183c80f191b877a5691e4903136e70de01e9e43532976be92",
+    "duration": 1.84,
+    "characters": 22,
+    "date": "2026-10-08T19:09:03+00:00"
+  },
+  "mc_alert": {
+    "hash": "2af0df6d665c7e5940dc6b3748fde10b1345df27cb9005667a61b5ae4cacd4ea",
+    "duration": 8.56,
+    "characters": 148,
+    "date": "2026-10-08T19:09:01+00:00"
+  },
+  "mc_all_go": {
+    "hash": "a51faecbe1e5f031e9c31d9b1a7dceda30186c279a5a6992b261b1255e6d2190",
+    "duration": 5.92,
+    "characters": 91,
+    "date": "2026-10-08T19:09:14+00:00"
+  },
+  "mc_countdown#00": {
+    "hash": "4b503eee55afe955108a8a1b9829b437d4790f43645b57dcdbb3ec5197bbf79d",
+    "duration": 2.08,
+    "characters": 20,
+    "date": "2026-10-08T19:09:15+00:00"
+  },
+  "mc_countdown#01": {
+    "hash": "ef6fbd58b6c9e5bbe5b82dc03417c346860bf8b127f3f3fa6e63660d09c385e9",
+    "duration": 0.8,
+    "characters": 4,
+    "date": "2026-10-08T19:09:15+00:00"
+  },
+  "mc_countdown#02": {
+    "hash": "51eb24185083357d95bfcc9316b0be3b539a3f30a8356238c89b1e516d3b2a5f",
+    "duration": 0.88,
+    "characters": 5,
+    "date": "2026-10-08T19:09:16+00:00"
+  },
+  "mc_countdown#03": {
+    "hash": "c9cfb335a5bc2974738f3bc04d2b96ea7cb4bc1c29e704660f2bd9565a8cecec",
+    "duration": 0.8,
+    "characters": 6,
+    "date": "2026-10-08T19:09:17+00:00"
+  },
+  "mc_countdown#04": {
+    "hash": "ec034796f2e88895635309e45a57d9d76d263f43eec635b39052c8b6392f772b",
+    "duration": 0.88,
+    "characters": 6,
+    "date": "2026-10-08T19:09:18+00:00"
+  },
+  "mc_countdown#05": {
+    "hash": "98678140c4ed8a399c16fde994b3578453ead62750b9dcafd99640764922a5c9",
+    "duration": 0.88,
+    "characters": 4,
+    "date": "2026-10-08T19:09:19+00:00"
+  },
+  "mc_countdown#06": {
+    "hash": "a5fd0f7904d6403ee24441117fc904e6dc1bce6c4cd44e60d442bc0b675ea0cf",
+    "duration": 0.88,
+    "characters": 5,
+    "date": "2026-10-08T19:09:19+00:00"
+  },
+  "mc_countdown#07": {
+    "hash": "f390ea86e57974af78e5dbf94d6e02da0fa13cd38bcceda05331841842ec96ae",
+    "duration": 0.8,
+    "characters": 5,
+    "date": "2026-10-08T19:09:20+00:00"
+  },
+  "mc_countdown#08": {
+    "hash": "0d0bcc753b735c0087b7c3afca10032b9aec01d9a1c2b3d898f42828a40624c2",
+    "duration": 0.8,
+    "characters": 6,
+    "date": "2026-10-08T19:09:21+00:00"
+  },
+  "mc_countdown#09": {
+    "hash": "6bbb5f95826af8b727d9c82b0bc86d0b52f4f30df952361801454016a8fbbcf7",
+    "duration": 0.72,
+    "characters": 4,
+    "date": "2026-10-08T19:09:22+00:00"
+  },
+  "mc_countdown#10": {
+    "hash": "c143961a565bdcb6e4b426d6c3728de6d77bcea8c48c95677501af4859853f7a",
+    "duration": 0.8,
+    "characters": 4,
+    "date": "2026-10-08T19:09:22+00:00"
+  },
+  "mc_countdown#11": {
+    "hash": "fc948b867edc5d6a9b25f8b34432b6f9904bc084c68662f6bf9a6dffddac5d27",
+    "duration": 1.44,
+    "characters": 21,
+    "date": "2026-10-08T19:09:23+00:00"
+  },
+  "mc_done": {
+    "hash": "6273fffc77b29ce46357afb3c7ac7be1d50a92b46d7b8c8a8c87c82fce23c73a",
+    "duration": 4.88,
+    "characters": 69,
+    "date": "2026-10-08T19:09:02+00:00"
+  },
+  "mc_nominal": {
+    "hash": "93b3d0b90f728a6f96d063c3ccfd8d913c087e5ec5a39edc269fb53e68d4360b",
+    "duration": 3.28,
+    "characters": 47,
+    "date": "2026-10-08T19:08:54+00:00"
+  },
+  "mc_one_minute": {
+    "hash": "cd7a21ccfac5dae4dd3cfb98989c583c0530b8735b17b9bcf0ce38b462ab9dcb",
+    "duration": 3.36,
+    "characters": 52,
+    "date": "2026-10-08T19:09:09+00:00"
+  },
+  "mc_pick": {
+    "hash": "2a1920b97871eb40198fa992d6d2e3208fc4fc2590692284f6ae86c3e90a324a",
+    "duration": 11.04,
+    "characters": 154,
+    "date": "2026-10-08T19:08:48+00:00"
+  },
+  "mc_propellant": {
+    "hash": "5c6c4f0668e581008e0b7a676ce1174d583f3abba29c66ea34634d44fd054372",
+    "duration": 3.6,
+    "characters": 54,
+    "date": "2026-10-08T19:08:55+00:00"
+  },
+  "mc_ready": {
+    "hash": "ccd93b7cf11acc324fe05eae17a08eee21cb989360ba308531bbe7d3cb5937fe",
+    "duration": 16.64,
+    "characters": 279,
+    "date": "2026-10-08T19:08:45+00:00"
+  },
+  "mc_spotlight": {
+    "hash": "e2f77f4027bfc01c43123502e330072b6cc044b9c395b75b37673d5c6994ba0d",
+    "duration": 5.76,
+    "characters": 84,
+    "date": "2026-10-08T19:08:52+00:00"
+  },
+  "mc_two_minutes": {
+    "hash": "a1916f0d73e5f046ab5f87f379927c0477167148adc17ff62f35ea6a90b871a5",
+    "duration": 3.68,
+    "characters": 48,
+    "date": "2026-10-08T19:09:08+00:00"
+  },
+  "mc_warning": {
+    "hash": "2452f95eabb9a370ef0081db214a794bdff521dea8dd1aaff89b15b0f470916a",
+    "duration": 15.44,
+    "characters": 244,
+    "date": "2026-10-08T19:08:58+00:00"
+  }
+}

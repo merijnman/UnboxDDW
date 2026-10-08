@@ -90,12 +90,12 @@
    "entry": "cmd_metaphors",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/f31a773ed1ca89ad45269e9eaa7833d1d8767bfce3abad8127700ba2ba472516.wav"
+   "wav": "cache/tts/5edab21c592b92118126e70302a5197eaa680a858c7cbc0ef8e41e7507ec011d.wav"
   },
   {
    "t": 22.0,
    "type": "sub",
-   "end": 25.813,
+   "end": 25.628,
    "entry": "cmd_metaphors",
    "line": 0,
    "en": "Ahem. Metaphors help us find a shared language.",
@@ -104,9 +104,9 @@
    "italic": false
   },
   {
-   "t": 25.813,
+   "t": 25.628,
    "type": "sub",
-   "end": 30.402,
+   "end": 30.009,
    "entry": "cmd_metaphors",
    "line": 1,
    "en": "You all use metaphors, even if you didn't know it yet.",
@@ -115,9 +115,9 @@
    "italic": false
   },
   {
-   "t": 31.055,
+   "t": 30.616,
    "type": "sub",
-   "end": 33.041,
+   "end": 32.73,
    "entry": "cmd_metaphors",
    "line": 2,
    "en": "It's not rocket science.",
@@ -126,14 +126,14 @@
    "italic": false
   },
   {
-   "t": 33.041,
+   "t": 33.262,
    "type": "screen",
    "name": "pen"
   },
   {
-   "t": 33.041,
+   "t": 33.262,
    "type": "sub",
-   "end": 35.265,
+   "end": 35.378,
    "entry": "cmd_metaphors",
    "line": 3,
    "en": "For example: this is a pen.",
@@ -142,14 +142,14 @@
    "italic": false
   },
   {
-   "t": 35.265,
+   "t": 35.378,
    "type": "overlay",
    "name": "cloud_rocket"
   },
   {
-   "t": 35.265,
+   "t": 35.378,
    "type": "sub",
-   "end": 43.128,
+   "end": 43.085,
    "entry": "cmd_metaphors",
    "line": 4,
    "en": "For me, as commander, this pen might be a metaphor for a spaceship, because it is long and pointy.",
@@ -158,14 +158,14 @@
    "italic": false
   },
   {
-   "t": 43.128,
+   "t": 43.994,
    "type": "overlay",
    "name": "cloud_text"
   },
   {
-   "t": 43.128,
+   "t": 43.994,
    "type": "sub",
-   "end": 49.624,
+   "end": 50.19,
    "entry": "cmd_metaphors",
    "line": 5,
    "en": "But it can also be a metaphor for a memory, because you can write things down.",
@@ -174,14 +174,14 @@
    "italic": false
   },
   {
-   "t": 50.118,
+   "t": 50.645,
    "type": "overlay",
    "name": "cloud_carrot"
   },
   {
-   "t": 50.118,
+   "t": 50.645,
    "type": "sub",
-   "end": 54.151,
+   "end": 54.498,
    "entry": "cmd_metaphors",
    "line": 6,
    "en": "And it might even represent a carrot. So: food!",
@@ -190,7 +190,7 @@
    "italic": false
   },
   {
-   "t": 54.646,
+   "t": 54.953,
    "type": "sub",
    "end": 61.3,
    "entry": "cmd_metaphors",
@@ -208,12 +208,12 @@
    "entry": "mc_ready",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/83bbc9a8951600aa7ec635f1cc86be847a2fc1eef550342672fd62214d00768e.wav"
+   "wav": "cache/tts/c722257924586ad90673b206558c914c86b83c09578267f4465fc993eee5e7e7.wav"
   },
   {
    "t": 72.0,
    "type": "sub",
-   "end": 76.904,
+   "end": 76.756,
    "entry": "mc_ready",
    "line": 0,
    "en": "Mission Control here. Crew, are you ready for your first task?",
@@ -222,9 +222,9 @@
    "italic": false
   },
   {
-   "t": 77.272,
+   "t": 77.102,
    "type": "sub",
-   "end": 85.07,
+   "end": 84.648,
    "entry": "mc_ready",
    "line": 1,
    "en": "Of course you are. You are highly trained astronauts, about to embark on a voyage to metaphorical space.",
@@ -233,14 +233,14 @@
    "italic": false
   },
   {
-   "t": 85.07,
+   "t": 84.648,
    "type": "screen",
    "name": "introduce"
   },
   {
-   "t": 85.07,
+   "t": 84.648,
    "type": "sub",
-   "end": 89.599,
+   "end": 89.26,
    "entry": "mc_ready",
    "line": 2,
    "en": "To get you started: introduce yourself to your crew members.",
@@ -249,7 +249,7 @@
    "italic": false
   },
   {
-   "t": 89.599,
+   "t": 89.678,
    "type": "sub",
    "end": 92.35,
    "entry": "mc_ready",
@@ -675,10 +675,10 @@
    "entry": "mc_one_minute",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/75ff126b7bcdb50c26dc538e1dd074837bda99cea0e82563af1196facf61d6cf.wav"
+   "wav": "cache/tts/fc16c5d9b6cb86cf1d88636168ed9996d1d2bc1154770e7187d473a4142f4791.wav"
   },
   {
-   "t": 645.0,
+   "t": 645.529,
    "type": "sub",
    "end": 648.05,
    "entry": "mc_one_minute",

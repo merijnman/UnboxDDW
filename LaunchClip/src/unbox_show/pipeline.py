@@ -87,12 +87,29 @@ def budget_gate(
         raise Aborted("Nothing was sent to ElevenLabs.")
 
 
+def export_takes(show: ShowFile, index: dict, paths: Paths) -> Path:
+    """Copy every current take to dist/voices/ as MMSS_entry.mp3, in show order, for listening and sharing."""
+    folder = paths.dist / "voices"
+    folder.mkdir(parents=True, exist_ok=True)
+    for old in folder.glob("*.mp3"):
+        old.unlink()
+    starts = {e.id: e.at_s for e in show.say_entries()}
+    for clip_id, clip in index.items():
+        at = starts[clip["entry"]]
+        name = f"{int(at // 60):02d}{int(at % 60):02d}_{clip_id.replace('#', '_')}.mp3"
+        shutil.copyfile((paths.build / clip["wav"]).with_suffix(".mp3"), folder / name)
+    return folder
+
+
 def run_tts(
     show: ShowFile, client: Client, paths: Paths, confirm: Confirm, only: set[str] | None = None
 ) -> tuple[dict, tts.StageStats]:
     cache = paths.cache
     budget_gate(show, cache, client, confirm, sounds=False, only=only)
-    return tts.render(show, client, cache, paths.build, only)
+    index, stats = tts.render(show, client, cache, paths.build, only)
+    if only is None and client.name != "fake":
+        export_takes(show, index, paths)
+    return index, stats
 
 
 def run_sfx(show: ShowFile, client: Client, paths: Paths, confirm: Confirm, warn: Echo) -> tts.StageStats:
@@ -101,25 +118,34 @@ def run_sfx(show: ShowFile, client: Client, paths: Paths, confirm: Confirm, warn
     return sfx.render(show, client, cache, paths.build, warn=warn)[1]
 
 
-def run_schedule(show: ShowFile, paths: Paths) -> dict:
+def run_schedule(show: ShowFile, paths: Paths, sounds: dict | None = None) -> dict:
     clips = schedule.load(paths.build / "tts.json")
-    sounds = schedule.load(paths.build / "sounds.json")
+    if sounds is None:
+        sounds = schedule.load(paths.build / "sounds.json")
     result = schedule.build_schedule(show, clips, sounds)
     schedule.write(result, paths.build / "schedule.json")
     return result
 
 
-def build_show(show: ShowFile, client: Client, paths: Paths, *, draft: bool, confirm: Confirm, echo: Echo) -> Report:
+def build_show(
+    show: ShowFile, client: Client, paths: Paths, *, draft: bool, confirm: Confirm, echo: Echo, with_sfx: bool = True
+) -> Report:
+    """Full build. with_sfx=False gives the clean version: voices and picture only, no sounds generated."""
     report = Report(client=client.name)
     cache = paths.cache
-    budget_gate(show, cache, client, confirm)
+    budget_gate(show, cache, client, confirm, sounds=with_sfx)
 
     echo("speech ...")
-    _, report.speech = tts.render(show, client, cache, paths.build)
-    echo("sounds ...")
-    sounds, report.sounds = sfx.render(show, client, cache, paths.build, warn=echo)
+    index, report.speech = tts.render(show, client, cache, paths.build)
+    if client.name != "fake":
+        export_takes(show, index, paths)
+    if with_sfx:
+        echo("sounds ...")
+        sounds, report.sounds = sfx.render(show, client, cache, paths.build, warn=echo)
+    else:
+        sounds = {}
     echo("schedule ...")
-    sched = run_schedule(show, paths)
+    sched = run_schedule(show, paths, sounds)
     echo("subtitles ...")
     srt_stem = paths.dist / "unbox_show"
     subtitles.write_all(sched, paths.build / "subs.ass", srt_stem)
@@ -137,7 +163,8 @@ def build_show(show: ShowFile, client: Client, paths: Paths, *, draft: bool, con
 
     frames = video.render_frames(sched, renderer, frames_dir, fps, progress)
     concat = video.write_concat(frames, paths.build / f"frames_{size[0]}x{size[1]}.txt")
-    out = paths.dist / ("unbox_show_draft.mp4" if draft else "unbox_show.mp4")
+    name = "unbox_show" + ("" if with_sfx else "_clean") + ("_draft" if draft else "")
+    out = paths.dist / f"{name}.mp4"
     echo("encoding video ...")
     video.assemble(paths.build, concat, paths.build / "subs.ass", mix_path, out, sched["duration"], fps)
     report.outputs = [out, Path(f"{srt_stem}.en.srt"), Path(f"{srt_stem}.nl.srt")]
