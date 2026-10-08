@@ -47,12 +47,13 @@ style:
 
 # -----------------------------------------------------------------------------
 # Voice effects (ffmpeg filter chains), applied locally after TTS. Tune by ear.
+# Not in use since 8 October (voices stay clean); switch on with `fx:` per voice.
 fx:
   # Old radio: steep 250-3800 Hz band, a little mid presence, compression and soft warmth.
   radio: "highpass=f=250:poles=2,highpass=f=250:poles=2,lowpass=f=3800:poles=2,lowpass=f=3800:poles=2,equalizer=f=1400:t=q:w=1.2:g=4,acompressor=threshold=-24dB:ratio=4:attack=5:release=120:makeup=2,asoftclip=type=tanh"
   # Commander: close and comfortable, only rounded off.
   radio_light: "highpass=f=90,lowpass=f=7500:poles=2,acompressor=threshold=-20dB:ratio=2.5:attack=10:release=150"
-  aside: "lowpass=f=2500"
+  aside: "anull"   # no filter: an aside is only quieter (see mix.ASIDE_DB)
 
 # -----------------------------------------------------------------------------
 voices:
@@ -62,7 +63,7 @@ voices:
     model_id: eleven_v4        # supports [audio tags] such as [chuckling]
     settings: {stability: 0.5, similarity_boost: 0.75, style: 0.0, use_speaker_boost: true, speed: 1.0}   # as in the browser test
     seed: 1101
-    fx: radio_light            # close mic, slight radio colour
+    # fx: radio_light          # off since 8 Oct: clean voices sound better
     audition: "Welcome, crew. In fifteen minutes, we launch to explore metaphorical space! It's not rocket science. Yikes."
   mission_control:
     label: "MISSION CONTROL"
@@ -70,7 +71,7 @@ voices:
     model_id: eleven_v4
     settings: {stability: 0.70, similarity_boost: 0.75, style: 0.10, use_speaker_boost: true, speed: 1.0}
     seed: 2202
-    fx: radio                  # band-limited, compressed, squelch in/out
+    # fx: radio                # off since 8 Oct: clean voices sound better
     audition: "Mission Control here. All systems nominal. [alarmed] Alert! Alert! [urgent] An anomaly has been detected. T minus ten seconds."
 
 # -----------------------------------------------------------------------------
