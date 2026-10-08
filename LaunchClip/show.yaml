@@ -49,7 +49,7 @@ voices:
     settings: {stability: 0.70, similarity_boost: 0.75, style: 0.10, use_speaker_boost: true, speed: 1.0}
     seed: 2202
     fx: radio                  # band-limited, compressed, squelch in/out
-    audition: "Mission Control here. All systems nominal. Alert! Alert! T minus ten seconds."
+    audition: "Mission Control here. All systems nominal. [alarmed] Alert! Alert! [urgent] An anomaly has been detected. T minus ten seconds."
 
 # -----------------------------------------------------------------------------
 # Sounds are generated once (ElevenLabs sound effects, max 30 s each) and
