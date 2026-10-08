@@ -59,11 +59,14 @@ class Report:
         return out
 
 
-def budget_gate(show: ShowFile, cache: Cache, client: Client, confirm: Confirm, speech: bool = True, sounds: bool = True) -> None:
+def budget_gate(
+    show: ShowFile, cache: Cache, client: Client, confirm: Confirm,
+    speech: bool = True, sounds: bool = True, only: set[str] | None = None,
+) -> None:
     """Ask before anything is sent to the paid API. Cached results are free and not asked about."""
     if client.name == "fake":
         return
-    speech_pending = tts.pending(show, cache, client.name) if speech else []
+    speech_pending = tts.pending(show, cache, client.name, only) if speech else []
     sound_pending = sfx.pending(show, cache, client.name) if sounds else []
     unpicked = sorted({req.speaker for req in speech_pending if show.voices[req.speaker].voice_id.startswith("TODO")})
     if unpicked:
@@ -84,10 +87,12 @@ def budget_gate(show: ShowFile, cache: Cache, client: Client, confirm: Confirm, 
         raise Aborted("Nothing was sent to ElevenLabs.")
 
 
-def run_tts(show: ShowFile, client: Client, paths: Paths, confirm: Confirm) -> tts.StageStats:
+def run_tts(
+    show: ShowFile, client: Client, paths: Paths, confirm: Confirm, only: set[str] | None = None
+) -> tuple[dict, tts.StageStats]:
     cache = paths.cache
-    budget_gate(show, cache, client, confirm, sounds=False)
-    return tts.render(show, client, cache, paths.build)[1]
+    budget_gate(show, cache, client, confirm, sounds=False, only=only)
+    return tts.render(show, client, cache, paths.build, only)
 
 
 def run_sfx(show: ShowFile, client: Client, paths: Paths, confirm: Confirm, warn: Echo) -> tts.StageStats:

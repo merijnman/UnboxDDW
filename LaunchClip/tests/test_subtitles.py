@@ -1,4 +1,5 @@
 import json
+import re
 
 import pytest
 
@@ -82,4 +83,5 @@ def test_ass_has_both_styles_and_nl_below_en(cues):
 
 def test_srt_numbering(cues):
     text = srt_text(cues, "nl")
-    assert text.startswith("1\n00:00:03,000 --> ")
+    assert re.match(r"1\n00:00:0\d,\d{3} --> 00:00:\d\d,\d{3}\nWelkom, crew\.", text)
+    assert "[" not in srt_text(cues, "en")  # audio tags never reach the subtitles

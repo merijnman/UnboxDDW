@@ -9,16 +9,19 @@ from typing import Literal
 import yaml
 from pydantic import ValidationError
 
-from .model import ShowFile, load_show
+from .model import ShowFile, has_tags, load_show
 
 # Speech models we know to work with the with-timestamps endpoint (see ELEVENLABS.md).
 KNOWN_TTS_MODELS = {
     "eleven_multilingual_v2",
     "eleven_v3",
+    "eleven_v4",
+    "eleven_v4_turbo",
     "eleven_flash_v2_5",
     "eleven_turbo_v2_5",
 }
 KNOWN_FX = {"radio", "radio_light", "aside"}
+TAG_MODELS = {"eleven_v3", "eleven_v4", "eleven_v4_turbo"}  # models that perform [audio tags] instead of reading them aloud
 
 
 @dataclass
@@ -45,7 +48,7 @@ def check(show: ShowFile) -> list[Issue]:
         if voice.voice_id.startswith("TODO"):
             warning(where, f"voice_id is still {voice.voice_id!r}; pick one with `unbox audition` first")
         if voice.model_id not in KNOWN_TTS_MODELS:
-            warning(where, f"unknown model_id {voice.model_id!r}; the backlog decision is eleven_multilingual_v2")
+            warning(where, f"unknown model_id {voice.model_id!r}; known: {', '.join(sorted(KNOWN_TTS_MODELS))}")
         if voice.fx and voice.fx not in KNOWN_FX:
             error(where, f"unknown fx {voice.fx!r} (known: {', '.join(sorted(KNOWN_FX))})")
 
@@ -108,8 +111,12 @@ def check(show: ShowFile) -> list[Issue]:
             refs(line_where, line)
             if not line.nl:
                 error(line_where, f"no `nl` translation for {line.en!r}")
-            if not line.en.strip():
+            if not line.shown:
                 error(line_where, "empty `en` text")
+            voice = show.voices.get(entry.say or "")
+            if voice and has_tags(line.en) and voice.model_id not in TAG_MODELS:
+                warning(line_where, f"audio tags only work on {' / '.join(sorted(TAG_MODELS))}; "
+                                    f"{voice.model_id} would read them aloud")
 
     if show.preshow:
         for name in show.preshow.bed:

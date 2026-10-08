@@ -108,3 +108,15 @@ def test_real_run_refuses_unpicked_voices(tmp_path, mini_data):
     with pytest.raises(pipeline.Aborted, match="No voice chosen yet for: commander"):
         pipeline.run_tts(show, client, pipeline.Paths(show.base_dir), lambda m: True)
     assert client.calls == []
+
+
+def test_single_entry_only_asks_for_and_renders_that_entry(tmp_path, mini_data):
+    show = load_show(write_show(tmp_path, mini_data))
+    paths = pipeline.Paths(show.base_dir)
+    client = _PretendRealClient()
+    questions = []
+    index, stats = pipeline.run_tts(show, client, paths, lambda m: questions.append(m) or True, only={"hello"})
+    assert "1 speech requests" in questions[0] and "hello" in questions[0]
+    assert list(index) == ["hello"] and stats.generated == ["hello"]
+    assert [text for _, text in client.calls] == [show.timeline[1].text]
+    assert not (paths.build / "tts.json").exists()  # a partial run leaves the full index alone

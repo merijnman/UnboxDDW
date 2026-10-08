@@ -5,6 +5,12 @@ build/*
 build/cache/*
 !build/cache/manifest.json
 dist/
+.env
+
+# Assets: artwork and fonts are committed. Music (large, licensed) and
+# reference takes downloaded from the ElevenLabs website stay local.
+assets/music/
+assets/reference/
 
 # Python
 __pycache__/

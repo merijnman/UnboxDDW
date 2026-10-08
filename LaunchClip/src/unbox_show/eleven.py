@@ -18,7 +18,7 @@ import httpx
 from dotenv import load_dotenv
 
 from .audio import silence_mp3
-from .model import Voice
+from .model import Voice, strip_tags
 from .plan import PAUSE_PER_LINE_BREAK, WORDS_PER_SECOND
 
 API_URL = "https://api.elevenlabs.io"
@@ -59,8 +59,13 @@ class Alignment:
         return self.ends[-1] if self.ends else 0.0
 
 
-def tts_body(text: str, voice: Voice, seed: int | None) -> dict:
-    """Request body for one speech request. Also the core of its cache key."""
+def tts_request(text: str, voice: Voice, seed: int | None) -> tuple[str, dict]:
+    """Endpoint path and body for one speech request. Together they are the core of its cache key.
+
+    All speech models in use, eleven_v4 included, go through text-to-speech with timestamps
+    (GET /v1/models reports can_do_text_to_speech for v4, checked 8 October 2026).
+    """
+    path = f"/v1/text-to-speech/{voice.voice_id}/with-timestamps"
     body = {
         "text": text,
         "model_id": voice.model_id,
@@ -68,7 +73,7 @@ def tts_body(text: str, voice: Voice, seed: int | None) -> dict:
     }
     if seed is not None:
         body["seed"] = seed
-    return body
+    return path, body
 
 
 def sfx_body(prompt: str, seconds: float, loop: bool) -> dict:
@@ -128,11 +133,8 @@ class ElevenClient:
         raise AssertionError("unreachable")
 
     def tts(self, text: str, voice: Voice, seed: int | None = None) -> tuple[bytes, Alignment]:
-        response = self._post(
-            f"/v1/text-to-speech/{voice.voice_id}/with-timestamps",
-            tts_body(text, voice, seed),
-            params={"output_format": OUTPUT_FORMAT},
-        )
+        path, body = tts_request(text, voice, seed)
+        response = self._post(path, body, params={"output_format": OUTPUT_FORMAT})
         data = response.json()
         return base64.b64decode(data["audio_base64"]), Alignment.from_api(data["alignment"])
 
@@ -149,6 +151,7 @@ _SENTENCE_BREAK = re.compile(r"[.!?:]\s+\S")
 
 def fake_tts_seconds(text: str, speed: float) -> float:
     """Same rule as the plan: words / 2.5 / speed, plus a pause at every sentence break."""
+    text = strip_tags(text)
     words = len(text.split())
     breaks = len(_SENTENCE_BREAK.findall(text))
     return max(0.3, words / WORDS_PER_SECOND / speed + PAUSE_PER_LINE_BREAK * breaks)

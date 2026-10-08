@@ -108,8 +108,9 @@ The `en` line is both the subtitle and the instruction to the voice.
   one, a colon a beat before the point ("So: food!").
 - An exclamation mark raises energy. Use it once per turn at most.
 - Keep sound words like "Ahem" in the text; the voice performs them reasonably.
-- No stage directions in the text. With `eleven_multilingual_v2`, "[mumbling]"
-  would be read aloud. Directions live in `delivery:` and are done with fx.
+- Audio tags such as `[clears throat]` or `[chuckling]` go straight into the `en`
+  line. `eleven_v4` performs them; the subtitles drop them. On
+  `eleven_multilingual_v2` they would be read aloud, and `unbox validate` warns.
 - Names: listen to how "Lockton" and "Unbox" come out. If wrong, respell
   phonetically in a `say_as:` field (to add in the model when needed) while the
   subtitle keeps the real spelling.
@@ -171,16 +172,21 @@ aside        lowpass=f=2500,volume=-9dB
 `radio` also gets the `radio_crackle` sound, trimmed to 0.25 s, before and after
 the turn, and a bed of quiet static underneath while the voice speaks.
 
-## 7. Later experiment: the newer expressive models
+## 7. Eleven v4
 
-ElevenLabs lists `eleven_v3` and `eleven_v4` as more expressive, with audio tags
-for delivery (a muttered aside would then be a tag instead of an fx). The docs
-describe v4 as available through the Text to Dialogue API, which has its own
-with-timestamps endpoint. Not verified for this project: whether seed and
-character timestamps behave the same way there. Treat it as a one-session spike
-after M2: render `cmd_aside` and `cmd_yikes` on a newer model and compare. Because
-the model id is part of the cache key and set per voice in `show.yaml`, switching
-later is a config change.
+Both voices use `eleven_v4` (decided 8 October). `GET /v1/models` reports it as
+`can_do_text_to_speech`, so it goes through the same with-timestamps endpoint
+as v2. The models page mentions the Text to Dialogue API for v4, but we do not
+need it. Still to confirm on the first real take: that v4 honours `seed` and
+`speed`, and whether the alignment includes the tag characters. The scheduler
+copes either way: it maps line positions proportionally when the alignment
+text differs from ours.
+
+`eleven_v4_turbo` costs half the characters. It is worth trying for Mission
+Control's short, flat lines.
+
+Browser settings for the commander ("Dan", a professional voice clone), from
+the file name of the test download: speed 1.00, stability 0.50, similarity 0.75.
 
 ## 8. Pitfalls
 

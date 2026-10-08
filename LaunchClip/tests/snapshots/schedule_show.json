@@ -21,17 +21,17 @@
   {
    "t": 3.0,
    "type": "voice",
-   "end": 15.839,
+   "end": 15.25,
    "clip": "cmd_welcome",
    "entry": "cmd_welcome",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/6c9ec98f0c7d9d1b57efae0e43a6114018354d7a16ee6eba20a7532db979af01.wav"
+   "wav": "cache/tts/105a0f7b3d7892fab4e98e91993065c1053095df2a8091a0709e2e489fd18454.wav"
   },
   {
-   "t": 3.0,
+   "t": 3.97,
    "type": "sub",
-   "end": 8.48,
+   "end": 8.943,
    "entry": "cmd_welcome",
    "line": 0,
    "en": "Welcome, crew. My name is Commander Lockton, but you can call me Dan.",
@@ -40,9 +40,9 @@
    "italic": false
   },
   {
-   "t": 8.48,
+   "t": 8.943,
    "type": "sub",
-   "end": 11.142,
+   "end": 11.244,
    "entry": "cmd_welcome",
    "line": 1,
    "en": "I will be your mission commander.",
@@ -51,9 +51,9 @@
    "italic": false
   },
   {
-   "t": 11.142,
+   "t": 11.611,
    "type": "sub",
-   "end": 16.139,
+   "end": 15.55,
    "entry": "cmd_welcome",
    "line": 2,
    "en": "In fifteen minutes, we launch to explore metaphorical space!",
@@ -64,17 +64,17 @@
   {
    "t": 18.0,
    "type": "voice",
-   "end": 18.842,
+   "end": 18.8,
    "clip": "cmd_aside",
    "entry": "cmd_aside",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/825a4e32d4eff3150df1fccf24ae06e428025b72484be0c1bdf7d79ca4a7d188.wav"
+   "wav": "cache/tts/bc7c2854eb6303b87cf039c804280622284585898c824491638d7b5c01c99767.wav"
   },
   {
-   "t": 18.0,
+   "t": 18.384,
    "type": "sub",
-   "end": 19.142,
+   "end": 19.1,
    "entry": "cmd_aside",
    "line": 0,
    "en": "Brave idiots.",
@@ -85,17 +85,17 @@
   {
    "t": 22.0,
    "type": "voice",
-   "end": 62.832,
+   "end": 61.0,
    "clip": "cmd_metaphors",
    "entry": "cmd_metaphors",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/8e560860b59de645e8b3bbd5213ff12e1a621e3c104520b377add7dff50e2106.wav"
+   "wav": "cache/tts/f31a773ed1ca89ad45269e9eaa7833d1d8767bfce3abad8127700ba2ba472516.wav"
   },
   {
    "t": 22.0,
    "type": "sub",
-   "end": 26.242,
+   "end": 25.813,
    "entry": "cmd_metaphors",
    "line": 0,
    "en": "Ahem. Metaphors help us find a shared language.",
@@ -104,9 +104,9 @@
    "italic": false
   },
   {
-   "t": 26.242,
+   "t": 25.813,
    "type": "sub",
-   "end": 31.103,
+   "end": 30.402,
    "entry": "cmd_metaphors",
    "line": 1,
    "en": "You all use metaphors, even if you didn't know it yet.",
@@ -115,9 +115,9 @@
    "italic": false
   },
   {
-   "t": 31.103,
+   "t": 31.055,
    "type": "sub",
-   "end": 33.313,
+   "end": 33.041,
    "entry": "cmd_metaphors",
    "line": 2,
    "en": "It's not rocket science.",
@@ -126,14 +126,14 @@
    "italic": false
   },
   {
-   "t": 33.313,
+   "t": 33.041,
    "type": "screen",
    "name": "pen"
   },
   {
-   "t": 33.313,
+   "t": 33.041,
    "type": "sub",
-   "end": 35.787,
+   "end": 35.265,
    "entry": "cmd_metaphors",
    "line": 3,
    "en": "For example: this is a pen.",
@@ -142,14 +142,14 @@
    "italic": false
   },
   {
-   "t": 35.787,
+   "t": 35.265,
    "type": "overlay",
    "name": "cloud_rocket"
   },
   {
-   "t": 35.787,
+   "t": 35.265,
    "type": "sub",
-   "end": 44.537,
+   "end": 43.128,
    "entry": "cmd_metaphors",
    "line": 4,
    "en": "For me, as commander, this pen might be a metaphor for a spaceship, because it is long and pointy.",
@@ -158,14 +158,14 @@
    "italic": false
   },
   {
-   "t": 44.537,
+   "t": 43.128,
    "type": "overlay",
    "name": "cloud_text"
   },
   {
-   "t": 44.537,
+   "t": 43.128,
    "type": "sub",
-   "end": 51.519,
+   "end": 49.624,
    "entry": "cmd_metaphors",
    "line": 5,
    "en": "But it can also be a metaphor for a memory, because you can write things down.",
@@ -174,14 +174,14 @@
    "italic": false
   },
   {
-   "t": 51.519,
+   "t": 50.118,
    "type": "overlay",
    "name": "cloud_carrot"
   },
   {
-   "t": 51.519,
+   "t": 50.118,
    "type": "sub",
-   "end": 55.762,
+   "end": 54.151,
    "entry": "cmd_metaphors",
    "line": 6,
    "en": "And it might even represent a carrot. So: food!",
@@ -190,9 +190,9 @@
    "italic": false
   },
   {
-   "t": 55.762,
+   "t": 54.646,
    "type": "sub",
-   "end": 63.132,
+   "end": 61.3,
    "entry": "cmd_metaphors",
    "line": 7,
    "en": "You get the point. One thing can mean many different things to different people.",
@@ -208,12 +208,12 @@
    "entry": "mc_ready",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/0644cbb4cb9f14d2fdd2d1e3d9506e0c3a163c2ac05a2eb5ba273e4e5d92ac1c.wav"
+   "wav": "cache/tts/83bbc9a8951600aa7ec635f1cc86be847a2fc1eef550342672fd62214d00768e.wav"
   },
   {
    "t": 72.0,
    "type": "sub",
-   "end": 76.821,
+   "end": 76.904,
    "entry": "mc_ready",
    "line": 0,
    "en": "Mission Control here. Crew, are you ready for your first task?",
@@ -222,9 +222,9 @@
    "italic": false
   },
   {
-   "t": 76.821,
+   "t": 77.272,
    "type": "sub",
-   "end": 84.856,
+   "end": 85.07,
    "entry": "mc_ready",
    "line": 1,
    "en": "Of course you are. You are highly trained astronauts, about to embark on a voyage to metaphorical space.",
@@ -233,14 +233,14 @@
    "italic": false
   },
   {
-   "t": 84.856,
+   "t": 85.07,
    "type": "screen",
    "name": "introduce"
   },
   {
-   "t": 84.856,
+   "t": 85.07,
    "type": "sub",
-   "end": 89.525,
+   "end": 89.599,
    "entry": "mc_ready",
    "line": 2,
    "en": "To get you started: introduce yourself to your crew members.",
@@ -249,7 +249,7 @@
    "italic": false
   },
   {
-   "t": 89.525,
+   "t": 89.599,
    "type": "sub",
    "end": 92.35,
    "entry": "mc_ready",
@@ -277,7 +277,7 @@
    "entry": "mc_pick",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/48847716d4cc120a79004dc9a56365ae2e678418b5094e5d9f586a35c64e3e55.wav"
+   "wav": "cache/tts/9b448d5faf27e47716edf078be726e90941e2c2effdfd0eecc1132b8108b6113.wav"
   },
   {
    "t": 126.0,
@@ -314,23 +314,23 @@
   },
   {
    "t": 170.0,
-   "type": "screen",
-   "name": "share"
-  },
-  {
-   "t": 170.0,
    "type": "voice",
-   "end": 184.874,
+   "end": 184.2,
    "clip": "cmd_share",
    "entry": "cmd_share",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/1c068ea918bb3867a60acd3ec596f4fe4eb208aba514fa1b2d025d1c362f327c.wav"
+   "wav": "cache/tts/7c6cdad30df986a2d4fb1f55c4590f38ba77c491f5bc1c84b01b6e66f0c841de.wav"
   },
   {
-   "t": 170.0,
+   "t": 171.03,
+   "type": "screen",
+   "name": "share"
+  },
+  {
+   "t": 171.03,
    "type": "sub",
-   "end": 177.229,
+   "end": 177.431,
    "entry": "cmd_share",
    "line": 0,
    "en": "Crew, your next task: explain to your crew what your metaphorical object means to you.",
@@ -339,9 +339,9 @@
    "italic": false
   },
   {
-   "t": 177.229,
+   "t": 177.431,
    "type": "sub",
-   "end": 183.046,
+   "end": 182.581,
    "entry": "cmd_share",
    "line": 1,
    "en": "Why did you pick it? What does it represent on your journey together?",
@@ -350,9 +350,9 @@
    "italic": false
   },
   {
-   "t": 183.046,
+   "t": 182.581,
    "type": "sub",
-   "end": 185.174,
+   "end": 184.5,
    "entry": "cmd_share",
    "line": 2,
    "en": "You have five minutes.",
@@ -373,7 +373,7 @@
    "entry": "mc_spotlight",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/7e8f1995bc75193c9ff6b79d3e600df9e5b58a71eb9c17eda3dc9eb7f6855871.wav"
+   "wav": "cache/tts/29373488f492fbbd5b64e92f1d2c77ad9d79f354f546f15122a9a342db9a7e6a.wav"
   },
   {
    "t": 240.0,
@@ -394,7 +394,7 @@
    "entry": "mc_nominal",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/8787121e871c9b15cb7ee6f5559dcb31888c5c6ed2574bef0365c93289136887.wav"
+   "wav": "cache/tts/9258d992fa4daef4e6db8bd6a9033444c95cc6bd87310d849a73c0fd857a3744.wav"
   },
   {
    "t": 300.0,
@@ -415,7 +415,7 @@
    "entry": "mc_propellant",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/8c2b1bcfc16c8a6a43497d78ab3a5a727d7c4c5695aee6462fc2f36bfd86670c.wav"
+   "wav": "cache/tts/9f7890e6404b94da2744ad970a9a4eed4253b47e00288838b4ff0e740e06699d.wav"
   },
   {
    "t": 360.0,
@@ -436,7 +436,7 @@
    "entry": "mc_warning",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/f5caa830d611900f1232e1c628896927bea209482bf50fbb5532245f3c7e3931.wav"
+   "wav": "cache/tts/69d3036515fe0bb61f70d59a52fb097e88a75ccc0ace856d72f87ed9641270d5.wav"
   },
   {
    "t": 420.0,
@@ -500,12 +500,12 @@
    "entry": "mc_alert",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/6cb0e3786b9c316129c297ff7ec054b0f92bbc87606399d76cbbb6ae5f537c6f.wav"
+   "wav": "cache/tts/9f4e7b3de3da22fe258af3be588166bc1e8f294350f39d68c31cffe97c6d4fcf.wav"
   },
   {
-   "t": 482.0,
+   "t": 482.581,
    "type": "sub",
-   "end": 482.933,
+   "end": 483.636,
    "entry": "mc_alert",
    "line": 0,
    "en": "Alert! Alert!",
@@ -514,9 +514,9 @@
    "italic": false
   },
   {
-   "t": 482.933,
+   "t": 483.918,
    "type": "sub",
-   "end": 488.267,
+   "end": 488.566,
    "entry": "mc_alert",
    "line": 1,
    "en": "Mission Control here. An anomaly in the space-time continuum has been detected.",
@@ -525,12 +525,12 @@
    "italic": false
   },
   {
-   "t": 488.267,
+   "t": 488.566,
    "type": "screen",
    "name": "recalculating"
   },
   {
-   "t": 488.267,
+   "t": 488.566,
    "type": "sub",
    "end": 490.9,
    "entry": "mc_alert",
@@ -559,7 +559,7 @@
    "entry": "mc_done",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/af3c0784f9dbd5cbd18be506418f8dcf5db769325479d695834e56895e9d015b.wav"
+   "wav": "cache/tts/39009832af79acc0630929b9695d37ff045be5f74c11897a47c007b3ea5e742d.wav"
   },
   {
    "t": 498.0,
@@ -575,17 +575,17 @@
   {
    "t": 505.0,
    "type": "voice",
-   "end": 505.421,
+   "end": 505.4,
    "clip": "cmd_yikes",
    "entry": "cmd_yikes",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/b40f80fcf14dc378097f3158144fcde6f1c52f66af395677dd6d3c1aa7b25497.wav"
+   "wav": "cache/tts/91aa3f0477d5dadb342c2507276767096846bf5ab426daf7d2b3817a93dfeeef.wav"
   },
   {
-   "t": 505.0,
+   "t": 505.291,
    "type": "sub",
-   "end": 505.721,
+   "end": 505.7,
    "entry": "cmd_yikes",
    "line": 0,
    "en": "Yikes.",
@@ -596,17 +596,17 @@
   {
    "t": 508.0,
    "type": "voice",
-   "end": 525.121,
+   "end": 524.3,
    "clip": "cmd_select",
    "entry": "cmd_select",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/b5623f667ddba4ecf7a405c1b324ee5f5bdca4dd5e33186fa565820511d438bd.wav"
+   "wav": "cache/tts/dbb13ace4aa544f30e31c2e9980ef1f40585a01fde080986bfaae04373772d87.wav"
   },
   {
-   "t": 508.0,
+   "t": 508.706,
    "type": "sub",
-   "end": 514.585,
+   "end": 514.703,
    "entry": "cmd_select",
    "line": 0,
    "en": "Crew, please select the one item that represents the largest number of crew members.",
@@ -615,9 +615,9 @@
    "italic": false
   },
   {
-   "t": 514.585,
+   "t": 514.703,
    "type": "sub",
-   "end": 521.17,
+   "end": 520.701,
    "entry": "cmd_select",
    "line": 1,
    "en": "Put your final item in the rocket, and record what this item represents for you all.",
@@ -626,9 +626,9 @@
    "italic": false
   },
   {
-   "t": 521.17,
+   "t": 520.701,
    "type": "sub",
-   "end": 525.421,
+   "end": 524.6,
    "entry": "cmd_select",
    "line": 2,
    "en": "You have three minutes to make your final decision.",
@@ -654,7 +654,7 @@
    "entry": "mc_two_minutes",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/96162274b6f382e8de23d69e2a6ca936600813aebb740b40729cc7aef1ca0439.wav"
+   "wav": "cache/tts/9967efe7add8f5697b0f5b566f0def68d87f2cdd6429e81240c545869b8d9fee.wav"
   },
   {
    "t": 585.0,
@@ -675,7 +675,7 @@
    "entry": "mc_one_minute",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/b72e82a4a3bc9c7cde1bd732cfc298b6382358346d2db85ed3b4665b34249773.wav"
+   "wav": "cache/tts/75ff126b7bcdb50c26dc538e1dd074837bda99cea0e82563af1196facf61d6cf.wav"
   },
   {
    "t": 645.0,
@@ -690,23 +690,23 @@
   },
   {
    "t": 706.0,
-   "type": "screen",
-   "name": "load_rocket"
-  },
-  {
-   "t": 706.0,
    "type": "voice",
-   "end": 717.926,
+   "end": 717.4,
    "clip": "cmd_go",
    "entry": "cmd_go",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/1108faa18e8296d7450c538b79b28bf21bbe5b411f370d4c60d331cb8d826ec7.wav"
+   "wav": "cache/tts/070a1db743b04274653ccb3589b67db9c4b45c2279394cc6c5efaa2e596b6a07.wav"
   },
   {
-   "t": 706.0,
+   "t": 706.671,
+   "type": "screen",
+   "name": "load_rocket"
+  },
+  {
+   "t": 706.671,
    "type": "sub",
-   "end": 708.641,
+   "end": 708.884,
    "entry": "cmd_go",
    "line": 0,
    "en": "All crew members: it is go time!",
@@ -715,9 +715,9 @@
    "italic": false
   },
   {
-   "t": 708.641,
+   "t": 708.884,
    "type": "sub",
-   "end": 714.804,
+   "end": 714.28,
    "entry": "cmd_go",
    "line": 1,
    "en": "Place your final item in the rocket and record your reasoning for posterity.",
@@ -726,9 +726,9 @@
    "italic": false
   },
   {
-   "t": 714.804,
+   "t": 714.785,
    "type": "sub",
-   "end": 718.226,
+   "end": 717.7,
    "entry": "cmd_go",
    "line": 2,
    "en": "Brace yourselves: preparing for launch!",
@@ -754,7 +754,7 @@
    "entry": "mc_all_go",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/9fe57d439c147e662301fbe3656ae88353ea2b4f97da53378fc638ba0967e6c8.wav"
+   "wav": "cache/tts/6f2b8a4a8ffb52970eae21b09df2225f48786fd7681c528f37ecca3dd3b0d72f.wav"
   },
   {
    "t": 750.0,
@@ -780,7 +780,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/2c3fe8c2791a6e1eaae1ca48a8dd46646f5bd6389b160f1a4e6feddadad128ea.wav"
+   "wav": "cache/tts/0f950756ec18a3a9b9f16db32526fea09f6ab8e58c9a5b03d9494089694556bb.wav"
   },
   {
    "t": 758.0,
@@ -806,7 +806,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/69e4933e1e6afc05946e3cddf9ca8f262f13ae2fc2cffe9186939a6db944b881.wav"
+   "wav": "cache/tts/b0a0753386c3ef07b6667507df33bf22c1fb9ecd5facd71ed849ff72d5f27121.wav"
   },
   {
    "t": 761.0,
@@ -832,7 +832,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/6b7f7e9856f9c54c82bfe202c6e5b9f80c15707278ab59ceab66d8458997312d.wav"
+   "wav": "cache/tts/be2e04d0d7d16e426c03fc060c68f267bfde3965773b8c1870e26da21d0d6a9b.wav"
   },
   {
    "t": 762.0,
@@ -858,7 +858,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/a6d1cb3020887e340005f127ad061e1999a0c911f5fda88c21e41f3f0199e2a0.wav"
+   "wav": "cache/tts/1c031d9ad5d8b6555e789007c47143790645b07613b0e63ee01588422ee82412.wav"
   },
   {
    "t": 763.0,
@@ -884,7 +884,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/2f0d34dd6f6ee993b09cd8e1b82389d0d95a6cceb4679527f0c8c73ba961fdf5.wav"
+   "wav": "cache/tts/3b7e02f5cd9411e3376b91eca31f439476893bb1969f147c3708b7d1bf53dc12.wav"
   },
   {
    "t": 764.0,
@@ -910,7 +910,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/0b8298b752d9df37a22cc6b7320994236b0de8b9520ccde75ad3045219ebf1f1.wav"
+   "wav": "cache/tts/3c5ae34b116d46a25241c18ffb3497b9c5ca9725c9d976b75205a0751832a279.wav"
   },
   {
    "t": 765.0,
@@ -936,7 +936,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/b36bb594e44e11eb820b17f5f5e687caf5eee79db53ebb9c298a53dd3cf45743.wav"
+   "wav": "cache/tts/04f8ebeb327231aceb725ced0e0b09ad89b6f1e327dc52e2e1f726467f8298fc.wav"
   },
   {
    "t": 766.0,
@@ -962,7 +962,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/ee12eb98627f83422cd3b94ab8dbb3eb050ffa75983feecdc5bb2a125e4c0a3a.wav"
+   "wav": "cache/tts/0795063564e3c48b045a37b6fd735ab7e9910f23a162e4c57fd73f527253a372.wav"
   },
   {
    "t": 767.0,
@@ -993,7 +993,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/d8299cddd38e6be83806ccb9a702b5a98f332d70b6539d502101510120cbf570.wav"
+   "wav": "cache/tts/7440c8c48cc8aa06159b9c147c25dac07f64196d495fe0ccfea8a7ae0310cdd7.wav"
   },
   {
    "t": 768.0,
@@ -1019,7 +1019,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/bf2582150ab76204c69bc7b190e1fcd29647d4b4ad1121ac998672ace0476cb7.wav"
+   "wav": "cache/tts/dde11dee3604cdb9815a4017b56c0316712eca4cfcddbd9081a84622f5ec3e1f.wav"
   },
   {
    "t": 769.0,
@@ -1045,7 +1045,7 @@
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/3859a35d222061ceb366bd941903ea7361350d7485cc5d82172f26e36afedda3.wav"
+   "wav": "cache/tts/df4c153ae0d6b6da9703b6b290af95efe5fbf7a2ce3c0ad4d6276052b33524ad.wav"
   },
   {
    "t": 770.0,
@@ -1060,32 +1060,32 @@
   },
   {
    "t": 771.0,
-   "type": "screen",
-   "name": "liftoff"
-  },
-  {
-   "t": 771.0,
-   "type": "ops",
-   "text": "CURTAIN DROPS, flashing lights"
-  },
-  {
-   "t": 771.0,
-   "type": "sound",
-   "name": "rocket_launch",
-   "end": 796.051
-  },
-  {
-   "t": 771.0,
    "type": "voice",
    "end": 771.4,
    "clip": "mc_countdown#11",
    "entry": "mc_countdown",
    "speaker": "mission_control",
    "fx": "radio",
-   "wav": "cache/tts/817f62ccf59e588e574c7f57bf555f7786bc9aadd96c0c2887dfef50dffabd09.wav"
+   "wav": "cache/tts/08a8e51a1b1c5ee8fee471d2fa1ff59eaa28cc67176dde8ffc2f5abb04fecbab.wav"
   },
   {
-   "t": 771.0,
+   "t": 771.248,
+   "type": "screen",
+   "name": "liftoff"
+  },
+  {
+   "t": 771.248,
+   "type": "ops",
+   "text": "CURTAIN DROPS, flashing lights"
+  },
+  {
+   "t": 771.248,
+   "type": "sound",
+   "name": "rocket_launch",
+   "end": 796.299
+  },
+  {
+   "t": 771.248,
    "type": "sub",
    "end": 771.7,
    "entry": "mc_countdown",
@@ -1109,23 +1109,23 @@
   },
   {
    "t": 802.0,
-   "type": "screen",
-   "name": "end"
-  },
-  {
-   "t": 802.0,
    "type": "voice",
-   "end": 834.979,
+   "end": 833.4,
    "clip": "cmd_outro",
    "entry": "cmd_outro",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/fc0bc2b4b21b561a29532ed8eb1eb454d0849a9ca1d6c1a280250f188f99f7e3.wav"
+   "wav": "cache/tts/12df95255793d7eb4fbb527c7d6b2bbe0fe090ccdf18ebee34301472850b293b.wav"
   },
   {
-   "t": 802.0,
+   "t": 802.624,
+   "type": "screen",
+   "name": "end"
+  },
+  {
+   "t": 802.624,
    "type": "sub",
-   "end": 808.383,
+   "end": 808.446,
    "entry": "cmd_outro",
    "line": 0,
    "en": "Thank you, Unbox crew, for taking on new perspectives and exploring Unbox together.",
@@ -1134,9 +1134,9 @@
    "italic": false
   },
   {
-   "t": 808.383,
+   "t": 808.446,
    "type": "sub",
-   "end": 814.31,
+   "end": 813.853,
    "entry": "cmd_outro",
    "line": 1,
    "en": "This was a small taste of the new worlds that metaphors can help us discover.",
@@ -1145,9 +1145,9 @@
    "italic": false
   },
   {
-   "t": 814.31,
+   "t": 813.853,
    "type": "sub",
-   "end": 821.605,
+   "end": 820.507,
    "entry": "cmd_outro",
    "line": 2,
    "en": "You can use Unbox and its metaphors in many different settings that require working as a group.",
@@ -1156,9 +1156,9 @@
    "italic": false
   },
   {
-   "t": 821.605,
+   "t": 820.507,
    "type": "sub",
-   "end": 831.256,
+   "end": 829.541,
    "entry": "cmd_outro",
    "line": 3,
    "en": "If you would like to dive deeper into metaphors, visit the Unbox exhibition space around the corner, or check out our website.",
@@ -1167,9 +1167,9 @@
    "italic": false
   },
   {
-   "t": 831.256,
+   "t": 830.004,
    "type": "sub",
-   "end": 835.279,
+   "end": 833.7,
    "entry": "cmd_outro",
    "line": 4,
    "en": "For now, this was Commander Lockton, signing off.",

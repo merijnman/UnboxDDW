@@ -8,8 +8,6 @@ def test_current_show_validates():
     show, issues = load_and_check(SHOW_YAML)
     assert show is not None
     assert not has_errors(issues), [str(i) for i in issues]
-    # Voice ids are placeholders until the audition: a warning, not an error.
-    assert any("TODO" in i.message and i.level == "warning" for i in issues)
 
 
 def test_mini_show_has_no_issues(mini_show_path):
@@ -69,3 +67,12 @@ def test_structural_error_names_the_path(tmp_path, mini_data):
     show, issues = load_and_check(write_show(tmp_path, mini_data))
     assert show is None
     assert any(i.where == "timeline.1.at" and "MM:SS" in i.message for i in issues)
+
+
+def test_audio_tags_on_a_model_that_reads_them_aloud(tmp_path, mini_data):
+    mini_data["timeline"][1]["lines"][0]["en"] = "[sighs] Welcome, crew."
+    _, issues = load_and_check(write_show(tmp_path, mini_data))
+    assert any(i.level == "warning" and "would read them aloud" in i.message for i in issues)
+    mini_data["voices"]["commander"]["model_id"] = "eleven_v4"
+    _, issues = load_and_check(write_show(tmp_path, mini_data))
+    assert issues == []

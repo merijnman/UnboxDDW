@@ -13,7 +13,7 @@ from pathlib import Path
 from . import cache as cache_mod
 from .audio import probe_duration, to_wav
 from .cache import Cache
-from .eleven import OUTPUT_FORMAT, Alignment, Client, tts_body
+from .eleven import OUTPUT_FORMAT, Alignment, Client, tts_request
 from .model import ShowFile, Voice
 
 
@@ -62,18 +62,20 @@ def clip_requests(show: ShowFile) -> list[ClipRequest]:
 
 
 def request_key(text: str, voice: Voice, seed: int | None, client_name: str) -> str:
-    data = {**tts_body(text, voice, seed), "voice_id": voice.voice_id, "output_format": OUTPUT_FORMAT}
+    path, body = tts_request(text, voice, seed)
+    data = {**body, "endpoint": path, "voice_id": voice.voice_id, "output_format": OUTPUT_FORMAT}
     if client_name == "fake":
         # Never let fake silence stand in for a real take, or the other way round.
         data["fake"] = True
     return cache_mod.key(data)
 
 
-def pending(show: ShowFile, cache: Cache, client_name: str) -> list[ClipRequest]:
+def pending(show: ShowFile, cache: Cache, client_name: str, only: set[str] | None = None) -> list[ClipRequest]:
     """Requests that are not in the cache yet, i.e. the ones that would cost characters."""
     return [
         req
         for req in clip_requests(show)
+        if only is None or req.entry_id in only
         if not cache.get("tts", request_key(req.text, show.voices[req.speaker], req.seed, client_name), "mp3")
     ]
 
@@ -89,10 +91,15 @@ def synthesize(text: str, voice: Voice, seed: int | None, client: Client, cache:
     return digest, True
 
 
-def render(show: ShowFile, client: Client, cache: Cache, build_dir: Path) -> tuple[dict, StageStats]:
+def render(
+    show: ShowFile, client: Client, cache: Cache, build_dir: Path, only: set[str] | None = None
+) -> tuple[dict, StageStats]:
+    """Render all clips, or only those of the entry ids in `only` (then build/tts.json is left alone)."""
     stats = StageStats()
     index: dict[str, dict] = {}
     for req in clip_requests(show):
+        if only is not None and req.entry_id not in only:
+            continue
         voice = show.voices[req.speaker]
         digest, generated = synthesize(req.text, voice, req.seed, client, cache)
         if generated:
@@ -123,6 +130,8 @@ def render(show: ShowFile, client: Client, cache: Cache, build_dir: Path) -> tup
             "fake": client.name == "fake",
         }
     cache.save_manifest()
+    if only is not None:
+        return index, stats
     build_dir.mkdir(parents=True, exist_ok=True)
     (build_dir / "tts.json").write_text(json.dumps(index, indent=1, ensure_ascii=False), encoding="utf-8")
     return index, stats

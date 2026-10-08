@@ -15,6 +15,16 @@ import yaml
 from pydantic import BaseModel, ConfigDict, PrivateAttr, field_validator, model_validator
 
 _TIME_RE = re.compile(r"^(\d+):([0-5]\d)(\.\d+)?$")
+_AUDIO_TAG = re.compile(r"\[[^\]]*\]")
+
+
+def strip_tags(text: str) -> str:
+    """Remove audio tags such as [clears throat]: spoken direction, never shown in subtitles."""
+    return " ".join(_AUDIO_TAG.sub(" ", text).split())
+
+
+def has_tags(text: str) -> bool:
+    return bool(_AUDIO_TAG.search(text))
 
 
 def parse_time(value: str) -> float:
@@ -129,13 +139,18 @@ class Timer(Strict):
 
 
 class Line(Strict):
-    en: str
+    en: str  # spoken; may contain audio tags like [chuckling] for eleven_v3/v4
     nl: str | None = None
     screen: str | None = None
     overlay: str | None = None
     big: str | None = None
     sound: str | None = None
     ops: str | None = None
+
+    @property
+    def shown(self) -> str:
+        """The subtitle text: `en` without audio tags."""
+        return strip_tags(self.en)
 
 
 class Entry(Strict):

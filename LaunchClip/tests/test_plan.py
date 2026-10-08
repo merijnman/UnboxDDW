@@ -18,7 +18,9 @@ def _reference_rows():
 
 
 def test_estimates_match_the_reference_table():
-    rows = {row.entry: row for row in build_plan(load_show(SHOW_YAML))}
+    show = load_show(SHOW_YAML)
+    show.voices["commander"].settings.speed = 0.95  # the table was made with the original commander speed
+    rows = {row.entry: row for row in build_plan(show)}
     checked = 0
     for start, entry, length in _reference_rows():
         if entry not in rows:
@@ -57,5 +59,10 @@ def test_flags_overlap_and_tight_gaps(mini_show_path):
 def test_character_totals():
     show = load_show(SHOW_YAML)
     totals = characters_per_voice(show)
-    assert 2800 <= sum(totals.values()) <= 3000  # BACKLOG: about 2,900
+    # BACKLOG says about 2,900 for the bare text; the audio tags add a few hundred.
+    assert 2800 <= sum(totals.values()) <= 3400
     assert "Characters per voice" in format_plan(show)
+
+
+def test_audio_tags_are_not_counted_as_words():
+    assert estimate_seconds(["[clears throat] Welcome, crew. [chuckling] Dan."]) == estimate_seconds(["Welcome, crew. Dan."])

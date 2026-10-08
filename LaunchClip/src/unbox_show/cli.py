@@ -81,16 +81,30 @@ def plan(show_path: Path = ShowOption) -> None:
 
 
 @app.command()
-def tts(show_path: Path = ShowOption, fake: bool = FakeOption, yes: bool = YesOption) -> None:
-    """Render every `say` entry (cached) and write build/tts.json."""
+def tts(
+    show_path: Path = ShowOption,
+    fake: bool = FakeOption,
+    yes: bool = YesOption,
+    ids: list[str] = typer.Option(None, "--id", help="Only this entry id (repeatable). For trying out one turn."),
+) -> None:
+    """Render every `say` entry (cached) and write build/tts.json, or just the given --id entries."""
     _ffmpeg()
     show = _load(show_path)
+    only = set(ids) if ids else None
+    known = {e.id for e in show.say_entries()}
+    if only and only - known:
+        typer.echo(f"Unknown entry id: {', '.join(sorted(only - known))}", err=True)
+        raise typer.Exit(1)
     try:
-        stats = pipeline.run_tts(show, _client(show, fake), _paths(show), _confirm(yes))
+        index, stats = pipeline.run_tts(show, _client(show, fake), _paths(show), _confirm(yes), only)
     except pipeline.Aborted as exc:
         typer.echo(str(exc), err=True)
         raise typer.Exit(1)
     typer.echo(f"Speech: {len(stats.reused)} reused, {len(stats.generated)} generated, {stats.characters} characters")
+    if only:
+        for clip_id, clip in index.items():
+            mp3 = (_paths(show).build / clip["wav"]).with_suffix(".mp3")
+            typer.echo(f"  {clip_id}: {clip['duration']:.1f} s  {mp3}")
 
 
 @app.command()

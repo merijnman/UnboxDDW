@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from .model import Entry, ShowFile, format_time
+from .model import Entry, ShowFile, format_time, strip_tags
 
 WORDS_PER_SECOND = 2.5
 PAUSE_PER_LINE_BREAK = 0.35
@@ -14,7 +14,7 @@ TIGHT_GAP = 1.0
 
 def estimate_seconds(lines: list[str], speed: float = 1.0) -> float:
     """Words / 2.5 per second, divided by speed, plus 0.35 s per line break."""
-    words = sum(len(line.split()) for line in lines)
+    words = sum(len(strip_tags(line).split()) for line in lines)
     return words / WORDS_PER_SECOND / speed + PAUSE_PER_LINE_BREAK * (len(lines) - 1)
 
 
@@ -78,7 +78,7 @@ def build_plan(show: ShowFile) -> list[PlanRow]:
                 start=start,
                 entry=entry.id or "-",
                 speaker=entry.say,
-                words=sum(len(line.en.split()) for line in entry.lines),
+                words=sum(len(line.shown.split()) for line in entry.lines),
                 estimate=estimate,
                 end=start + estimate,
             )

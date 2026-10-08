@@ -127,3 +127,27 @@ def test_full_show_snapshot(real_show_copy):
             pytest.fail("snapshot missing; run with UPDATE_GOLDEN=1")
         snapshot.write_text(text, encoding="utf-8")
     assert json.loads(text) == json.loads(snapshot.read_text(encoding="utf-8"))
+
+
+def test_audio_tags_are_spoken_but_not_shown(mini_show_path):
+    show = load_show(mini_show_path)
+    show.voices["commander"].model_id = "eleven_v4"
+    show.timeline[1].lines[0].en = "[clears throat] Welcome, crew. [chuckling] This is a test."
+    clips = mini_clips(show, hello=6.0)
+    sched = build_schedule(show, clips, SOUNDS)
+    subs = [e for e in of_type(sched, "sub") if e["entry"] == "hello"]
+    assert subs[0]["en"] == "Welcome, crew. This is a test."
+    # The subtitle starts at "Welcome", after the throat clearing, not at the tag.
+    text = clips["hello"]["text"]
+    assert subs[0]["t"] == pytest.approx(2.0 + 6.0 * text.index("Welcome") / len(text), abs=0.001)
+
+
+def test_alignment_of_a_different_length_is_mapped_proportionally(mini_show_path):
+    show = load_show(mini_show_path)
+    clips = mini_clips(show, hello=5.0)
+    alignment = clips["hello"]["alignment"]
+    for key in alignment:
+        alignment[key] = alignment[key][::2]  # the API returned half as many characters
+    sched = build_schedule(show, clips, SOUNDS)
+    second = [e for e in of_type(sched, "sub") if e["entry"] == "hello"][1]
+    assert second["t"] == pytest.approx(2.0 + 5.0 * 31 / 47, abs=0.15)

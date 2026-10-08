@@ -53,19 +53,38 @@ def _actions(t: float, item, sounds: dict, duration: float) -> list[dict]:
     return events
 
 
-def _line_start(clip: dict, line_pos: int) -> float:
-    """Time of the line's first character, relative to the clip start."""
+def _shown_span(spoken: str) -> tuple[int, int]:
+    """Index of the first and last character of a line that is not whitespace or inside an [audio tag]."""
+    shown, depth = [], 0
+    for i, ch in enumerate(spoken):
+        if ch == "[":
+            depth += 1
+        elif ch == "]" and depth:
+            depth -= 1
+        elif not depth and not ch.isspace():
+            shown.append(i)
+    return (shown[0], shown[-1]) if shown else (0, max(0, len(spoken) - 1))
+
+
+def _char_index(clip: dict, index: int) -> int:
+    """Map a position in our text to the alignment. They match unless the API changed the text."""
+    characters = clip["alignment"]["characters"]
+    if "".join(characters) == clip["text"] or not characters:
+        return index
+    return min(len(characters) - 1, round(index * len(characters) / max(1, len(clip["text"]))))
+
+
+def _line_start(clip: dict, line_pos: int, spoken: str) -> float:
+    """Time of the line's first shown character, relative to the clip start."""
     starts = clip["alignment"]["character_start_times_seconds"]
-    offset = clip["line_offsets"][line_pos]
-    if offset < len(starts):
-        return starts[offset]
-    return clip["duration"] * offset / max(1, len(clip["text"]))
+    index = _char_index(clip, clip["line_offsets"][line_pos] + _shown_span(spoken)[0])
+    return starts[index] if index < len(starts) else clip["duration"] * index / max(1, len(clip["text"]))
 
 
-def _line_end(clip: dict, line_pos: int, text: str) -> float:
+def _line_end(clip: dict, line_pos: int, spoken: str) -> float:
     ends = clip["alignment"]["character_end_times_seconds"]
-    last = clip["line_offsets"][line_pos] + len(text) - 1
-    return ends[last] if last < len(ends) else clip["duration"]
+    index = _char_index(clip, clip["line_offsets"][line_pos] + _shown_span(spoken)[1])
+    return ends[index] if index < len(ends) else clip["duration"]
 
 
 def _sub(t: float, end: float, entry: Entry, index: int, label: str | None) -> dict:
@@ -76,7 +95,7 @@ def _sub(t: float, end: float, entry: Entry, index: int, label: str | None) -> d
         "end": end,
         "entry": entry.id,
         "line": index,
-        "en": line.en,
+        "en": line.shown,
         "nl": line.nl or "",
         "speaker": label,
         "italic": entry.delivery == "aside",
@@ -104,7 +123,7 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
             if trim:
                 voice_event["trim"] = True
             events.append(voice_event)
-            line_t = start + _line_start(clip, 0)
+            line_t = start + _line_start(clip, 0, entry.lines[i].en)
             line_end = end + LINE_TAIL
             if i + 1 < len(starts):
                 line_end = min(line_end, starts[i + 1])
@@ -117,7 +136,7 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
         "t": at, "type": "voice", "end": at + clip["duration"], "clip": entry.id, "entry": entry.id,
         "speaker": entry.say, "fx": voice.fx, "wav": clip["wav"],
     })
-    line_starts = [at + _line_start(clip, i) for i in range(len(entry.lines))]
+    line_starts = [at + _line_start(clip, i, line.en) for i, line in enumerate(entry.lines)]
     for i, line in enumerate(entry.lines):
         end = at + _line_end(clip, i, line.en) + LINE_TAIL
         if i + 1 < len(line_starts):

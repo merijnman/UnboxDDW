@@ -234,8 +234,11 @@ Done when: checklist in the README is ticked and a copy of `dist/` is on two USB
 - Exception: the countdown. Each number is its own clip on a one-second grid,
   because a TTS voice does not count in strict tempo.
 - The radio sound is added afterwards with ffmpeg, not asked from the voice model.
-- Speech model: `eleven_multilingual_v2` (stable, supports timestamps). The newer
-  expressive models are a later experiment, see `ELEVENLABS.md`.
+- Speech model: `eleven_v4` for both voices (decided 8 October after a browser
+  test with the commander voice "Dan"). It supports audio tags such as
+  `[chuckling]` and works on the normal with-timestamps endpoint. Tags are spoken,
+  never shown: the subtitles strip them. `eleven_multilingual_v2` remains a
+  fallback, set per voice in `show.yaml`.
 
 ## 6. Reference timeline (estimates, before real audio)
 

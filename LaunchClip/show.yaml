@@ -36,16 +36,16 @@ show:
 voices:
   commander:
     label: "COMMANDER"
-    voice_id: "TODO_COMMANDER_VOICE_ID"       # warm, authoritative, a bit dry
-    model_id: eleven_multilingual_v2
-    settings: {stability: 0.45, similarity_boost: 0.75, style: 0.35, use_speaker_boost: true, speed: 0.95}
+    voice_id: "a4CnuaYbALRvW39mDitg"          # "Dan - Captivating, Engaging and Inviting" (browser test 8 Oct)
+    model_id: eleven_v4        # supports [audio tags] such as [chuckling]
+    settings: {stability: 0.5, similarity_boost: 0.75, style: 0.0, use_speaker_boost: true, speed: 1.0}   # as in the browser test
     seed: 1101
     fx: radio_light            # close mic, slight radio colour
     audition: "Welcome, crew. In fifteen minutes, we launch to explore metaphorical space! It's not rocket science. Yikes."
   mission_control:
     label: "MISSION CONTROL"
-    voice_id: "TODO_MISSION_CONTROL_VOICE_ID" # clipped, procedural, neutral
-    model_id: eleven_multilingual_v4
+    voice_id: "oTQK6KgOJHp8UGGZjwUu" # clipped, procedural, neutral
+    model_id: eleven_v4
     settings: {stability: 0.70, similarity_boost: 0.75, style: 0.10, use_speaker_boost: true, speed: 1.0}
     seed: 2202
     fx: radio                  # band-limited, compressed, squelch in/out
@@ -101,11 +101,11 @@ timeline:
     id: cmd_welcome
     say: commander
     lines:
-      - en: "Welcome, crew. My name is Commander Lockton, but you can call me Dan."
+      - en: "[clears throat] Welcome, crew. My name is Commander Lockton, [chuckling] but you can call me Dan."
         nl: "Welkom, crew. Ik ben Commander Lockton, maar zeg maar Dan."
       - en: "I will be your mission commander."
         nl: "Ik ben jullie missiecommandant."
-      - en: "In fifteen minutes, we launch to explore metaphorical space!"
+      - en: "[excited] In fifteen minutes, we launch to explore metaphorical space!"
         nl: "Over vijftien minuten vertrekken we om de metaforische ruimte te verkennen!"
 
   - at: "00:18"
@@ -113,7 +113,7 @@ timeline:
     say: commander
     delivery: aside            # off-mic, quieter, subtitle in italics
     lines:
-      - en: "Brave idiots."
+      - en: "[muttering] Brave idiots."
         nl: "Dappere dwazen."
 
   - at: "00:22"
@@ -124,7 +124,7 @@ timeline:
         nl: "Ahum. Metaforen helpen ons een gedeelde taal te vinden."
       - en: "You all use metaphors, even if you didn't know it yet."
         nl: "Jullie gebruiken allemaal metaforen, ook als je dat nog niet wist."
-      - en: "It's not rocket science."
+      - en: "[chuckles] It's not rocket science."
         nl: "Het is geen raketwetenschap."
       - en: "For example: this is a pen."
         nl: "Bijvoorbeeld: dit is een pen."
@@ -135,10 +135,10 @@ timeline:
       - en: "But it can also be a metaphor for a memory, because you can write things down."
         nl: "Maar hij kan ook een metafoor zijn voor een herinnering, omdat je er dingen mee opschrijft."
         overlay: cloud_text
-      - en: "And it might even represent a carrot. So: food!"
+      - en: "[amused] And it might even represent a carrot. So: food!"
         nl: "En misschien staat hij zelfs voor een wortel. Eten dus!"
         overlay: cloud_carrot
-      - en: "You get the point. One thing can mean many different things to different people."
+      - en: "[warmly] You get the point. One thing can mean many different things to different people."
         nl: "Je snapt het idee. Een ding kan voor verschillende mensen heel verschillende dingen betekenen."
 
   # ---- 2. Crew introduction and picking a metaphor ----------------- 01:12 ---
@@ -148,7 +148,7 @@ timeline:
     lines:
       - en: "Mission Control here. Crew, are you ready for your first task?"
         nl: "Hier Mission Control. Crew, zijn jullie klaar voor je eerste opdracht?"
-      - en: "Of course you are. You are highly trained astronauts, about to embark on a voyage to metaphorical space."
+      - en: "[dryly] Of course you are. You are highly trained astronauts, about to embark on a voyage to metaphorical space."
         nl: "Natuurlijk zijn jullie dat. Jullie zijn topgetrainde astronauten, aan de vooravond van een reis naar de metaforische ruimte."
       - en: "To get you started: introduce yourself to your crew members."
         nl: "Om te beginnen: stel jezelf voor aan je crewgenoten."
@@ -176,7 +176,7 @@ timeline:
     id: cmd_share
     say: commander
     lines:
-      - en: "Crew, your next task: explain to your crew what your metaphorical object means to you."
+      - en: "[encouraging] Crew, your next task: explain to your crew what your metaphorical object means to you."
         nl: "Crew, je volgende opdracht: leg je crewgenoten uit wat jouw metaforische voorwerp voor jou betekent."
         screen: share
       - en: "Why did you pick it? What does it represent on your journey together?"
@@ -232,9 +232,9 @@ timeline:
     id: mc_alert
     say: mission_control
     lines:
-      - en: "Alert! Alert!"
+      - en: "[alarmed] Alert! Alert!"
         nl: "Alarm! Alarm!"
-      - en: "Mission Control here. An anomaly in the space-time continuum has been detected."
+      - en: "[urgent] Mission Control here. An anomaly in the space-time continuum has been detected."
         nl: "Hier Mission Control. Er is een anomalie in het ruimte-tijdcontinuum gedetecteerd."
       - en: "Recalculating total storage volume."
         nl: "Totale opslagruimte wordt herberekend."
@@ -255,14 +255,14 @@ timeline:
     id: cmd_yikes
     say: commander
     lines:
-      - en: "Yikes."
+      - en: "[nervous laugh] Yikes."
         nl: "Oei."
 
   - at: "08:28"
     id: cmd_select
     say: commander
     lines:
-      - en: "Crew, please select the one item that represents the largest number of crew members."
+      - en: "[serious] Crew, please select the one item that represents the largest number of crew members."
         nl: "Crew, kies het ene voorwerp dat voor zo veel mogelijk crewleden iets betekent."
       - en: "Put your final item in the rocket, and record what this item represents for you all."
         nl: "Stop jullie definitieve voorwerp in de raket en leg vast waar het voor jullie allemaal voor staat."
@@ -292,12 +292,12 @@ timeline:
     id: cmd_go
     say: commander
     lines:
-      - en: "All crew members: it is go time!"
+      - en: "[excited] All crew members: it is go time!"
         nl: "Alle crewleden: het is zover!"
         screen: load_rocket
       - en: "Place your final item in the rocket and record your reasoning for posterity."
         nl: "Leg jullie definitieve voorwerp in de raket en leg jullie redenering vast voor het nageslacht."
-      - en: "Brace yourselves: preparing for launch!"
+      - en: "[shouting] Brace yourselves: preparing for launch!"
         nl: "Zet je schrap: we maken ons klaar voor de lancering!"
 
   - at: "12:15"
@@ -307,7 +307,7 @@ timeline:
     id: mc_all_go
     say: mission_control
     lines:
-      - en: "Mission Control to crew: all systems go. Prepare to unbox the unexpected!"
+      - en: "Mission Control to crew: all systems go. [with excitement] Prepare to unbox the unexpected!"
         nl: "Mission Control aan crew: alle systemen gereed. Maak je klaar om het onverwachte uit te pakken!"
         screen: all_go
 
@@ -327,7 +327,7 @@ timeline:
       - {en: "Three.", nl: "Drie.",   big: "3", ops: "SMOKE MACHINE ON"}
       - {en: "Two.",   nl: "Twee.",   big: "2"}
       - {en: "One.",   nl: "Een.",    big: "1"}
-      - {en: "Liftoff!", nl: "Lancering!", screen: liftoff, sound: rocket_launch, ops: "CURTAIN DROPS, flashing lights"}
+      - {en: "[triumphant] Liftoff!", nl: "Lancering!", screen: liftoff, sound: rocket_launch, ops: "CURTAIN DROPS, flashing lights"}
 
   # ---- 6. Unbox revealed, sign-off --------------------------------- 13:15 ---
   - at: "13:15"
@@ -338,7 +338,7 @@ timeline:
     id: cmd_outro
     say: commander
     lines:
-      - en: "Thank you, Unbox crew, for taking on new perspectives and exploring Unbox together."
+      - en: "[warmly] Thank you, Unbox crew, for taking on new perspectives and exploring Unbox together."
         nl: "Dank je wel, Unbox-crew, dat jullie nieuwe perspectieven hebben ingenomen en samen Unbox hebben verkend."
         screen: end
       - en: "This was a small taste of the new worlds that metaphors can help us discover."
@@ -347,7 +347,7 @@ timeline:
         nl: "Je kunt Unbox en zijn metaforen gebruiken in allerlei situaties waarin je als groep samenwerkt."
       - en: "If you would like to dive deeper into metaphors, visit the Unbox exhibition space around the corner, or check out our website."
         nl: "Wil je dieper in metaforen duiken? Bezoek de Unbox-tentoonstelling om de hoek, of kijk op onze website."
-      - en: "For now, this was Commander Lockton, signing off."
+      - en: "[proudly] For now, this was Commander Lockton, signing off."
         nl: "Voor nu was dit Commander Lockton. Over en uit."
 
   - at: "14:05"
