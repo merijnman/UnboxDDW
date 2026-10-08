@@ -69,6 +69,15 @@ def test_line_action_fires_at_line_start(mini_show_path):
     assert [e["t"] for e in of_type(sched, "overlay")] == [line2]
 
 
+def test_with_only_fake_takes_timing_problems_are_warnings(mini_show_path):
+    show = load_show(mini_show_path)
+    clips = mini_clips(show, hello=8.5)
+    for clip in clips.values():
+        clip["fake"] = True
+    sched = build_schedule(show, clips, SOUNDS)
+    assert any("turn ends at 00:10.5" in w for w in sched["warnings"])
+
+
 def test_turn_running_into_next_cue_is_an_error(mini_show_path):
     show = load_show(mini_show_path)
     with pytest.raises(ScheduleError, match=r"hello @ 00:02: turn ends at 00:10.5, after the next cue"):

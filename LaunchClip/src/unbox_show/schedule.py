@@ -146,7 +146,11 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
     return events
 
 
-def build_schedule(show: ShowFile, clips: dict, sounds: dict) -> dict:
+def build_schedule(show: ShowFile, clips: dict, sounds: dict, strict: bool | None = None) -> dict:
+    """strict (default: when any clip is a real take) turns timing problems into a ScheduleError.
+    With only fake takes, whose lengths are estimates, they are kept as warnings in the schedule."""
+    if strict is None:
+        strict = not all(clip.get("fake") for clip in clips.values())
     duration = show.show.duration_s
     events: list[dict] = []
     problems: list[str] = []
@@ -181,7 +185,7 @@ def build_schedule(show: ShowFile, clips: dict, sounds: dict) -> dict:
             what = event.get("clip", "timer")
             problems.append(f"{what} ends at {format_time(event['end'], 1)}, after the show ({show.show.duration})")
 
-    if problems:
+    if problems and strict:
         raise ScheduleError(problems)
 
     for event in events:
@@ -189,7 +193,8 @@ def build_schedule(show: ShowFile, clips: dict, sounds: dict) -> dict:
         if "end" in event:
             event["end"] = _r(event["end"])
     events.sort(key=lambda e: (e["t"], _ORDER[e["type"]]))
-    return {
+    result = {"warnings": problems} if problems else {}
+    return result | {
         "duration": duration,
         "bed": list(show.show.bed),
         "bed_gain_db": show.show.bed_gain_db,

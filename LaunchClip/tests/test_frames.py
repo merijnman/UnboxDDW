@@ -55,20 +55,22 @@ def test_every_state_of_the_show_renders_without_artwork(tmp_path_factory):
 def test_state_at_follows_the_schedule():
     schedule = json.loads((SNAPSHOTS / "schedule_show.json").read_text(encoding="utf-8"))
     assert state_at(schedule, 1.0).screen == "title"
-    timer = state_at(schedule, 94.0)  # timer of 30 s starts at 01:34
+    timer_start = next(e for e in schedule["events"] if e["type"] == "timer")["t"]
+    timer = state_at(schedule, timer_start)  # the 30-second introduction timer
     assert timer.screen == "introduce" and timer.timer == 30
-    assert state_at(schedule, 123.5).timer == 1
-    assert state_at(schedule, 124.5).timer == 0
-    assert state_at(schedule, 125.5).timer is None
-    ops = state_at(schedule, 8 * 60 + 5)
+    assert state_at(schedule, timer_start + 29.5).timer == 1
+    assert state_at(schedule, timer_start + 30.5).timer == 0
+    assert state_at(schedule, timer_start + 31.5).timer is None
+    alarm = next(e for e in schedule["events"] if e["type"] == "sound" and e["name"] == "alarm")["t"]
+    ops = state_at(schedule, alarm + 5)
     assert ops.ops == "SMOKE MACHINE ON, alarm light on" and ops.screen == "alert"
-    assert state_at(schedule, 8 * 60 + 11).ops is None
+    assert state_at(schedule, alarm + 11).ops is None
 
 
 def test_segments_cover_the_whole_show_on_the_frame_grid():
     schedule = json.loads((SNAPSHOTS / "schedule_show.json").read_text(encoding="utf-8"))
     segs = segments(schedule, 25)
-    assert segs[0][0] == 0.0 and segs[-1][1] == 900.0
+    assert segs[0][0] == 0.0 and segs[-1][1] == schedule["duration"]
     for (s0, e0, a), (s1, e1, b) in zip(segs, segs[1:]):
         assert e0 == s1 and a != b
         assert round(s1 * 25, 6) == int(round(s1 * 25))

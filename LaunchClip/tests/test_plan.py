@@ -8,6 +8,8 @@ from unbox_show.plan import build_plan, characters_per_voice, estimate_seconds, 
 # stated rule produces. Our grid rule ("Ten" one beat after the lead-in, then one line
 # per second) puts liftoff ten seconds after "Ten" and gives 13.4 s.
 REFERENCE_EXCEPTIONS = {"mc_countdown": 13.4}
+# Entries whose text changed after the table was made (8 October): not comparable any more.
+CHANGED_SINCE = {"cmd_select", "mc_spotlight", "mc_done"}
 
 
 def _reference_rows():
@@ -22,15 +24,15 @@ def test_estimates_match_the_reference_table():
     show.voices["commander"].settings.speed = 0.95  # the table was made with the original commander speed
     rows = {row.entry: row for row in build_plan(show)}
     checked = 0
-    for start, entry, length in _reference_rows():
-        if entry not in rows:
-            continue  # sound rows such as "alarm"
+    # Only the lengths: the start times were tightened on 8 October, after the real takes.
+    for _start, entry, length in _reference_rows():
+        if entry not in rows or entry in CHANGED_SINCE:
+            continue  # sound rows such as "alarm", or rewritten text
         row = rows[entry]
-        assert abs(row.start - parse_time(start)) < 0.01
         expected = REFERENCE_EXCEPTIONS.get(entry, length)
         assert abs(row.estimate - expected) <= 0.5, f"{entry}: {row.estimate:.1f} vs {expected}"
         checked += 1
-    assert checked >= 20
+    assert checked >= 15
 
 
 def test_estimate_rule():

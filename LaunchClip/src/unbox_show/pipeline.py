@@ -143,6 +143,11 @@ def run_schedule(show: ShowFile, paths: Paths, sounds: dict | None = None) -> di
     return result
 
 
+def schedule_warnings(sched: dict) -> list[str]:
+    """Timing problems found with estimated (fake) lengths; real takes would fail the build instead."""
+    return [f"timing (estimated lengths): {p}" for p in sched.get("warnings", [])]
+
+
 def build_show(
     show: ShowFile, client: Client, paths: Paths, *, draft: bool, confirm: Confirm, echo: Echo, with_sfx: bool = True
 ) -> Report:
@@ -162,6 +167,8 @@ def build_show(
         sounds = {}
     echo("schedule ...")
     sched = run_schedule(show, paths, sounds)
+    for warning in schedule_warnings(sched):
+        echo(warning)
     echo("subtitles ...")
     srt_stem = paths.dist / "unbox_show"
     subtitles.write_all(sched, paths.build / "subs.ass", srt_stem, subtitles.look_from_show(show))

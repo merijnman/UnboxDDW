@@ -9,9 +9,9 @@ turn, a sound effect, a screen) comes from the cache.
 
 | File | What | Length |
 |---|---|---|
-| `dist/unbox_show.mp4` | The session: voices, sounds, screens, timers, EN + NL subtitles | 15:00 |
+| `dist/unbox_show.mp4` | The session: voices, sounds, screens, timers, EN + NL subtitles | 13:32 (was 15:00 before the timeline was tightened on 8 October) |
 | `dist/unbox_preshow.mp4` | Between sessions: bridge ambience, radio chatter, "next launch in" clock | 25:00 |
-| `dist/unbox_loop.mp4` | Pre-show followed by show, one file to loop all day (optional) | 40:00 |
+| `dist/unbox_loop.mp4` | Pre-show followed by show, one file to loop all day (optional) | 38:32 |
 | `dist/run_sheet.html` | Printable cue list for the people in the room (smoke machine, curtain, lights) | 1 page |
 | `dist/transcript_nl.html` | Printable Dutch transcript card for the tables | 1-2 pages |
 

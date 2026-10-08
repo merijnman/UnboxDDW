@@ -23,7 +23,7 @@
 
 show:
   title: "Unbox - Mission to Metaphorical Space"
-  duration: "15:00"
+  duration: "13:32"
   audio_language: en
   subtitles: [en, nl]          # both on screen at the same time
   video: {width: 1920, height: 1080, fps: 25}
@@ -137,7 +137,7 @@ timeline:
     screen: title
     sound: radio_crackle
 
-  - at: "00:03"
+  - at: "00:02"
     id: cmd_welcome
     say: commander
     lines:
@@ -148,7 +148,7 @@ timeline:
       - en: "[excited] In fifteen minutes, we launch to explore metaphorical space!"
         nl: "Over vijftien minuten vertrekken we om de metaforische ruimte te verkennen!"
 
-  - at: "00:18"
+  - at: "00:17"
     id: cmd_aside
     say: commander
     delivery: aside            # off-mic, quieter, subtitle in italics
@@ -156,7 +156,7 @@ timeline:
       - en: "[muttering] Brave idiots."
         nl: "Dappere dwazen."
 
-  - at: "00:22"
+  - at: "00:21"
     id: cmd_metaphors
     say: commander
     lines:
@@ -181,8 +181,8 @@ timeline:
       - en: "[warmly] You get the point. One thing can mean many different things to different people."
         nl: "Je snapt het idee. Een ding kan voor verschillende mensen heel verschillende dingen betekenen."
 
-  # ---- 2. Crew introduction and picking a metaphor ----------------- 01:12 ---
-  - at: "01:12"
+  # ---- 2. Crew introduction and picking a metaphor ----------------- 00:57 ---
+  - at: "00:57"
     id: mc_ready
     say: mission_control
     lines:
@@ -196,10 +196,10 @@ timeline:
       - en: "[firmly] Briefly! You have thirty seconds."
         nl: "Kort! Jullie hebben dertig seconden."
 
-  - at: "01:34"
+  - at: "01:15"
     timer: {seconds: 30}
 
-  - at: "02:06"
+  - at: "01:45"
     id: mc_pick
     say: mission_control
     lines:
@@ -211,8 +211,8 @@ timeline:
       - en: "Think to yourself: what does this object mean to you on this mission?"
         nl: "Bedenk voor jezelf: wat betekent dit voorwerp voor jou op deze missie?"
 
-  # ---- 3. Sharing the metaphors ------------------------------------ 02:50 ---
-  - at: "02:50"
+  # ---- 3. Sharing the metaphors ------------------------------------ 02:09 ---
+  - at: "02:09"
     id: cmd_share
     say: commander
     lines:
@@ -224,31 +224,31 @@ timeline:
       - en: "You have five minutes."
         nl: "Jullie hebben vijf minuten."
 
-  - at: "03:06"
-    timer: {until: "08:00"}
+  - at: "02:22"
+    timer: {seconds: 300}
 
-  - at: "04:00"
+  - at: "03:22"
     id: mc_spotlight
     say: mission_control
     lines:
-      - en: "Attention: all crew members are required to share their object. Share the spotlight."
-        nl: "Attentie: alle crewleden moeten hun voorwerp delen. Geef elkaar de ruimte."
+      - en: "Attention: ALL crew members are required to present their object. Share the spotlight."
+        nl: "Attentie: alle crewleden moeten hun voorwerp presenteren. Geef elkaar de ruimte."
 
-  - at: "05:00"
+  - at: "04:22"
     id: mc_nominal
     say: mission_control
     lines:
       - en: "All systems nominal. Proceed with preparations."
         nl: "Alle systemen nominaal. Ga door met de voorbereidingen."
 
-  - at: "06:00"
+  - at: "05:22"
     id: mc_propellant
     say: mission_control
     lines:
       - en: "Propellant loading complete. Starting flight computer."
         nl: "Brandstof geladen. Boordcomputer wordt opgestart."
 
-  - at: "07:00"
+  - at: "06:22"
     id: mc_warning
     say: mission_control
     lines:
@@ -259,16 +259,16 @@ timeline:
       - en: "Just a little time remaining before launch!"
         nl: "Nog maar even tot de lancering!"
 
-  - at: "07:45"
+  - at: "07:07"
     ops: "Stand by: smoke machine and alarm light, in 15 seconds"
 
-  # ---- 4. Emergency: only one item fits ---------------------------- 08:00 ---
-  - at: "08:00"
+  # ---- 4. Emergency: only one item fits ---------------------------- 07:22 ---
+  - at: "07:22"
     screen: alert
     sound: alarm
     ops: "SMOKE MACHINE ON, alarm light on"
 
-  - at: "08:02"
+  - at: "07:24"
     id: mc_alert
     say: mission_control
     lines:
@@ -280,55 +280,55 @@ timeline:
         nl: "Totale opslagruimte wordt herberekend."
         screen: recalculating
 
-  - at: "08:12"
+  - at: "07:35"
     sound: computer_bleeps
 
-  - at: "08:18"
+  - at: "07:37"
     id: mc_done
     say: mission_control
     lines:
-      - en: "Done! New calculations show that we only have space to take one item."
+      - en: "Done! New calculations show that we only have space to take ONE item."
         nl: "Klaar! Uit de nieuwe berekeningen blijkt dat we maar ruimte hebben voor een voorwerp."
         screen: one_item
 
-  - at: "08:25"
+  - at: "07:45"
     id: cmd_yikes
     say: commander
     lines:
       - en: "[nervous laugh] Yikes."
         nl: "Oei."
 
-  - at: "08:28"
+  - at: "07:48"
     id: cmd_select
     say: commander
     lines:
-      - en: "[serious] Crew, please select the one item that represents the largest number of crew members."
+      - en: "[serious, sad] Crew, please select the one item that represents the largest number of crew members."
         nl: "Crew, kies het ene voorwerp dat voor zo veel mogelijk crewleden iets betekent."
       - en: "Put your final item in the rocket, and record what this item represents for you all."
         nl: "Stop jullie definitieve voorwerp in de raket en leg vast waar het voor jullie allemaal voor staat."
-      - en: "You have three minutes to make your final decision."
-        nl: "Jullie hebben drie minuten voor de definitieve keuze."
+      - en: "You have three minutes to make your final decision. Make sure the item you pick can metaphorically represent all your needs."
+        nl: "Jullie hebben drie minuten voor de definitieve keuze. Zorg dat het gekozen voorwerp metaforisch voor al jullie behoeften kan staan."
 
-  - at: "08:47"
-    timer: {until: "11:45"}
+  - at: "08:07"
+    timer: {seconds: 180}
     ops: "Smoke machine off, alarm light off"
 
-  - at: "09:45"
+  - at: "09:07"
     id: mc_two_minutes
     say: mission_control
     lines:
       - en: "Storage bay recalibrated. Two minutes remaining."
         nl: "Laadruim opnieuw gekalibreerd. Nog twee minuten."
 
-  - at: "10:45"
+  - at: "10:07"
     id: mc_one_minute
     say: mission_control
     lines:
       - en: "[serious] One minute remaining. Choose wisely, crew."
         nl: "Nog een minuut. Kies verstandig, crew."
 
-  # ---- 5. Countdown and launch ------------------------------------- 11:46 ---
-  - at: "11:46"
+  # ---- 5. Countdown and launch ------------------------------------- 11:08 ---
+  - at: "11:08"
     id: cmd_go
     say: commander
     lines:
@@ -340,10 +340,10 @@ timeline:
       - en: "[shouting] Brace yourselves: preparing for launch!"
         nl: "Zet je schrap: we maken ons klaar voor de lancering!"
 
-  - at: "12:15"
+  - at: "11:19"
     ops: "Stand by for launch: smoke machine, flashing lights, curtain"
 
-  - at: "12:30"
+  - at: "11:29"
     id: mc_all_go
     say: mission_control
     lines:
@@ -351,7 +351,7 @@ timeline:
         nl: "Mission Control aan crew: alle systemen gereed. Maak je klaar om het onverwachte uit te pakken!"
         screen: all_go
 
-  - at: "12:38"
+  - at: "11:37"
     id: mc_countdown
     say: mission_control
     pace_seconds: 1.0          # after the first line: one line per second, each rendered separately
@@ -369,12 +369,12 @@ timeline:
       - {en: "One.",   nl: "Een.",    big: "1"}
       - {en: "[triumphant] Liftoff!", nl: "Lancering!", screen: liftoff, sound: rocket_launch, ops: "CURTAIN DROPS, flashing lights"}
 
-  # ---- 6. Unbox revealed, sign-off --------------------------------- 13:15 ---
-  - at: "13:15"
+  # ---- 6. Unbox revealed, sign-off --------------------------------- 12:13 ---
+  - at: "12:13"
     sound: celebration
     ops: "Smoke machine off"
 
-  - at: "13:22"
+  - at: "12:20"
     id: cmd_outro
     say: commander
     lines:
@@ -390,7 +390,7 @@ timeline:
       - en: "[proudly] For now, this was Commander Lockton, signing off."
         nl: "Voor nu was dit Commander Lockton. Over en uit."
 
-  - at: "14:05"
+  - at: "13:02"
     ops: "House lights up. Point people to the exhibition and the bar."
 
 # =============================================================================
