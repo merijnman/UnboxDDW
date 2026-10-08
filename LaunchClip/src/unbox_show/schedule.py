@@ -120,6 +120,8 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
                 "t": start, "type": "voice", "end": end, "clip": f"{entry.id}#{i:02d}", "entry": entry.id,
                 "speaker": entry.say, "fx": voice.fx, "wav": clip["wav"],
             }
+            if entry.delivery == "aside":
+                voice_event["aside"] = True
             if trim:
                 voice_event["trim"] = True
             events.append(voice_event)
@@ -132,10 +134,13 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
         return events
 
     clip = clips[entry.id]
-    events.append({
+    voice_event = {
         "t": at, "type": "voice", "end": at + clip["duration"], "clip": entry.id, "entry": entry.id,
         "speaker": entry.say, "fx": voice.fx, "wav": clip["wav"],
-    })
+    }
+    if entry.delivery == "aside":
+        voice_event["aside"] = True
+    events.append(voice_event)
     line_starts = [at + _line_start(clip, i, line.en) for i, line in enumerate(entry.lines)]
     for i, line in enumerate(entry.lines):
         end = at + _line_end(clip, i, line.en) + LINE_TAIL

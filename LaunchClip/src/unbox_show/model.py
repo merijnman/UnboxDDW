@@ -239,6 +239,7 @@ class ShowFile(Strict):
     screens: dict[str, Screen] = {}
     overlays: dict[str, Overlay] = {}
     artwork: Artwork | None = None
+    fx: dict[str, str] | None = None  # ffmpeg filter chains per effect name; defaults in fx.py
     timeline: list[Entry]
     preshow: Preshow | None = None
 

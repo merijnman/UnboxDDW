@@ -173,7 +173,7 @@ def build_show(
     srt_stem = paths.dist / "unbox_show"
     subtitles.write_all(sched, paths.build / "subs.ass", srt_stem, subtitles.look_from_show(show))
     echo("audio mix ...")
-    mix_path = mix.build_mix(sched, sounds, paths.build, paths.build / "mix.wav")
+    mix_path = mix.build_mix(sched, sounds, paths.build, paths.build / "mix.wav", show, cache, with_fx=with_sfx)
 
     fps = show.show.video.fps
     size = DRAFT_SIZE if draft else (show.show.video.width, show.show.video.height)

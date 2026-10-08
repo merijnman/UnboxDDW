@@ -49,8 +49,9 @@ def check(show: ShowFile) -> list[Issue]:
             warning(where, f"voice_id is still {voice.voice_id!r}; pick one with `unbox audition` first")
         if voice.model_id not in KNOWN_TTS_MODELS:
             warning(where, f"unknown model_id {voice.model_id!r}; known: {', '.join(sorted(KNOWN_TTS_MODELS))}")
-        if voice.fx and voice.fx not in KNOWN_FX:
-            error(where, f"unknown fx {voice.fx!r} (known: {', '.join(sorted(KNOWN_FX))})")
+        known_fx = KNOWN_FX | set(show.fx or {})
+        if voice.fx and voice.fx not in known_fx:
+            error(where, f"unknown fx {voice.fx!r} (known: {', '.join(sorted(known_fx))})")
 
     for name, sound in show.sounds.items():
         where = f"sounds.{name}"

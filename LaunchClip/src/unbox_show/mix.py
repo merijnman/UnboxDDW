@@ -1,70 +1,168 @@
 """Audio mixdown: schedule.json -> build/mix.wav (48 kHz stereo).
 
-Places voice clips and sounds at their scheduled times on top of the looped
-bed. Still to come in T15: ducking the bed under speech, crossfaded loop
-points and loudness normalisation. Voice fx (T13) are not applied yet.
+Every clip is first brought to a reference loudness, so voices and effects sit
+at predictable levels whatever ElevenLabs delivered. Then:
+
+- voices get their fx (radio, radio_light, aside), radio turns a squelch click
+  before and after;
+- beds loop under the whole show, sounds play at their times;
+- everything that is not a voice is ducked while someone speaks;
+- the master is lifted so voices sit at -16 LUFS, with peaks limited to -1.5 dB.
+
+with_fx=False gives the clean mix: raw voices, no effects, no squelch.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
 
+from . import fx
 from .audio import CHANNELS, SAMPLE_RATE, run_ffmpeg
+from .cache import Cache
 
+VOICE_LUFS = -18.0
+SOUND_LUFS = -20.0   # reference for sounds and beds before their gain_db
+TARGET_LUFS = -16.0
+TRUE_PEAK = -1.5
+ASIDE_DB = -6.0      # an aside is spoken off-mic, so it stays quieter
 PACED_FADE = 0.05
+SQUELCH_SECONDS = 0.25
+DUCK_RAMP_IN, DUCK_RAMP_OUT = 0.15, 0.4
 
 
-def build_mix(schedule: dict, sounds: dict, build_dir: Path, out: Path) -> Path:
+def _speech_intervals(events: list[dict]) -> list[tuple[float, float]]:
+    spans = sorted((e["t"], e["end"]) for e in events if e["type"] == "voice")
+    merged: list[list[float]] = []
+    for start, end in spans:
+        if merged and start <= merged[-1][1] + 0.5:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    return [(a, b) for a, b in merged]
+
+
+def duck_expression(intervals: list[tuple[float, float]], duck_db: float) -> str:
+    """volume= expression: 1 outside speech, duck_db inside, with short linear ramps."""
+    if not intervals:
+        return "1"
+    depth = 1 - 10 ** (duck_db / 20)
+    terms = [
+        f"clip(min((t-{a - DUCK_RAMP_IN:.3f})/{DUCK_RAMP_IN},({b + DUCK_RAMP_OUT:.3f}-t)/{DUCK_RAMP_OUT}),0,1)"
+        for a, b in intervals
+    ]
+    inside = terms[0]
+    for term in terms[1:]:
+        inside = f"max({inside},{term})"
+    return f"1-{depth:.4f}*{inside}"
+
+
+def _rel(path: Path, build_dir: Path) -> str:
+    return path.resolve().relative_to(build_dir.resolve()).as_posix()
+
+
+def build_mix(schedule: dict, sounds: dict, build_dir: Path, out: Path, show=None, cache: Cache | None = None,
+              with_fx: bool = True) -> Path:
     duration = schedule["duration"]
+    cache = cache or Cache(build_dir / "cache")
     inputs: list[str] = ["-f", "lavfi", "-t", f"{duration:.3f}", "-i", f"anullsrc=r={SAMPLE_RATE}:cl=stereo"]
     chains: list[str] = []
+    voices: list[str] = []
+    others: list[str] = []
     count = 1  # input 0 is the silent base that fixes the length
-    for name in schedule["bed"]:
-        info = sounds.get(name)
-        if not info:
-            continue
-        inputs.extend(["-stream_loop", "-1", "-i", info["wav"]])
-        chains.append(f"[{count}:a]atrim=0:{duration:.3f},volume={schedule['bed_gain_db']}dB[b{count}]")
+
+    def add(path: Path, filters: list[str], bus: list[str], loop: bool = False) -> None:
+        nonlocal count
+        if loop:
+            inputs.extend(["-stream_loop", "-1"])
+        inputs.extend(["-i", _rel(path, build_dir)])
+        chains.append(f"[{count}:a]{','.join(filters)}[a{count}]")
+        bus.append(f"[a{count}]")
         count += 1
 
+    def gain(path: Path, reference: float, extra: float = 0.0) -> str:
+        return f"volume={reference - fx.loudness(path, cache) + extra:.2f}dB"
+
+    def delay(t: float) -> str:
+        ms = max(0, round(t * 1000))
+        return f"adelay={ms}|{ms}"
+
+    for name in schedule["bed"]:
+        info = sounds.get(name)
+        if info:
+            wav = build_dir / info["wav"]
+            add(wav, [f"atrim=0:{duration:.3f}", gain(wav, SOUND_LUFS, schedule["bed_gain_db"])], others, loop=True)
+
+    crackle = sounds.get("radio_crackle")
+    first_last: dict[str, list[float]] = {}
     for event in schedule["events"]:
-        kind = event["type"]
-        if kind == "voice":
-            inputs.extend(["-i", event["wav"]])
-            filters = []
+        if event["type"] == "voice":
+            names = []
+            if with_fx and event.get("fx"):
+                names.append(event["fx"])
+            if with_fx and event.get("aside"):
+                names.append("aside")
+            wav = fx.apply(build_dir / event["wav"], names, show, cache) if names else build_dir / event["wav"]
+            # Measured after the effect, which changes loudness, so both voices end up equally loud.
+            filters = [gain(wav, VOICE_LUFS, ASIDE_DB if event.get("aside") else 0.0)]
             if event.get("trim"):
                 length = event["end"] - event["t"]
                 filters += [f"atrim=0:{length:.3f}", f"afade=t=out:st={length - PACED_FADE:.3f}:d={PACED_FADE}"]
-        elif kind == "sound" and not event.get("missing"):
+            add(wav, filters + [delay(event["t"])], voices)
+            if event.get("fx") == "radio":
+                span = first_last.setdefault(event["entry"], [event["t"], event["end"]])
+                span[1] = max(span[1], event["end"])
+        elif event["type"] == "sound" and not event.get("missing"):
             info = sounds[event["name"]]
-            inputs.extend(["-i", info["wav"]])
+            wav = build_dir / info["wav"]
             length = event["end"] - event["t"]
-            filters = [f"atrim=0:{length:.3f}"]
-            if info["gain_db"]:
-                filters.append(f"volume={info['gain_db']}dB")
+            filters = [f"atrim=0:{length:.3f}", gain(wav, SOUND_LUFS, info["gain_db"])]
             if info["fade_in"]:
                 filters.append(f"afade=t=in:st=0:d={info['fade_in']}")
             if info["fade_out"]:
                 fade = min(info["fade_out"], length)
                 filters.append(f"afade=t=out:st={length - fade:.3f}:d={fade}")
-        else:
-            continue
-        delay = round(event["t"] * 1000)
-        filters.append(f"adelay={delay}|{delay}")
-        chains.append(f"[{count}:a]{','.join(filters)}[b{count}]")
-        count += 1
+            add(wav, filters + [delay(event["t"])], others)
 
-    mix_inputs = "[0:a]" + "".join(f"[b{i}]" for i in range(1, count))
-    graph = ";".join(chains + [f"{mix_inputs}amix=inputs={count}:normalize=0:duration=first[out]"])
-    out.parent.mkdir(parents=True, exist_ok=True)
-    tmp = out.with_name(out.stem + ".tmp.wav")
+    if with_fx and crackle:
+        wav = build_dir / crackle["wav"]
+        for start, end in first_last.values():
+            for t in (start - SQUELCH_SECONDS, end):
+                filters = [f"atrim=0:{SQUELCH_SECONDS}", f"afade=t=out:st={SQUELCH_SECONDS - 0.08:.2f}:d=0.08",
+                           gain(wav, SOUND_LUFS, -4), delay(t)]
+                add(wav, filters, others)
+
+    graph = list(chains)
+    graph.append("[0:a]" + "".join(voices) + f"amix=inputs={len(voices) + 1}:normalize=0:duration=first[voices]")
+    duck = duck_expression(_speech_intervals(schedule["events"]), schedule["duck_bed_under_speech_db"])
+    if others:
+        graph.append("".join(others) + f"amix=inputs={len(others)}:normalize=0[rest]")
+        graph.append(f"[rest]volume=eval=frame:volume='{duck}'[ducked]")
+        graph.append("[voices][ducked]amix=inputs=2:normalize=0:duration=first[out]")
+    else:
+        graph.append("[voices]anull[out]")
+
+    build_dir.mkdir(parents=True, exist_ok=True)
     graph_file = build_dir / "mix_graph.txt"
-    graph_file.write_text(graph, encoding="utf-8")
+    graph_file.write_text(";\n".join(graph), encoding="utf-8")
+    premix = build_dir / "premix.wav"
     run_ffmpeg(
         [*inputs, "-/filter_complex", graph_file.name, "-map", "[out]",
-         "-ar", str(SAMPLE_RATE), "-ac", str(CHANNELS), "-c:a", "pcm_s16le",
-         "-t", f"{duration:.3f}", tmp.relative_to(build_dir).as_posix()],
+         "-ar", str(SAMPLE_RATE), "-ac", str(CHANNELS), "-c:a", "pcm_f32le",
+         "-t", f"{duration:.3f}", premix.name],
         cwd=build_dir,
     )
+    return master(premix, out)
+
+
+def master(src: Path, out: Path) -> Path:
+    """Lift the premix so the voices land at TARGET_LUFS, then limit peaks.
+
+    Not an integrated-loudness normalisation: most of the show is quiet ambience
+    while the groups talk, and that should stay quiet."""
+    ceiling = 10 ** (TRUE_PEAK / 20)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out.with_name(out.stem + ".tmp.wav")
+    run_ffmpeg(["-i", str(src), "-af", f"volume={TARGET_LUFS - VOICE_LUFS:.2f}dB,alimiter=limit={ceiling:.4f}:level=false",
+                "-ar", str(SAMPLE_RATE), "-ac", str(CHANNELS), "-c:a", "pcm_s16le", str(tmp)])
     tmp.replace(out)
     return out

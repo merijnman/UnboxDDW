@@ -29,8 +29,8 @@ show:
   video: {width: 1920, height: 1080, fps: 25}
   bed: [bridge_hum, console_beeps]   # ambient layers under the whole show
   ops_markers: true            # show room cues small in the corner; false = run sheet only
-  bed_gain_db: -22
-  duck_bed_under_speech_db: -6
+  bed_gain_db: -14              # bed level relative to the sound reference (-20 LUFS)
+  duck_bed_under_speech_db: -6  # everything that is not a voice dips this much while someone speaks
 
 # -----------------------------------------------------------------------------
 # House style (Unbox brand): colours and fonts for screens, timer and subtitles.
@@ -72,10 +72,10 @@ sounds:
   bridge_hum:      {prompt: "Low steady spaceship bridge ambience, soft engine hum and air circulation, no melody, no voices", seconds: 30, loop: true}
   console_beeps:   {prompt: "Sparse quiet computer console beeps and blips on a spaceship bridge, irregular, no melody", seconds: 22, loop: true}
   timer_end:       {prompt: "Three short clean electronic beeps, timer finished", seconds: 1.5}
-  alarm:           {prompt: "Spaceship red alert klaxon, urgent repeating alarm", seconds: 7}
+  alarm:           {prompt: "Spaceship red alert klaxon, urgent repeating alarm", seconds: 7, gain_db: 4}
   computer_bleeps: {prompt: "Retro computer calculating, rapid bleeps and bloops, data processing", seconds: 5}
-  rocket_launch:   {prompt: "Rocket launch: engine ignition, building rumble and roar, then fading into the distance", seconds: 25}
-  celebration:     {prompt: "Triumphant, uplifting celebration music for a successful rocket launch: warm brass and strings over a light electronic pulse, joyful and proud, building to a bright peak and then gently resolving. Instrumental.", seconds: 80, music: true, gain_db: -10, fade_in: 3, fade_out: 6}
+  rocket_launch:   {prompt: "Rocket launch: engine ignition, building rumble and roar, then fading into the distance", seconds: 25, gain_db: 4}
+  celebration:     {prompt: "Triumphant, uplifting celebration music for a successful rocket launch: warm brass and strings over a light electronic pulse, joyful and proud, building to a bright peak and then gently resolving. Instrumental.", seconds: 80, music: true, gain_db: 0, fade_in: 3, fade_out: 6}
 
 # -----------------------------------------------------------------------------
 # Screens. `image` files live in assets/screens/. Until the real artwork is

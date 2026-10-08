@@ -12,7 +12,7 @@
   "bridge_hum",
   "console_beeps"
  ],
- "bed_gain_db": -22.0,
+ "bed_gain_db": -14.0,
  "duck_bed_under_speech_db": -6.0,
  "events": [
   {
@@ -77,7 +77,8 @@
    "entry": "cmd_aside",
    "speaker": "commander",
    "fx": "radio_light",
-   "wav": "cache/tts/bc7c2854eb6303b87cf039c804280622284585898c824491638d7b5c01c99767.wav"
+   "wav": "cache/tts/bc7c2854eb6303b87cf039c804280622284585898c824491638d7b5c01c99767.wav",
+   "aside": true
   },
   {
    "t": 17.384,
