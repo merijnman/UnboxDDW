@@ -17,14 +17,18 @@ from PIL import Image, ImageDraw, ImageFont
 from .model import Screen, ShowFile
 
 BASE_WIDTH = 1920
-BACKGROUND = (11, 21, 48)
-GRID = (22, 36, 72)
-WHITE = (240, 244, 255)
-DIM = (120, 135, 170)
-NL_YELLOW = (255, 240, 153)
+WHITE = (250, 248, 255)
 TIMER_RED = (235, 60, 60)
-OPS_AMBER = (255, 176, 32)
 TIMER_RED_FROM = 10  # seconds remaining
+
+# Fallbacks when show.yaml has no `style:` colours.
+DEFAULT_COLOURS = {
+    "purple_dark": (11, 21, 48),
+    "purple": (22, 36, 72),
+    "blue_light": (120, 135, 170),
+    "yellow": (255, 176, 32),
+    "yellow_light": (255, 240, 153),
+}
 
 
 @dataclass(frozen=True)
@@ -40,13 +44,15 @@ class FrameState:
 
 
 @functools.lru_cache(maxsize=64)
-def font(size: int, fonts_dir: str | None = None) -> ImageFont.FreeTypeFont:
-    """The first .ttf in assets/fonts/ if there is one, else Pillow's built-in font."""
-    if fonts_dir:
-        candidates = sorted(Path(fonts_dir).glob("*.ttf")) + sorted(Path(fonts_dir).glob("*.otf"))
-        if candidates:
-            return ImageFont.truetype(str(candidates[0]), size)
+def font(size: int, path: str | None = None) -> ImageFont.FreeTypeFont:
+    """The given font file if it exists, else Pillow's built-in font."""
+    if path and Path(path).exists():
+        return ImageFont.truetype(path, size)
     return ImageFont.load_default(size=size)
+
+
+def _mix(a: tuple[int, int, int], b: tuple[int, int, int], t: float) -> tuple[int, int, int]:
+    return tuple(round(x + (y - x) * t) for x, y in zip(a, b))
 
 
 def _wrap(draw: ImageDraw.ImageDraw, text: str, fnt, max_width: int) -> list[str]:
@@ -87,20 +93,31 @@ class Renderer:
         self.size = size or (show.show.video.width, show.show.video.height)
         self.scale = self.size[0] / BASE_WIDTH
         self.screens_dir = show.base_dir / "assets" / "screens"
-        fonts_dir = show.base_dir / "assets" / "fonts"
-        self.fonts_dir = str(fonts_dir) if fonts_dir.exists() else None
+        style = show.style
+        self.fonts = {
+            "heading": str(show.base_dir / style.heading_font) if style.heading_font else None,
+            "body": str(show.base_dir / style.body_font) if style.body_font else None,
+        }
+        c = {name: style.rgb(name, default) for name, default in DEFAULT_COLOURS.items()}
+        self.bg = c["purple_dark"]
+        self.grid = _mix(c["purple_dark"], c["purple"], 0.35)
+        self.dim = c["blue_light"]
+        self.accent = c["yellow"]
+        self.nl = c["yellow_light"]
+        self.panel = (*c["purple_dark"], 200)
 
     def px(self, value: float) -> int:
         return max(1, round(value * self.scale))
 
-    def font(self, size: float):
-        return font(self.px(size), self.fonts_dir)
+    def font(self, size: float, kind: str = "heading"):
+        return font(self.px(size), self.fonts[kind])
 
     def asset_signature(self) -> str:
-        """Changes when an artwork file or font is added, replaced or removed."""
-        parts = [f"{self.size}"]
-        for folder in (self.screens_dir, Path(self.fonts_dir) if self.fonts_dir else None):
-            if folder and folder.exists():
+        """Changes when artwork, fonts or the style change."""
+        parts = [f"{self.size}", repr(self.show.style.model_dump())]
+        fonts_dir = self.show.base_dir / "assets" / "fonts"
+        for folder in (self.screens_dir, fonts_dir):
+            if folder.exists():
                 parts += [f"{p.name}:{p.stat().st_size}:{p.stat().st_mtime_ns}" for p in sorted(folder.iterdir())]
         return "|".join(parts)
 
@@ -127,7 +144,7 @@ class Renderer:
         w = self.size[0]
         y = _text_block(draw, screen.text_en, self.font(84), WHITE, w // 2, self.px(330), self.px(1500))
         if screen.text_nl:
-            y = _text_block(draw, screen.text_nl, self.font(56), NL_YELLOW, w // 2, y + self.px(30), self.px(1500))
+            y = _text_block(draw, screen.text_nl, self.font(56, "body"), self.nl, w // 2, y + self.px(30), self.px(1500))
         return y
 
     def _text_panel(self, frame: Image.Image, screen: Screen) -> None:
@@ -136,34 +153,34 @@ class Renderer:
         bottom = self._screen_text(probe, screen)
         widths = [probe.textlength(row, font=self.font(84))
                   for row in _wrap(probe, screen.text_en, self.font(84), self.px(1500))]
-        widths += [probe.textlength(row, font=self.font(56))
-                   for row in _wrap(probe, screen.text_nl, self.font(56), self.px(1500))]
+        widths += [probe.textlength(row, font=self.font(56, "body"))
+                   for row in _wrap(probe, screen.text_nl, self.font(56, "body"), self.px(1500))]
         half = max(widths, default=0) / 2 + self.px(50)
         cx = self.size[0] / 2
         layer = Image.new("RGBA", self.size, (0, 0, 0, 0))
         ImageDraw.Draw(layer).rounded_rectangle(
-            [cx - half, self.px(300), cx + half, bottom + self.px(10)], radius=self.px(24), fill=(5, 10, 25, 170))
+            [cx - half, self.px(300), cx + half, bottom + self.px(10)], radius=self.px(24), fill=self.panel)
         frame.paste(layer, (0, 0), layer)
         self._screen_text(ImageDraw.Draw(frame), screen)
 
     def _placeholder(self, name: str | None, screen: Screen | None, quiet: bool) -> Image.Image:
         """quiet: leave the big screen name out, because something else (big text) takes the centre."""
         w, h = self.size
-        image = Image.new("RGB", self.size, BACKGROUND)
+        image = Image.new("RGB", self.size, self.bg)
         draw = ImageDraw.Draw(image)
         step = self.px(120)
         for x in range(0, w, step):
-            draw.line([(x, 0), (x, h)], fill=GRID, width=1)
+            draw.line([(x, 0), (x, h)], fill=self.grid, width=1)
         for y in range(0, h, step):
-            draw.line([(0, y), (w, y)], fill=GRID, width=1)
+            draw.line([(0, y), (w, y)], fill=self.grid, width=1)
         if name is None:
             return image
         label = f"placeholder: {screen.image}" if screen and screen.image else f"screen: {name}"
-        draw.text((w // 2, self.px(150)), label, font=self.font(28), fill=DIM, anchor="ma")
+        draw.text((w // 2, self.px(150)), label, font=self.font(28, "body"), fill=self.dim, anchor="ma")
         if screen and (screen.text_en or screen.text_nl):
             self._screen_text(draw, screen)
         elif not quiet:
-            draw.text((w // 2, self.px(380)), name.upper(), font=self.font(72), fill=DIM, anchor="ma")
+            draw.text((w // 2, self.px(380)), name.upper(), font=self.font(72), fill=self.dim, anchor="ma")
         return image
 
     def _overlay(self, frame: Image.Image, name: str, slot: int) -> None:
@@ -199,7 +216,7 @@ class Renderer:
             ImageDraw.Draw(mask).ellipse([0, 0, d - 1, d - 1], fill=255)
             layer.paste(icon, (centre[0] - d // 2, centre[1] - d // 2), mask)
         else:
-            draw.text(centre, overlay.image if overlay else name, font=self.font(28), fill=(40, 50, 80, 255), anchor="mm")
+            draw.text(centre, overlay.image if overlay else name, font=self.font(28, "body"), fill=(*self.bg, 255), anchor="mm")
         frame.paste(layer, (0, 0), layer)
 
     def _slot_xy(self, slot: int, width: int) -> tuple[int, int]:
@@ -212,7 +229,7 @@ class Renderer:
         w, h = self.size
         fnt = self.font(420)
         centre = (w // 2, round(h * 0.45))
-        draw.text((centre[0] + self.px(8), centre[1] + self.px(8)), text, font=fnt, fill=(0, 0, 0), anchor="mm")
+        draw.text((centre[0] + self.px(8), centre[1] + self.px(8)), text, font=fnt, fill=self.bg, anchor="mm")
         draw.text(centre, text, font=fnt, fill=WHITE, anchor="mm")
 
     def _timer(self, draw: ImageDraw.ImageDraw, seconds: int) -> None:
@@ -223,7 +240,7 @@ class Renderer:
         box = draw.textbbox((right, top), text, font=fnt, anchor="ra")
         pad = self.px(18)
         draw.rounded_rectangle([box[0] - pad, box[1] - pad, box[2] + pad, box[3] + pad],
-                               radius=self.px(14), fill=(0, 0, 0))
+                               radius=self.px(14), fill=self.bg)
         draw.text((right, top), text, font=fnt, fill=colour, anchor="ra")
 
     def _ops(self, draw: ImageDraw.ImageDraw, text: str) -> None:
@@ -232,8 +249,8 @@ class Renderer:
         label = f"OPS > {text}"
         box = draw.textbbox((left, top), label, font=fnt)
         pad = self.px(10)
-        draw.rectangle([box[0] - pad, box[1] - pad, box[2] + pad, box[3] + pad], fill=(30, 20, 0))
-        draw.text((left, top), label, font=fnt, fill=OPS_AMBER)
+        draw.rectangle([box[0] - pad, box[1] - pad, box[2] + pad, box[3] + pad], fill=self.bg)
+        draw.text((left, top), label, font=fnt, fill=self.accent)
 
     # --- public ------------------------------------------------------------
 

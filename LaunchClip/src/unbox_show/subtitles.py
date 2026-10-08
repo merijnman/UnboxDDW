@@ -24,6 +24,40 @@ EN_NL_GAP = 14
 
 
 @dataclass
+class Look:
+    """Fonts (family names) and colours of the two subtitle styles."""
+
+    en_font: str = "Arial"
+    nl_font: str = "Arial"
+    en_colour: tuple[int, int, int] = (255, 255, 255)
+    nl_colour: tuple[int, int, int] = (255, 240, 153)
+    box_colour: tuple[int, int, int] = (0, 0, 0)
+
+
+def _family(path: Path) -> str | None:
+    """Family name as libass sees it, e.g. 'Lexend SemiBold'."""
+    if not path.exists():
+        return None
+    from PIL import ImageFont
+
+    family, weight = ImageFont.truetype(str(path), 10).getname()
+    # libass also matches the full name, which tells SemiBold and Light apart.
+    return family if weight in ("Regular", None) else f"{family} {weight}"
+
+
+def look_from_show(show) -> Look:
+    style = show.style
+    look = Look()
+    if style.heading_font:
+        look.en_font = _family(show.base_dir / style.heading_font) or look.en_font
+    if style.body_font:
+        look.nl_font = _family(show.base_dir / style.body_font) or look.nl_font
+    look.nl_colour = style.rgb("yellow_light", look.nl_colour)
+    look.box_colour = style.rgb("purple_dark", look.box_colour)
+    return look
+
+
+@dataclass
 class Cue:
     start: float
     end: float
@@ -129,15 +163,22 @@ def _ass_escape(text: str) -> str:
     return text.replace("\\", "/").replace("{", "(").replace("}", ")")
 
 
-def _ass_style(name: str, size: int, colour: str) -> str:
+def _ass_colour(rgb: tuple[int, int, int], alpha: int = 0) -> str:
+    r, g, b = rgb
+    return f"&H{alpha:02X}{b:02X}{g:02X}{r:02X}"
+
+
+def _ass_style(name: str, font: str, size: int, colour: tuple[int, int, int], box: tuple[int, int, int]) -> str:
     # BorderStyle 3 = opaque box; the box takes OutlineColour, padded by Outline.
+    text, back = _ass_colour(colour), _ass_colour(box, 0x30)
     return (
-        f"Style: {name},Arial,{size},{colour},{colour},&H60000000,&H60000000,"
+        f"Style: {name},{font},{size},{text},{text},{back},{back},"
         f"0,0,0,0,100,100,0,0,3,{BOX_PADDING},0,2,80,80,{NL_MARGIN_V},1"
     )
 
 
-def ass_text(cues: list[Cue], width: int = 1920, height: int = 1080) -> str:
+def ass_text(cues: list[Cue], width: int = 1920, height: int = 1080, look: Look | None = None) -> str:
+    look = look or Look()
     out = [
         "[Script Info]",
         "ScriptType: v4.00+",
@@ -150,8 +191,8 @@ def ass_text(cues: list[Cue], width: int = 1920, height: int = 1080) -> str:
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, "
         "Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, "
         "Alignment, MarginL, MarginR, MarginV, Encoding",
-        _ass_style("EN", EN_SIZE, "&H00FFFFFF"),
-        _ass_style("NL", NL_SIZE, "&H0099F0FF"),
+        _ass_style("EN", look.en_font, EN_SIZE, look.en_colour, look.box_colour),
+        _ass_style("NL", look.nl_font, NL_SIZE, look.nl_colour, look.box_colour),
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
@@ -194,10 +235,10 @@ def srt_text(cues: list[Cue], lang: str) -> str:
     return "\n".join(blocks)
 
 
-def write_all(schedule: dict, ass_path: Path, srt_stem: Path) -> list[Cue]:
+def write_all(schedule: dict, ass_path: Path, srt_stem: Path, look: Look | None = None) -> list[Cue]:
     cues = cues_from_schedule(schedule)
     ass_path.parent.mkdir(parents=True, exist_ok=True)
-    ass_path.write_text(ass_text(cues), encoding="utf-8")
+    ass_path.write_text(ass_text(cues, look=look), encoding="utf-8")
     srt_stem.parent.mkdir(parents=True, exist_ok=True)
     for lang in ("en", "nl"):
         Path(f"{srt_stem}.{lang}.srt").write_text(srt_text(cues, lang), encoding="utf-8")

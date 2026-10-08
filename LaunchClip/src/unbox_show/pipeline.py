@@ -164,7 +164,7 @@ def build_show(
     sched = run_schedule(show, paths, sounds)
     echo("subtitles ...")
     srt_stem = paths.dist / "unbox_show"
-    subtitles.write_all(sched, paths.build / "subs.ass", srt_stem)
+    subtitles.write_all(sched, paths.build / "subs.ass", srt_stem, subtitles.look_from_show(show))
     echo("audio mix ...")
     mix_path = mix.build_mix(sched, sounds, paths.build, paths.build / "mix.wav")
 
@@ -182,7 +182,8 @@ def build_show(
     name = "unbox_show" + ("" if with_sfx else "_clean") + ("_draft" if draft else "")
     out = paths.dist / f"{name}.mp4"
     echo("encoding video ...")
-    video.assemble(paths.build, concat, paths.build / "subs.ass", mix_path, out, sched["duration"], fps)
+    video.assemble(paths.build, concat, paths.build / "subs.ass", mix_path, out, sched["duration"], fps,
+                   fonts_dir=paths.project / "assets" / "fonts")
     report.outputs = [out, Path(f"{srt_stem}.en.srt"), Path(f"{srt_stem}.nl.srt")]
     return report
 

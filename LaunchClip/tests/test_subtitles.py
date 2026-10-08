@@ -85,3 +85,15 @@ def test_srt_numbering(cues):
     text = srt_text(cues, "nl")
     assert re.match(r"1\n00:00:0\d,\d{3} --> 00:00:\d\d,\d{3}\nWelkom, crew\.", text)
     assert "[" not in srt_text(cues, "en")  # audio tags never reach the subtitles
+
+
+def test_brand_fonts_and_colours_reach_the_ass_styles():
+    from conftest import SHOW_YAML
+    from unbox_show.model import load_show
+    from unbox_show.subtitles import look_from_show
+
+    look = look_from_show(load_show(SHOW_YAML))
+    assert (look.en_font, look.nl_font) == ("Lexend SemiBold", "Lexend Light")
+    text = ass_text([], look=look)
+    assert "Style: EN,Lexend SemiBold,54,&H00FFFFFF" in text
+    assert "Style: NL,Lexend Light,46,&H0091DDFA" in text  # #FADD91 as &HAABBGGRR

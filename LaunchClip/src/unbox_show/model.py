@@ -92,6 +92,19 @@ class VoiceSettings(Strict):
     speed: float = 1.0
 
 
+class Style(Strict):
+    colours: dict[str, str] = {}
+    heading_font: str | None = None
+    body_font: str | None = None
+
+    def rgb(self, name: str, default: tuple[int, int, int]) -> tuple[int, int, int]:
+        value = self.colours.get(name)
+        if not value:
+            return default
+        value = value.lstrip("#")
+        return tuple(int(value[i : i + 2], 16) for i in (0, 2, 4))
+
+
 class Voice(Strict):
     label: str
     voice_id: str
@@ -219,6 +232,7 @@ class Preshow(Strict):
 
 class ShowFile(Strict):
     show: ShowMeta
+    style: Style = Style()
     voices: dict[str, Voice]
     sounds: dict[str, Sound] = {}
     screens: dict[str, Screen] = {}

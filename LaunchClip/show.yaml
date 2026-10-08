@@ -33,6 +33,19 @@ show:
   duck_bed_under_speech_db: -6
 
 # -----------------------------------------------------------------------------
+# House style (Unbox brand): colours and fonts for screens, timer and subtitles.
+style:
+  colours:
+    purple_dark:  "#453758"   # backgrounds and panels
+    purple:       "#6F57A1"
+    purple_muted: "#725F7D"
+    yellow:       "#FBC65E"   # accents, ops marker
+    yellow_light: "#FADD91"   # Dutch text
+    blue_light:   "#ACC2E7"
+  heading_font: assets/fonts/Lexend-SemiBold.ttf
+  body_font:    assets/fonts/Lexend-Light.ttf
+
+# -----------------------------------------------------------------------------
 voices:
   commander:
     label: "COMMANDER"
@@ -97,7 +110,8 @@ artwork:
   resolution: 2K
   style: >-
     Retro-futuristic illustration in the style of a 1960s space-age travel poster,
-    flat shapes with soft grain, deep navy and teal with warm orange accents,
+    flat shapes with soft grain, a palette of deep purple, violet and dusty mauve
+    with warm yellow and soft light-blue accents,
     cinematic lighting, calm composition with open space in the upper middle.
     No text, no letters, no numbers, no logos.
   images:

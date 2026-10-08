@@ -177,7 +177,7 @@ def subs(show_path: Path = ShowOption) -> None:
     show = _load(show_path)
     paths = _paths(show)
     sched = schedule_mod.load(paths.build / "schedule.json")
-    cues = subtitles.write_all(sched, paths.build / "subs.ass", paths.dist / "unbox_show")
+    cues = subtitles.write_all(sched, paths.build / "subs.ass", paths.dist / "unbox_show", subtitles.look_from_show(show))
     typer.echo(f"{len(cues)} subtitle cues")
 
 

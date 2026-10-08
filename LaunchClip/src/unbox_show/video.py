@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import os
 from pathlib import Path
 
 from .audio import run_ffmpeg
@@ -91,16 +92,20 @@ def write_concat(frames: list[tuple[Path, float]], path: Path) -> Path:
     return path
 
 
-def assemble(build_dir: Path, concat: Path, subs: Path, audio: Path, out: Path, duration: float, fps: int) -> Path:
+def assemble(build_dir: Path, concat: Path, subs: Path, audio: Path, out: Path, duration: float, fps: int,
+             fonts_dir: Path | None = None) -> Path:
     """Encode the video. ffmpeg runs in build_dir so the `ass=` filter sees a plain relative path
     (it chokes on Windows drive letters and backslashes)."""
     out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.with_name(out.stem + ".tmp.mp4")
+    ass = f"ass={subs.relative_to(build_dir).as_posix()}"
+    if fonts_dir is not None and fonts_dir.exists():
+        ass += f":fontsdir={Path(os.path.relpath(fonts_dir, build_dir)).as_posix()}"
     run_ffmpeg(
         [
             "-f", "concat", "-safe", "0", "-i", concat.relative_to(build_dir).as_posix(),
             "-i", audio.relative_to(build_dir).as_posix(),
-            "-vf", f"fps={fps},ass={subs.relative_to(build_dir).as_posix()},format=yuv420p",
+            "-vf", f"fps={fps},{ass},format=yuv420p",
             "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage", "-crf", "20",
             "-r", str(fps), "-g", str(fps * 2),
             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
