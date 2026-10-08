@@ -8,7 +8,7 @@ import typer
 
 from . import pipeline, schedule as schedule_mod, subtitles
 from .audio import FfmpegError, check_ffmpeg
-from .eleven import make_client
+from .eleven import ElevenError, make_client
 from .model import ShowFile
 from .plan import format_plan
 from .validate import has_errors, load_and_check
@@ -97,7 +97,7 @@ def tts(
         raise typer.Exit(1)
     try:
         index, stats = pipeline.run_tts(show, _client(show, fake), _paths(show), _confirm(yes), only)
-    except pipeline.Aborted as exc:
+    except (pipeline.Aborted, ElevenError) as exc:
         typer.echo(str(exc), err=True)
         raise typer.Exit(1)
     typer.echo(f"Speech: {len(stats.reused)} reused, {len(stats.generated)} generated, {stats.characters} characters")
@@ -114,7 +114,7 @@ def sfx(show_path: Path = ShowOption, fake: bool = FakeOption, yes: bool = YesOp
     show = _load(show_path)
     try:
         stats = pipeline.run_sfx(show, _client(show, fake), _paths(show), _confirm(yes), typer.echo)
-    except pipeline.Aborted as exc:
+    except (pipeline.Aborted, ElevenError) as exc:
         typer.echo(str(exc), err=True)
         raise typer.Exit(1)
     typer.echo(f"Sounds: {len(stats.reused)} reused, {len(stats.generated)} generated")
@@ -163,7 +163,7 @@ def build(
         report = pipeline.build_show(
             show, _client(show, fake), _paths(show), draft=draft, confirm=_confirm(yes), echo=typer.echo
         )
-    except pipeline.Aborted as exc:
+    except (pipeline.Aborted, ElevenError) as exc:
         typer.echo(str(exc), err=True)
         raise typer.Exit(1)
     except schedule_mod.ScheduleError as exc:
@@ -191,7 +191,7 @@ def audition(
     voice_ids = [v.strip() for v in voices.split(",") if v.strip()]
     try:
         written = pipeline.audition(show, speaker, voice_ids, _client(show, fake), _paths(show), _confirm(yes))
-    except (pipeline.Aborted, ValueError) as exc:
+    except (pipeline.Aborted, ElevenError, ValueError) as exc:
         typer.echo(str(exc), err=True)
         raise typer.Exit(1)
     for path in written:
