@@ -93,7 +93,7 @@ screens:
   all_go:        {image: rocket.png,        text_en: "ALL SYSTEMS GO",                        text_nl: "ALLE SYSTEMEN GEREED"}
   countdown:     {image: rocket.png}
   liftoff:       {image: liftoff.png}
-  end:           {image: unbox_logo.png,    text_en: "Visit the Unbox exhibition around the corner  |  TODO website", text_nl: "Bezoek de Unbox-tentoonstelling om de hoek"}
+  end:           {image: unbox_logo.png,    text_en: "Visit the Unbox exhibition around the corner\nunboxcollab.com",text_nl: "Bezoek de Unbox-tentoonstelling om de hoek"}
 
 overlays:
   cloud_rocket: {image: cloud_rocket.png}

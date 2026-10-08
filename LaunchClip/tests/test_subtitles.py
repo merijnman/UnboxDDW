@@ -93,7 +93,7 @@ def test_brand_fonts_and_colours_reach_the_ass_styles():
     from unbox_show.subtitles import look_from_show
 
     look = look_from_show(load_show(SHOW_YAML))
-    assert (look.en_font, look.nl_font) == ("Lexend SemiBold", "Lexend Light")
+    assert (look.en_font, look.nl_font) == ("Lexend SemiBold", "Lexend SemiBold")
     text = ass_text([], look=look)
     assert "Style: EN,Lexend SemiBold,54,&H00FFFFFF" in text
-    assert "Style: NL,Lexend Light,46,&H0091DDFA" in text  # #FADD91 as &HAABBGGRR
+    assert "Style: NL,Lexend SemiBold,46,&H0091DDFA" in text  # #FADD91 as &HAABBGGRR

@@ -56,16 +56,19 @@ def _mix(a: tuple[int, int, int], b: tuple[int, int, int], t: float) -> tuple[in
 
 
 def _wrap(draw: ImageDraw.ImageDraw, text: str, fnt, max_width: int) -> list[str]:
-    rows, row = [], ""
-    for word in text.split():
-        candidate = f"{row} {word}" if row else word
-        if not row or draw.textlength(candidate, font=fnt) <= max_width:
-            row = candidate
-        else:
+    """Word wrap to max_width; a newline in the text forces a break."""
+    rows = []
+    for paragraph in text.split("\n"):
+        row = ""
+        for word in paragraph.split():
+            candidate = f"{row} {word}" if row else word
+            if not row or draw.textlength(candidate, font=fnt) <= max_width:
+                row = candidate
+            else:
+                rows.append(row)
+                row = word
+        if row:
             rows.append(row)
-            row = word
-    if row:
-        rows.append(row)
     return rows
 
 

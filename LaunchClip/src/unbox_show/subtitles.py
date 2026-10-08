@@ -49,9 +49,8 @@ def look_from_show(show) -> Look:
     style = show.style
     look = Look()
     if style.heading_font:
-        look.en_font = _family(show.base_dir / style.heading_font) or look.en_font
-    if style.body_font:
-        look.nl_font = _family(show.base_dir / style.body_font) or look.nl_font
+        # Both languages in the heading weight: the light body font is too thin to read from the back of a room.
+        look.en_font = look.nl_font = _family(show.base_dir / style.heading_font) or look.en_font
     look.nl_colour = style.rgb("yellow_light", look.nl_colour)
     look.box_colour = style.rgb("purple_dark", look.box_colour)
     return look
