@@ -34,6 +34,19 @@ See `BACKLOG.md` for the plan and `ELEVENLABS.md` for how the voices are made.
 | `unbox subs` | Writes `build/subs.ass` and `dist/unbox_show.{en,nl}.srt` | no |
 | `unbox build` | All of the above, then the video | yes, after confirmation |
 
+### Artwork
+
+The `artwork:` block in `show.yaml` holds one prompt per image file, plus a
+shared style. Anything in `assets/screens/` is used as it is; missing files get
+a labelled placeholder. Screen texts are drawn by the build, over the artwork.
+
+- `unbox images --prompts` prints the full prompts, to paste into the
+  ElevenLabs web app (Image & Video, 16:9). Save each result under its file name
+  in `assets/screens/`.
+- `unbox images` generates the missing files through the API. That endpoint
+  needs an ElevenLabs Pro plan.
+- `unbox_logo.png` and a photo of the real stickers should come from the team.
+
 Useful flags: `--fake` (never call the API, even with a key), `--draft`
 (960x540, quicker), `--yes` (do not ask before spending).
 

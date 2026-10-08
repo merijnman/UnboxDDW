@@ -87,6 +87,32 @@ overlays:
   cloud_text:   {image: cloud_text.png}
   cloud_carrot: {image: cloud_carrot.png}
 
+# -----------------------------------------------------------------------------
+# Artwork generated with ElevenLabs Image (`unbox images`). Only files that are
+# missing from assets/screens/ are generated. A file you put there yourself is
+# never overwritten. Screen texts are drawn by the build, never by the model.
+# unbox_logo.png and a real photo of the stickers should come from the team.
+artwork:
+  model_id: gemini-3.1-flash-image
+  resolution: 2K
+  style: >-
+    Retro-futuristic illustration in the style of a 1960s space-age travel poster,
+    flat shapes with soft grain, deep navy and teal with warm orange accents,
+    cinematic lighting, calm composition with open space in the upper middle.
+    No text, no letters, no numbers, no logos.
+  images:
+    title.png:    {prompt: "A friendly rocket on a launch pad at dusk, seen from a distance, stars appearing, a mission control building in the foreground"}
+    pen.png:      {prompt: "A single classic ballpoint pen floating weightless in space, large in the frame, Earth glowing in the background"}
+    bridge.png:   {prompt: "The bridge of a cosy retro spaceship with round windows, consoles with glowing buttons, empty crew chairs, stars outside"}
+    stickers.png: {prompt: "A table seen from above with a scattered set of colourful round stickers showing simple everyday objects"}
+    alert.png:    {prompt: "A spaceship corridor bathed in red emergency light, rotating warning beacons, dramatic but not scary"}
+    one_item.png: {prompt: "A small cargo hatch of a rocket with space for exactly one object, a single spotlight shining into the empty compartment"}
+    rocket.png:   {prompt: "A tall rocket on its launch pad in the evening, gantry lights on, steam venting at the base, ready for launch"}
+    liftoff.png:  {prompt: "A rocket lifting off with a bright plume of fire and billowing smoke, seen from the side, sky turning from orange to navy"}
+    cloud_rocket.png: {prompt: "A simple icon of a small rocket, centred on a plain light background", aspect_ratio: "1:1"}
+    cloud_text.png:   {prompt: "A simple icon of an open notebook with handwriting lines, centred on a plain light background", aspect_ratio: "1:1"}
+    cloud_carrot.png: {prompt: "A simple icon of a single carrot with leaves, centred on a plain light background", aspect_ratio: "1:1"}
+
 # =============================================================================
 # THE SHOW
 # =============================================================================

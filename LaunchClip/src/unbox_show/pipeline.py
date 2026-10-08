@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
-from . import mix, schedule, sfx, subtitles, tts, video
+from . import images, mix, schedule, sfx, subtitles, tts, video
 from .cache import Cache
 from .eleven import Client
 from .frames import Renderer
@@ -116,6 +116,22 @@ def run_sfx(show: ShowFile, client: Client, paths: Paths, confirm: Confirm, warn
     cache = paths.cache
     budget_gate(show, cache, client, confirm, speech=False)
     return sfx.render(show, client, cache, paths.build, warn=warn)[1]
+
+
+def run_images(show: ShowFile, client: Client, paths: Paths, confirm: Confirm, reroll: set[str] = frozenset()) -> images.ImageStats:
+    """Generate missing artwork. Needs the real API: fake pictures must never land in assets/."""
+    if client.name == "fake":
+        raise Aborted("Artwork needs the ElevenLabs API (no key, or --fake). Placeholders are used meanwhile.")
+    pending = images.todo(show, reroll)
+    if pending:
+        art = show.artwork
+        message = (f"ElevenLabs Image ({art.model_id}, {art.resolution}) will be called for "
+                   f"{len(pending)} images: {', '.join(pending)}\n"
+                   "The credit cost per image depends on model and resolution; check the dashboard after the first one.\n"
+                   "Continue?")
+        if not confirm(message):
+            raise Aborted("Nothing was sent to ElevenLabs.")
+    return images.render(show, client, paths.cache, reroll)
 
 
 def run_schedule(show: ShowFile, paths: Paths, sounds: dict | None = None) -> dict:

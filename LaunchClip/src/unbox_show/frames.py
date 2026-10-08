@@ -116,8 +116,35 @@ class Renderer:
         screen = self.show.screens.get(screen_name) if screen_name else None
         art = self._image(screen.image) if screen else None
         if art is not None:
-            return _cover(art.convert("RGB"), self.size)
+            frame = _cover(art.convert("RGB"), self.size)
+            if screen.text_en or screen.text_nl:
+                self._text_panel(frame, screen)
+            return frame
         return self._placeholder(screen_name, screen, quiet)
+
+    def _screen_text(self, draw: ImageDraw.ImageDraw, screen: Screen) -> int:
+        """Draw the screen's EN and NL text centred in the upper half; return the y below it."""
+        w = self.size[0]
+        y = _text_block(draw, screen.text_en, self.font(84), WHITE, w // 2, self.px(330), self.px(1500))
+        if screen.text_nl:
+            y = _text_block(draw, screen.text_nl, self.font(56), NL_YELLOW, w // 2, y + self.px(30), self.px(1500))
+        return y
+
+    def _text_panel(self, frame: Image.Image, screen: Screen) -> None:
+        """Screen text over real artwork, on a translucent dark panel so it reads on any picture."""
+        probe = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+        bottom = self._screen_text(probe, screen)
+        widths = [probe.textlength(row, font=self.font(84))
+                  for row in _wrap(probe, screen.text_en, self.font(84), self.px(1500))]
+        widths += [probe.textlength(row, font=self.font(56))
+                   for row in _wrap(probe, screen.text_nl, self.font(56), self.px(1500))]
+        half = max(widths, default=0) / 2 + self.px(50)
+        cx = self.size[0] / 2
+        layer = Image.new("RGBA", self.size, (0, 0, 0, 0))
+        ImageDraw.Draw(layer).rounded_rectangle(
+            [cx - half, self.px(300), cx + half, bottom + self.px(10)], radius=self.px(24), fill=(5, 10, 25, 170))
+        frame.paste(layer, (0, 0), layer)
+        self._screen_text(ImageDraw.Draw(frame), screen)
 
     def _placeholder(self, name: str | None, screen: Screen | None, quiet: bool) -> Image.Image:
         """quiet: leave the big screen name out, because something else (big text) takes the centre."""
@@ -134,9 +161,7 @@ class Renderer:
         label = f"placeholder: {screen.image}" if screen and screen.image else f"screen: {name}"
         draw.text((w // 2, self.px(150)), label, font=self.font(28), fill=DIM, anchor="ma")
         if screen and (screen.text_en or screen.text_nl):
-            y = _text_block(draw, screen.text_en, self.font(84), WHITE, w // 2, self.px(330), self.px(1500))
-            if screen.text_nl:
-                _text_block(draw, screen.text_nl, self.font(56), NL_YELLOW, w // 2, y + self.px(30), self.px(1500))
+            self._screen_text(draw, screen)
         elif not quiet:
             draw.text((w // 2, self.px(380)), name.upper(), font=self.font(72), fill=DIM, anchor="ma")
         return image
@@ -144,18 +169,21 @@ class Renderer:
     def _overlay(self, frame: Image.Image, name: str, slot: int) -> None:
         overlay = self.show.overlays.get(name)
         art = self._image(overlay.image) if overlay else None
+        x, y = self._slot_xy(slot, self.px(480))
         if art is not None:
             art = art.convert("RGBA")
             if art.size == self.size or abs(art.width / art.height - self.size[0] / self.size[1]) < 0.01:
+                # Full-frame artwork with its own transparency: laid over the screen as drawn.
                 art = art.resize(self.size, Image.LANCZOS)
                 frame.paste(art, (0, 0), art)
                 return
-            box_w = self.px(480)
-            art = art.resize((box_w, round(art.height * box_w / art.width)), Image.LANCZOS)
-            frame.paste(art, self._slot_xy(slot, art.width), art)
-            return
-        # Placeholder: a pale cloud with the file name.
-        x, y = self._slot_xy(slot, self.px(480))
+            if art.getextrema()[3][0] < 255:
+                # A cut-out with transparency: placed as it is.
+                box_w = self.px(480)
+                art = art.resize((box_w, round(art.height * box_w / art.width)), Image.LANCZOS)
+                frame.paste(art, (x, y), art)
+                return
+        # A thought cloud, with the (opaque) artwork as a round icon inside, or the file name.
         layer = Image.new("RGBA", self.size, (0, 0, 0, 0))
         draw = ImageDraw.Draw(layer)
         for dx, dy, r in ((90, 120, 90), (200, 85, 110), (320, 110, 95), (400, 150, 70), (240, 170, 100), (120, 175, 70)):
@@ -163,8 +191,15 @@ class Renderer:
                 [x + self.px(dx - r), y + self.px(dy - r), x + self.px(dx + r), y + self.px(dy + r)],
                 fill=(235, 240, 255, 230),
             )
-        draw.text((x + self.px(240), y + self.px(135)), overlay.image if overlay else name,
-                  font=self.font(28), fill=(40, 50, 80, 255), anchor="mm")
+        centre = (x + self.px(240), y + self.px(135))
+        if art is not None:
+            d = self.px(200)
+            icon = _cover(art.convert("RGB"), (d, d))
+            mask = Image.new("L", (d, d), 0)
+            ImageDraw.Draw(mask).ellipse([0, 0, d - 1, d - 1], fill=255)
+            layer.paste(icon, (centre[0] - d // 2, centre[1] - d // 2), mask)
+        else:
+            draw.text(centre, overlay.image if overlay else name, font=self.font(28), fill=(40, 50, 80, 255), anchor="mm")
         frame.paste(layer, (0, 0), layer)
 
     def _slot_xy(self, slot: int, width: int) -> tuple[int, int]:

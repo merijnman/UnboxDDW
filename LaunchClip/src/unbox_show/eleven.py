@@ -7,6 +7,7 @@ first milestone use `FakeElevenClient`, which never touches the network.
 from __future__ import annotations
 
 import base64
+import io
 import os
 import re
 import time
@@ -93,6 +94,8 @@ class Client(Protocol):
 
     def sfx(self, prompt: str, seconds: float, loop: bool = False) -> bytes: ...
 
+    def image(self, prompt: str, model_id: str, aspect_ratio: str, resolution: str) -> bytes: ...
+
 
 class ElevenClient:
     """The real thing. Requests are sequential; 429 and 5xx are retried with backoff."""
@@ -115,6 +118,8 @@ class ElevenClient:
             transport=transport,
             timeout=timeout,
         )
+        # Signed download URLs must not receive our API key, so they get their own client.
+        self._download = httpx.Client(transport=transport, timeout=timeout, follow_redirects=True)
         self._max_retries = max_retries
         self._sleep = sleep
 
@@ -144,6 +149,48 @@ class ElevenClient:
             sfx_body(prompt, seconds, loop),
             params={"output_format": OUTPUT_FORMAT},
         ).content
+
+    def image(self, prompt: str, model_id: str, aspect_ratio: str, resolution: str,
+              poll_seconds: float = 2.0, timeout: float = 300.0) -> bytes:
+        """Image & Video API: start a generation, poll until it is done, download the result."""
+        body = {"model_id": model_id, "prompt": prompt, "aspect_ratio": aspect_ratio, "resolution": resolution}
+        generation = self._post("/v1/flows/image", body).json()
+        waited = 0.0
+        while generation.get("status") not in ("completed", "failed"):
+            if waited >= timeout:
+                raise ElevenError(f"image generation {generation.get('id')} did not finish in {timeout:.0f} s")
+            self._sleep(poll_seconds)
+            waited += poll_seconds
+            response = self._http.get(f"/v1/flows/image/{generation['id']}")
+            if response.is_error:
+                raise ElevenError(f"ElevenLabs image status returned {response.status_code}: {response.text[:500]}")
+            generation = response.json()
+        if generation["status"] == "failed":
+            raise ElevenError(f"image generation failed: {str(generation)[:500]}")
+        url = _find_key(generation, "content_url")
+        if not url:
+            raise ElevenError(f"no content_url in finished generation: {str(generation)[:500]}")
+        download = self._download.get(url)
+        if download.is_error:
+            raise ElevenError(f"downloading the image returned {download.status_code}")
+        return download.content
+
+
+def _find_key(data, key: str):
+    """First value of `key` anywhere in a nested JSON structure."""
+    if isinstance(data, dict):
+        if data.get(key):
+            return data[key]
+        values = data.values()
+    elif isinstance(data, list):
+        values = data
+    else:
+        return None
+    for value in values:
+        found = _find_key(value, key)
+        if found:
+            return found
+    return None
 
 
 _SENTENCE_BREAK = re.compile(r"[.!?:]\s+\S")
@@ -180,6 +227,18 @@ class FakeElevenClient:
     def sfx(self, prompt: str, seconds: float, loop: bool = False) -> bytes:
         self.calls.append(("sfx", prompt))
         return silence_mp3(round(seconds, 3))
+
+    def image(self, prompt: str, model_id: str, aspect_ratio: str, resolution: str) -> bytes:
+        from PIL import Image, ImageDraw
+
+        self.calls.append(("image", prompt))
+        w, h = (int(x) for x in aspect_ratio.split(":"))
+        size = (960, round(960 * h / w))
+        picture = Image.new("RGB", size, (40, 60, 90))
+        ImageDraw.Draw(picture).text((20, 20), prompt[:80], fill=(255, 255, 255))
+        out = io.BytesIO()
+        picture.save(out, "PNG")
+        return out.getvalue()
 
 
 def api_key(project_dir: Path) -> str | None:

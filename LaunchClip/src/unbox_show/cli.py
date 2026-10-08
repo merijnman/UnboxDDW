@@ -120,6 +120,42 @@ def sfx(show_path: Path = ShowOption, fake: bool = FakeOption, yes: bool = YesOp
     typer.echo(f"Sounds: {len(stats.reused)} reused, {len(stats.generated)} generated")
 
 
+@app.command(name="images")
+def images_cmd(
+    show_path: Path = ShowOption,
+    yes: bool = YesOption,
+    names: list[str] = typer.Option(None, "--only-image", help="Only these files, e.g. --only-image rocket.png."),
+    reroll: list[str] = typer.Option(None, "--reroll", help="Generate a new take of this file, e.g. --reroll pen.png."),
+    prompts: bool = typer.Option(False, "--prompts", help="Only print the full prompts, for use in the ElevenLabs web app."),
+) -> None:
+    """Generate the artwork under `artwork:` that is missing from assets/screens/ (needs an API Pro plan)."""
+    show = _load(show_path)
+    if not show.artwork:
+        typer.echo("No `artwork:` block in show.yaml.", err=True)
+        raise typer.Exit(1)
+    if prompts:
+        from .images import screens_dir
+
+        for name, spec in show.artwork.images.items():
+            state = "present" if (screens_dir(show) / name).exists() else "missing"
+            typer.echo(f"{name}  [{spec.aspect_ratio}, {state}]\n{show.artwork.full_prompt(name)}\n")
+        return
+    unknown = (set(names or []) | set(reroll or [])) - set(show.artwork.images)
+    if unknown:
+        typer.echo(f"Not under artwork.images: {', '.join(sorted(unknown))}", err=True)
+        raise typer.Exit(1)
+    if names:
+        show.artwork.images = {k: v for k, v in show.artwork.images.items() if k in set(names)}
+    try:
+        stats = pipeline.run_images(show, _client(show, False), _paths(show), _confirm(yes), set(reroll or []))
+    except (pipeline.Aborted, ElevenError) as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1)
+    typer.echo(f"Images: {len(stats.generated)} generated, {len(stats.kept)} kept")
+    for name in stats.generated:
+        typer.echo(f"  assets/screens/{name}")
+
+
 @app.command()
 def schedule(show_path: Path = ShowOption) -> None:
     """Resolve the timeline against measured audio into build/schedule.json."""

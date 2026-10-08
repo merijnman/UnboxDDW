@@ -122,6 +122,22 @@ class Overlay(Strict):
     image: str
 
 
+class ArtworkImage(Strict):
+    prompt: str
+    aspect_ratio: str = "16:9"
+
+
+class Artwork(Strict):
+    model_id: str = "gemini-3.1-flash-image"
+    resolution: str = "2K"
+    style: str = ""
+    images: dict[str, ArtworkImage] = {}
+
+    def full_prompt(self, name: str) -> str:
+        image = self.images[name]
+        return f"{image.prompt}. {self.style}".strip() if self.style else image.prompt
+
+
 class Timer(Strict):
     seconds: float | None = None
     until: str | None = None
@@ -207,6 +223,7 @@ class ShowFile(Strict):
     sounds: dict[str, Sound] = {}
     screens: dict[str, Screen] = {}
     overlays: dict[str, Overlay] = {}
+    artwork: Artwork | None = None
     timeline: list[Entry]
     preshow: Preshow | None = None
 

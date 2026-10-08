@@ -61,6 +61,12 @@ def check(show: ShowFile) -> list[Issue]:
         if sound.file is not None and not (show.base_dir / sound.file).exists():
             warning(where, f"file {sound.file} not found; it will be silent until supplied")
 
+    if show.artwork:
+        used = {s.image for s in show.screens.values() if s.image} | {o.image for o in show.overlays.values()}
+        for name in show.artwork.images:
+            if name not in used:
+                warning(f"artwork.images.{name}", "no screen or overlay uses this file")
+
     for name in show.show.bed:
         if name not in show.sounds:
             error("show.bed", f"unknown sound {name!r}")
