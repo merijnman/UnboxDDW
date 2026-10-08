@@ -43,10 +43,11 @@ Principles
 - The scheduler is the judge. It works with measured audio durations and fails
   the build if two voice turns overlap or a turn runs past the next cue.
 
-Layout
+Layout. LaunchClip/ is a subfolder of the UnboxDDW repo, next to Projection/.
+The git repo (`.git`) lives at the UnboxDDW root, so do not run `git init` here.
 
 ```
-unbox-show/
+LaunchClip/
   show.yaml
   .env                      # ELEVENLABS_API_KEY=...   (never committed)
   assets/screens/           # real artwork, same file names as in show.yaml
@@ -92,8 +93,9 @@ test. Tests use `FakeElevenClient` unless stated otherwise.
 
 ### M1 Silent animatic
 
-**T01 Scaffold.** `pyproject.toml`, folder layout, `.env.example`, `.gitignore`
-(`.env`, `build/`, `dist/`), README with install steps, `unbox --help`, a startup
+**T01 Scaffold.** `pyproject.toml`, folder layout, `.env.example`,
+`LaunchClip/.gitignore` (`build/`, `dist/`; `.env` is already ignored repo-wide
+by the root `.gitignore`), README with install steps, `unbox --help`, a startup
 check that ffmpeg is on PATH with a clear message if not.
 Done when: `pytest` runs (one smoke test) and `unbox --help` lists the commands.
 
