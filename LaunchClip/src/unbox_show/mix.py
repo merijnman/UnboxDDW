@@ -90,7 +90,8 @@ def build_mix(schedule: dict, sounds: dict, build_dir: Path, out: Path, show=Non
         info = sounds.get(name)
         if info:
             wav = build_dir / info["wav"]
-            add(wav, [f"atrim=0:{duration:.3f}", gain(wav, SOUND_LUFS, schedule["bed_gain_db"])], others, loop=True)
+            filters = [f"atrim=0:{duration:.3f}"] + ([info["filter"]] if info.get("filter") else [])
+            add(wav, filters + [gain(wav, SOUND_LUFS, schedule["bed_gain_db"])], others, loop=True)
 
     crackle = sounds.get("radio_crackle")
     first_last: dict[str, list[float]] = {}
@@ -115,7 +116,8 @@ def build_mix(schedule: dict, sounds: dict, build_dir: Path, out: Path, show=Non
             info = sounds[event["name"]]
             wav = build_dir / info["wav"]
             length = event["end"] - event["t"]
-            filters = [f"atrim=0:{length:.3f}", gain(wav, SOUND_LUFS, info["gain_db"])]
+            filters = [f"atrim=0:{length:.3f}"] + ([info["filter"]] if info.get("filter") else [])
+            filters.append(gain(wav, SOUND_LUFS, info["gain_db"]))
             if info["fade_in"]:
                 filters.append(f"afade=t=in:st=0:d={info['fade_in']}")
             if info["fade_out"]:
@@ -127,8 +129,9 @@ def build_mix(schedule: dict, sounds: dict, build_dir: Path, out: Path, show=Non
         wav = build_dir / crackle["wav"]
         for start, end in first_last.values():
             for t in (start - SQUELCH_SECONDS, end):
-                filters = [f"atrim=0:{SQUELCH_SECONDS}", f"afade=t=out:st={SQUELCH_SECONDS - 0.08:.2f}:d=0.08",
-                           gain(wav, SOUND_LUFS, -4), delay(t)]
+                filters = [f"atrim=0:{SQUELCH_SECONDS}", "lowpass=f=4000:poles=2",
+                           f"afade=t=in:st=0:d=0.03", f"afade=t=out:st={SQUELCH_SECONDS - 0.08:.2f}:d=0.08",
+                           gain(wav, SOUND_LUFS, -10), delay(t)]
                 add(wav, filters, others)
 
     graph = list(chains)

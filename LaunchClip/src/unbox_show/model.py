@@ -121,6 +121,7 @@ class Sound(Strict):
     seconds: float | None = None
     loop: bool = False
     music: bool = False  # generate with ElevenLabs Music instead of sound effects
+    filter: str | None = None  # ffmpeg filter chain applied in the mix, e.g. to tame a whine
     gain_db: float = 0.0
     fade_in: float = 0.0
     fade_out: float = 0.0

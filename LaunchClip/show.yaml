@@ -46,6 +46,15 @@ style:
   body_font:    assets/fonts/Lexend-Light.ttf
 
 # -----------------------------------------------------------------------------
+# Voice effects (ffmpeg filter chains), applied locally after TTS. Tune by ear.
+fx:
+  # Old radio: steep 250-3800 Hz band, a little mid presence, compression and soft warmth.
+  radio: "highpass=f=250:poles=2,highpass=f=250:poles=2,lowpass=f=3800:poles=2,lowpass=f=3800:poles=2,equalizer=f=1400:t=q:w=1.2:g=4,acompressor=threshold=-24dB:ratio=4:attack=5:release=120:makeup=2,asoftclip=type=tanh"
+  # Commander: close and comfortable, only rounded off.
+  radio_light: "highpass=f=90,lowpass=f=7500:poles=2,acompressor=threshold=-20dB:ratio=2.5:attack=10:release=150"
+  aside: "lowpass=f=2500"
+
+# -----------------------------------------------------------------------------
 voices:
   commander:
     label: "COMMANDER"
@@ -69,8 +78,10 @@ voices:
 # cached, or point to a file you supply yourself with `file:`.
 sounds:
   radio_crackle:   {prompt: "Short burst of radio static and squelch as a two-way radio channel opens", seconds: 1.5}
-  bridge_hum:      {prompt: "Low steady spaceship bridge ambience, soft engine hum and air circulation, no melody, no voices", seconds: 30, loop: true}
-  console_beeps:   {prompt: "Sparse quiet computer console beeps and blips on a spaceship bridge, irregular, no melody", seconds: 22, loop: true}
+  bridge_hum:      {prompt: "Low steady spaceship bridge ambience, soft engine hum and air circulation, no melody, no voices", seconds: 30, loop: true,
+                    filter: "lowpass=f=6000:poles=2"}
+  console_beeps:   {prompt: "Sparse quiet computer console beeps and blips on a spaceship bridge, irregular, no melody", seconds: 22, loop: true,
+                    filter: "bandreject=f=12530:width_type=h:w=300,lowpass=f=5000:poles=2,lowpass=f=5000:poles=2"}   # the take has a loud 12.5 kHz whine
   timer_end:       {prompt: "Three short clean electronic beeps, timer finished", seconds: 1.5}
   alarm:           {prompt: "Spaceship red alert klaxon, urgent repeating alarm", seconds: 7, gain_db: 4}
   computer_bleeps: {prompt: "Retro computer calculating, rapid bleeps and bloops, data processing", seconds: 5}
