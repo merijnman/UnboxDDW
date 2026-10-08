@@ -41,13 +41,15 @@ voices:
     settings: {stability: 0.45, similarity_boost: 0.75, style: 0.35, use_speaker_boost: true, speed: 0.95}
     seed: 1101
     fx: radio_light            # close mic, slight radio colour
+    audition: "Welcome, crew. In fifteen minutes, we launch to explore metaphorical space! It's not rocket science. Yikes."
   mission_control:
     label: "MISSION CONTROL"
     voice_id: "TODO_MISSION_CONTROL_VOICE_ID" # clipped, procedural, neutral
-    model_id: eleven_multilingual_v2
+    model_id: eleven_multilingual_v4
     settings: {stability: 0.70, similarity_boost: 0.75, style: 0.10, use_speaker_boost: true, speed: 1.0}
     seed: 2202
     fx: radio                  # band-limited, compressed, squelch in/out
+    audition: "Mission Control here. All systems nominal. Alert! Alert! T minus ten seconds."
 
 # -----------------------------------------------------------------------------
 # Sounds are generated once (ElevenLabs sound effects, max 30 s each) and

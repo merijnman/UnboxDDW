@@ -1,0 +1,1186 @@
+{
+ "duration": 900.0,
+ "bed": [
+  "bridge_hum",
+  "console_beeps"
+ ],
+ "bed_gain_db": -22.0,
+ "duck_bed_under_speech_db": -6.0,
+ "events": [
+  {
+   "t": 0.0,
+   "type": "screen",
+   "name": "title"
+  },
+  {
+   "t": 0.0,
+   "type": "sound",
+   "name": "radio_crackle",
+   "end": 1.541
+  },
+  {
+   "t": 3.0,
+   "type": "voice",
+   "end": 15.839,
+   "clip": "cmd_welcome",
+   "entry": "cmd_welcome",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/6c9ec98f0c7d9d1b57efae0e43a6114018354d7a16ee6eba20a7532db979af01.wav"
+  },
+  {
+   "t": 3.0,
+   "type": "sub",
+   "end": 8.48,
+   "entry": "cmd_welcome",
+   "line": 0,
+   "en": "Welcome, crew. My name is Commander Lockton, but you can call me Dan.",
+   "nl": "Welkom, crew. Ik ben Commander Lockton, maar zeg maar Dan.",
+   "speaker": "COMMANDER",
+   "italic": false
+  },
+  {
+   "t": 8.48,
+   "type": "sub",
+   "end": 11.142,
+   "entry": "cmd_welcome",
+   "line": 1,
+   "en": "I will be your mission commander.",
+   "nl": "Ik ben jullie missiecommandant.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 11.142,
+   "type": "sub",
+   "end": 16.139,
+   "entry": "cmd_welcome",
+   "line": 2,
+   "en": "In fifteen minutes, we launch to explore metaphorical space!",
+   "nl": "Over vijftien minuten vertrekken we om de metaforische ruimte te verkennen!",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 18.0,
+   "type": "voice",
+   "end": 18.842,
+   "clip": "cmd_aside",
+   "entry": "cmd_aside",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/825a4e32d4eff3150df1fccf24ae06e428025b72484be0c1bdf7d79ca4a7d188.wav"
+  },
+  {
+   "t": 18.0,
+   "type": "sub",
+   "end": 19.142,
+   "entry": "cmd_aside",
+   "line": 0,
+   "en": "Brave idiots.",
+   "nl": "Dappere dwazen.",
+   "speaker": "COMMANDER",
+   "italic": true
+  },
+  {
+   "t": 22.0,
+   "type": "voice",
+   "end": 62.832,
+   "clip": "cmd_metaphors",
+   "entry": "cmd_metaphors",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/8e560860b59de645e8b3bbd5213ff12e1a621e3c104520b377add7dff50e2106.wav"
+  },
+  {
+   "t": 22.0,
+   "type": "sub",
+   "end": 26.242,
+   "entry": "cmd_metaphors",
+   "line": 0,
+   "en": "Ahem. Metaphors help us find a shared language.",
+   "nl": "Ahum. Metaforen helpen ons een gedeelde taal te vinden.",
+   "speaker": "COMMANDER",
+   "italic": false
+  },
+  {
+   "t": 26.242,
+   "type": "sub",
+   "end": 31.103,
+   "entry": "cmd_metaphors",
+   "line": 1,
+   "en": "You all use metaphors, even if you didn't know it yet.",
+   "nl": "Jullie gebruiken allemaal metaforen, ook als je dat nog niet wist.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 31.103,
+   "type": "sub",
+   "end": 33.313,
+   "entry": "cmd_metaphors",
+   "line": 2,
+   "en": "It's not rocket science.",
+   "nl": "Het is geen raketwetenschap.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 33.313,
+   "type": "screen",
+   "name": "pen"
+  },
+  {
+   "t": 33.313,
+   "type": "sub",
+   "end": 35.787,
+   "entry": "cmd_metaphors",
+   "line": 3,
+   "en": "For example: this is a pen.",
+   "nl": "Bijvoorbeeld: dit is een pen.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 35.787,
+   "type": "overlay",
+   "name": "cloud_rocket"
+  },
+  {
+   "t": 35.787,
+   "type": "sub",
+   "end": 44.537,
+   "entry": "cmd_metaphors",
+   "line": 4,
+   "en": "For me, as commander, this pen might be a metaphor for a spaceship, because it is long and pointy.",
+   "nl": "Voor mij, als commander, kan deze pen een metafoor zijn voor een ruimteschip: lang en puntig.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 44.537,
+   "type": "overlay",
+   "name": "cloud_text"
+  },
+  {
+   "t": 44.537,
+   "type": "sub",
+   "end": 51.519,
+   "entry": "cmd_metaphors",
+   "line": 5,
+   "en": "But it can also be a metaphor for a memory, because you can write things down.",
+   "nl": "Maar hij kan ook een metafoor zijn voor een herinnering, omdat je er dingen mee opschrijft.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 51.519,
+   "type": "overlay",
+   "name": "cloud_carrot"
+  },
+  {
+   "t": 51.519,
+   "type": "sub",
+   "end": 55.762,
+   "entry": "cmd_metaphors",
+   "line": 6,
+   "en": "And it might even represent a carrot. So: food!",
+   "nl": "En misschien staat hij zelfs voor een wortel. Eten dus!",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 55.762,
+   "type": "sub",
+   "end": 63.132,
+   "entry": "cmd_metaphors",
+   "line": 7,
+   "en": "You get the point. One thing can mean many different things to different people.",
+   "nl": "Je snapt het idee. Een ding kan voor verschillende mensen heel verschillende dingen betekenen.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 72.0,
+   "type": "voice",
+   "end": 92.05,
+   "clip": "mc_ready",
+   "entry": "mc_ready",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/0644cbb4cb9f14d2fdd2d1e3d9506e0c3a163c2ac05a2eb5ba273e4e5d92ac1c.wav"
+  },
+  {
+   "t": 72.0,
+   "type": "sub",
+   "end": 76.821,
+   "entry": "mc_ready",
+   "line": 0,
+   "en": "Mission Control here. Crew, are you ready for your first task?",
+   "nl": "Hier Mission Control. Crew, zijn jullie klaar voor je eerste opdracht?",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 76.821,
+   "type": "sub",
+   "end": 84.856,
+   "entry": "mc_ready",
+   "line": 1,
+   "en": "Of course you are. You are highly trained astronauts, about to embark on a voyage to metaphorical space.",
+   "nl": "Natuurlijk zijn jullie dat. Jullie zijn topgetrainde astronauten, aan de vooravond van een reis naar de metaforische ruimte.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 84.856,
+   "type": "screen",
+   "name": "introduce"
+  },
+  {
+   "t": 84.856,
+   "type": "sub",
+   "end": 89.525,
+   "entry": "mc_ready",
+   "line": 2,
+   "en": "To get you started: introduce yourself to your crew members.",
+   "nl": "Om te beginnen: stel jezelf voor aan je crewgenoten.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 89.525,
+   "type": "sub",
+   "end": 92.35,
+   "entry": "mc_ready",
+   "line": 3,
+   "en": "Briefly! You have thirty seconds.",
+   "nl": "Kort! Jullie hebben dertig seconden.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 94.0,
+   "type": "timer",
+   "end": 124.0
+  },
+  {
+   "t": 126.0,
+   "type": "screen",
+   "name": "pick"
+  },
+  {
+   "t": 126.0,
+   "type": "voice",
+   "end": 139.75,
+   "clip": "mc_pick",
+   "entry": "mc_pick",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/48847716d4cc120a79004dc9a56365ae2e678418b5094e5d9f586a35c64e3e55.wav"
+  },
+  {
+   "t": 126.0,
+   "type": "sub",
+   "end": 130.643,
+   "entry": "mc_pick",
+   "line": 0,
+   "en": "Time is up. Now look at the stickers on your table.",
+   "nl": "De tijd is om. Kijk nu naar de stickers op je tafel.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 130.643,
+   "type": "sub",
+   "end": 133.589,
+   "entry": "mc_pick",
+   "line": 1,
+   "en": "Pick one. This is your metaphor.",
+   "nl": "Kies er een. Dit is jouw metafoor.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 133.589,
+   "type": "sub",
+   "end": 140.05,
+   "entry": "mc_pick",
+   "line": 2,
+   "en": "Think to yourself: what does this object mean to you on this mission?",
+   "nl": "Bedenk voor jezelf: wat betekent dit voorwerp voor jou op deze missie?",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 170.0,
+   "type": "screen",
+   "name": "share"
+  },
+  {
+   "t": 170.0,
+   "type": "voice",
+   "end": 184.874,
+   "clip": "cmd_share",
+   "entry": "cmd_share",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/1c068ea918bb3867a60acd3ec596f4fe4eb208aba514fa1b2d025d1c362f327c.wav"
+  },
+  {
+   "t": 170.0,
+   "type": "sub",
+   "end": 177.229,
+   "entry": "cmd_share",
+   "line": 0,
+   "en": "Crew, your next task: explain to your crew what your metaphorical object means to you.",
+   "nl": "Crew, je volgende opdracht: leg je crewgenoten uit wat jouw metaforische voorwerp voor jou betekent.",
+   "speaker": "COMMANDER",
+   "italic": false
+  },
+  {
+   "t": 177.229,
+   "type": "sub",
+   "end": 183.046,
+   "entry": "cmd_share",
+   "line": 1,
+   "en": "Why did you pick it? What does it represent on your journey together?",
+   "nl": "Waarom koos je het? Waar staat het voor op jullie gezamenlijke reis?",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 183.046,
+   "type": "sub",
+   "end": 185.174,
+   "entry": "cmd_share",
+   "line": 2,
+   "en": "You have five minutes.",
+   "nl": "Jullie hebben vijf minuten.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 186.0,
+   "type": "timer",
+   "end": 480.0
+  },
+  {
+   "t": 240.0,
+   "type": "voice",
+   "end": 245.9,
+   "clip": "mc_spotlight",
+   "entry": "mc_spotlight",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/7e8f1995bc75193c9ff6b79d3e600df9e5b58a71eb9c17eda3dc9eb7f6855871.wav"
+  },
+  {
+   "t": 240.0,
+   "type": "sub",
+   "end": 246.2,
+   "entry": "mc_spotlight",
+   "line": 0,
+   "en": "Attention: all crew members are required to share their object. Share the spotlight.",
+   "nl": "Attentie: alle crewleden moeten hun voorwerp delen. Geef elkaar de ruimte.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 300.0,
+   "type": "voice",
+   "end": 302.75,
+   "clip": "mc_nominal",
+   "entry": "mc_nominal",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/8787121e871c9b15cb7ee6f5559dcb31888c5c6ed2574bef0365c93289136887.wav"
+  },
+  {
+   "t": 300.0,
+   "type": "sub",
+   "end": 303.05,
+   "entry": "mc_nominal",
+   "line": 0,
+   "en": "All systems nominal. Proceed with preparations.",
+   "nl": "Alle systemen nominaal. Ga door met de voorbereidingen.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 360.0,
+   "type": "voice",
+   "end": 362.75,
+   "clip": "mc_propellant",
+   "entry": "mc_propellant",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/8c2b1bcfc16c8a6a43497d78ab3a5a727d7c4c5695aee6462fc2f36bfd86670c.wav"
+  },
+  {
+   "t": 360.0,
+   "type": "sub",
+   "end": 363.05,
+   "entry": "mc_propellant",
+   "line": 0,
+   "en": "Propellant loading complete. Starting flight computer.",
+   "nl": "Brandstof geladen. Boordcomputer wordt opgestart.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 420.0,
+   "type": "voice",
+   "end": 437.4,
+   "clip": "mc_warning",
+   "entry": "mc_warning",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/f5caa830d611900f1232e1c628896927bea209482bf50fbb5532245f3c7e3931.wav"
+  },
+  {
+   "t": 420.0,
+   "type": "sub",
+   "end": 425.776,
+   "entry": "mc_warning",
+   "line": 0,
+   "en": "Mission Control here. Attention, all stations: sharing time is coming to an end.",
+   "nl": "Hier Mission Control. Attentie, alle stations: de tijd om te delen loopt ten einde.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 425.776,
+   "type": "sub",
+   "end": 434.334,
+   "entry": "mc_warning",
+   "line": 1,
+   "en": "Crew is requested to collect materials for space travel, so make sure you understand the objects of all your crewmates.",
+   "nl": "De crew wordt verzocht materialen voor de ruimtereis te verzamelen. Zorg dus dat je de voorwerpen van al je crewgenoten begrijpt.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 434.334,
+   "type": "sub",
+   "end": 437.7,
+   "entry": "mc_warning",
+   "line": 2,
+   "en": "Just a little time remaining before launch!",
+   "nl": "Nog maar even tot de lancering!",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 465.0,
+   "type": "ops",
+   "text": "Stand by: smoke machine and alarm light, in 15 seconds"
+  },
+  {
+   "t": 480.0,
+   "type": "screen",
+   "name": "alert"
+  },
+  {
+   "t": 480.0,
+   "type": "ops",
+   "text": "SMOKE MACHINE ON, alarm light on"
+  },
+  {
+   "t": 480.0,
+   "type": "sound",
+   "name": "alarm",
+   "end": 487.027
+  },
+  {
+   "t": 482.0,
+   "type": "voice",
+   "end": 490.6,
+   "clip": "mc_alert",
+   "entry": "mc_alert",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/6cb0e3786b9c316129c297ff7ec054b0f92bbc87606399d76cbbb6ae5f537c6f.wav"
+  },
+  {
+   "t": 482.0,
+   "type": "sub",
+   "end": 482.933,
+   "entry": "mc_alert",
+   "line": 0,
+   "en": "Alert! Alert!",
+   "nl": "Alarm! Alarm!",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 482.933,
+   "type": "sub",
+   "end": 488.267,
+   "entry": "mc_alert",
+   "line": 1,
+   "en": "Mission Control here. An anomaly in the space-time continuum has been detected.",
+   "nl": "Hier Mission Control. Er is een anomalie in het ruimte-tijdcontinuum gedetecteerd.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 488.267,
+   "type": "screen",
+   "name": "recalculating"
+  },
+  {
+   "t": 488.267,
+   "type": "sub",
+   "end": 490.9,
+   "entry": "mc_alert",
+   "line": 2,
+   "en": "Recalculating total storage volume.",
+   "nl": "Totale opslagruimte wordt herberekend.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 492.0,
+   "type": "sound",
+   "name": "computer_bleeps",
+   "end": 497.042
+  },
+  {
+   "t": 498.0,
+   "type": "screen",
+   "name": "one_item"
+  },
+  {
+   "t": 498.0,
+   "type": "voice",
+   "end": 503.55,
+   "clip": "mc_done",
+   "entry": "mc_done",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/af3c0784f9dbd5cbd18be506418f8dcf5db769325479d695834e56895e9d015b.wav"
+  },
+  {
+   "t": 498.0,
+   "type": "sub",
+   "end": 503.85,
+   "entry": "mc_done",
+   "line": 0,
+   "en": "Done! New calculations show that we only have space to take one item.",
+   "nl": "Klaar! Uit de nieuwe berekeningen blijkt dat we maar ruimte hebben voor een voorwerp.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 505.0,
+   "type": "voice",
+   "end": 505.421,
+   "clip": "cmd_yikes",
+   "entry": "cmd_yikes",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/b40f80fcf14dc378097f3158144fcde6f1c52f66af395677dd6d3c1aa7b25497.wav"
+  },
+  {
+   "t": 505.0,
+   "type": "sub",
+   "end": 505.721,
+   "entry": "cmd_yikes",
+   "line": 0,
+   "en": "Yikes.",
+   "nl": "Oei.",
+   "speaker": "COMMANDER",
+   "italic": false
+  },
+  {
+   "t": 508.0,
+   "type": "voice",
+   "end": 525.121,
+   "clip": "cmd_select",
+   "entry": "cmd_select",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/b5623f667ddba4ecf7a405c1b324ee5f5bdca4dd5e33186fa565820511d438bd.wav"
+  },
+  {
+   "t": 508.0,
+   "type": "sub",
+   "end": 514.585,
+   "entry": "cmd_select",
+   "line": 0,
+   "en": "Crew, please select the one item that represents the largest number of crew members.",
+   "nl": "Crew, kies het ene voorwerp dat voor zo veel mogelijk crewleden iets betekent.",
+   "speaker": "COMMANDER",
+   "italic": false
+  },
+  {
+   "t": 514.585,
+   "type": "sub",
+   "end": 521.17,
+   "entry": "cmd_select",
+   "line": 1,
+   "en": "Put your final item in the rocket, and record what this item represents for you all.",
+   "nl": "Stop jullie definitieve voorwerp in de raket en leg vast waar het voor jullie allemaal voor staat.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 521.17,
+   "type": "sub",
+   "end": 525.421,
+   "entry": "cmd_select",
+   "line": 2,
+   "en": "You have three minutes to make your final decision.",
+   "nl": "Jullie hebben drie minuten voor de definitieve keuze.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 527.0,
+   "type": "timer",
+   "end": 705.0
+  },
+  {
+   "t": 527.0,
+   "type": "ops",
+   "text": "Smoke machine off, alarm light off"
+  },
+  {
+   "t": 585.0,
+   "type": "voice",
+   "end": 587.75,
+   "clip": "mc_two_minutes",
+   "entry": "mc_two_minutes",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/96162274b6f382e8de23d69e2a6ca936600813aebb740b40729cc7aef1ca0439.wav"
+  },
+  {
+   "t": 585.0,
+   "type": "sub",
+   "end": 588.05,
+   "entry": "mc_two_minutes",
+   "line": 0,
+   "en": "Storage bay recalibrated. Two minutes remaining.",
+   "nl": "Laadruim opnieuw gekalibreerd. Nog twee minuten.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 645.0,
+   "type": "voice",
+   "end": 647.75,
+   "clip": "mc_one_minute",
+   "entry": "mc_one_minute",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/b72e82a4a3bc9c7cde1bd732cfc298b6382358346d2db85ed3b4665b34249773.wav"
+  },
+  {
+   "t": 645.0,
+   "type": "sub",
+   "end": 648.05,
+   "entry": "mc_one_minute",
+   "line": 0,
+   "en": "One minute remaining. Choose wisely, crew.",
+   "nl": "Nog een minuut. Kies verstandig, crew.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 706.0,
+   "type": "screen",
+   "name": "load_rocket"
+  },
+  {
+   "t": 706.0,
+   "type": "voice",
+   "end": 717.926,
+   "clip": "cmd_go",
+   "entry": "cmd_go",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/1108faa18e8296d7450c538b79b28bf21bbe5b411f370d4c60d331cb8d826ec7.wav"
+  },
+  {
+   "t": 706.0,
+   "type": "sub",
+   "end": 708.641,
+   "entry": "cmd_go",
+   "line": 0,
+   "en": "All crew members: it is go time!",
+   "nl": "Alle crewleden: het is zover!",
+   "speaker": "COMMANDER",
+   "italic": false
+  },
+  {
+   "t": 708.641,
+   "type": "sub",
+   "end": 714.804,
+   "entry": "cmd_go",
+   "line": 1,
+   "en": "Place your final item in the rocket and record your reasoning for posterity.",
+   "nl": "Leg jullie definitieve voorwerp in de raket en leg jullie redenering vast voor het nageslacht.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 714.804,
+   "type": "sub",
+   "end": 718.226,
+   "entry": "cmd_go",
+   "line": 2,
+   "en": "Brace yourselves: preparing for launch!",
+   "nl": "Zet je schrap: we maken ons klaar voor de lancering!",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 735.0,
+   "type": "ops",
+   "text": "Stand by for launch: smoke machine, flashing lights, curtain"
+  },
+  {
+   "t": 750.0,
+   "type": "screen",
+   "name": "all_go"
+  },
+  {
+   "t": 750.0,
+   "type": "voice",
+   "end": 755.5,
+   "clip": "mc_all_go",
+   "entry": "mc_all_go",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/9fe57d439c147e662301fbe3656ae88353ea2b4f97da53378fc638ba0967e6c8.wav"
+  },
+  {
+   "t": 750.0,
+   "type": "sub",
+   "end": 755.8,
+   "entry": "mc_all_go",
+   "line": 0,
+   "en": "Mission Control to crew: all systems go. Prepare to unbox the unexpected!",
+   "nl": "Mission Control aan crew: alle systemen gereed. Maak je klaar om het onverwachte uit te pakken!",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 758.0,
+   "type": "screen",
+   "name": "countdown"
+  },
+  {
+   "t": 758.0,
+   "type": "voice",
+   "end": 759.6,
+   "clip": "mc_countdown#00",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/2c3fe8c2791a6e1eaae1ca48a8dd46646f5bd6389b160f1a4e6feddadad128ea.wav"
+  },
+  {
+   "t": 758.0,
+   "type": "sub",
+   "end": 759.9,
+   "entry": "mc_countdown",
+   "line": 0,
+   "en": "T minus ten seconds.",
+   "nl": "Nog tien seconden.",
+   "speaker": "MISSION CONTROL",
+   "italic": false
+  },
+  {
+   "t": 761.0,
+   "type": "big",
+   "text": "10"
+  },
+  {
+   "t": 761.0,
+   "type": "voice",
+   "end": 761.4,
+   "clip": "mc_countdown#01",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/69e4933e1e6afc05946e3cddf9ca8f262f13ae2fc2cffe9186939a6db944b881.wav"
+  },
+  {
+   "t": 761.0,
+   "type": "sub",
+   "end": 761.7,
+   "entry": "mc_countdown",
+   "line": 1,
+   "en": "Ten.",
+   "nl": "Tien.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 762.0,
+   "type": "big",
+   "text": "9"
+  },
+  {
+   "t": 762.0,
+   "type": "voice",
+   "end": 762.4,
+   "clip": "mc_countdown#02",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/6b7f7e9856f9c54c82bfe202c6e5b9f80c15707278ab59ceab66d8458997312d.wav"
+  },
+  {
+   "t": 762.0,
+   "type": "sub",
+   "end": 762.7,
+   "entry": "mc_countdown",
+   "line": 2,
+   "en": "Nine.",
+   "nl": "Negen.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 763.0,
+   "type": "big",
+   "text": "8"
+  },
+  {
+   "t": 763.0,
+   "type": "voice",
+   "end": 763.4,
+   "clip": "mc_countdown#03",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/a6d1cb3020887e340005f127ad061e1999a0c911f5fda88c21e41f3f0199e2a0.wav"
+  },
+  {
+   "t": 763.0,
+   "type": "sub",
+   "end": 763.7,
+   "entry": "mc_countdown",
+   "line": 3,
+   "en": "Eight.",
+   "nl": "Acht.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 764.0,
+   "type": "big",
+   "text": "7"
+  },
+  {
+   "t": 764.0,
+   "type": "voice",
+   "end": 764.4,
+   "clip": "mc_countdown#04",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/2f0d34dd6f6ee993b09cd8e1b82389d0d95a6cceb4679527f0c8c73ba961fdf5.wav"
+  },
+  {
+   "t": 764.0,
+   "type": "sub",
+   "end": 764.7,
+   "entry": "mc_countdown",
+   "line": 4,
+   "en": "Seven.",
+   "nl": "Zeven.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 765.0,
+   "type": "big",
+   "text": "6"
+  },
+  {
+   "t": 765.0,
+   "type": "voice",
+   "end": 765.4,
+   "clip": "mc_countdown#05",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/0b8298b752d9df37a22cc6b7320994236b0de8b9520ccde75ad3045219ebf1f1.wav"
+  },
+  {
+   "t": 765.0,
+   "type": "sub",
+   "end": 765.7,
+   "entry": "mc_countdown",
+   "line": 5,
+   "en": "Six.",
+   "nl": "Zes.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 766.0,
+   "type": "big",
+   "text": "5"
+  },
+  {
+   "t": 766.0,
+   "type": "voice",
+   "end": 766.4,
+   "clip": "mc_countdown#06",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/b36bb594e44e11eb820b17f5f5e687caf5eee79db53ebb9c298a53dd3cf45743.wav"
+  },
+  {
+   "t": 766.0,
+   "type": "sub",
+   "end": 766.7,
+   "entry": "mc_countdown",
+   "line": 6,
+   "en": "Five.",
+   "nl": "Vijf.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 767.0,
+   "type": "big",
+   "text": "4"
+  },
+  {
+   "t": 767.0,
+   "type": "voice",
+   "end": 767.4,
+   "clip": "mc_countdown#07",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/ee12eb98627f83422cd3b94ab8dbb3eb050ffa75983feecdc5bb2a125e4c0a3a.wav"
+  },
+  {
+   "t": 767.0,
+   "type": "sub",
+   "end": 767.7,
+   "entry": "mc_countdown",
+   "line": 7,
+   "en": "Four.",
+   "nl": "Vier.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 768.0,
+   "type": "big",
+   "text": "3"
+  },
+  {
+   "t": 768.0,
+   "type": "ops",
+   "text": "SMOKE MACHINE ON"
+  },
+  {
+   "t": 768.0,
+   "type": "voice",
+   "end": 768.4,
+   "clip": "mc_countdown#08",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/d8299cddd38e6be83806ccb9a702b5a98f332d70b6539d502101510120cbf570.wav"
+  },
+  {
+   "t": 768.0,
+   "type": "sub",
+   "end": 768.7,
+   "entry": "mc_countdown",
+   "line": 8,
+   "en": "Three.",
+   "nl": "Drie.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 769.0,
+   "type": "big",
+   "text": "2"
+  },
+  {
+   "t": 769.0,
+   "type": "voice",
+   "end": 769.4,
+   "clip": "mc_countdown#09",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/bf2582150ab76204c69bc7b190e1fcd29647d4b4ad1121ac998672ace0476cb7.wav"
+  },
+  {
+   "t": 769.0,
+   "type": "sub",
+   "end": 769.7,
+   "entry": "mc_countdown",
+   "line": 9,
+   "en": "Two.",
+   "nl": "Twee.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 770.0,
+   "type": "big",
+   "text": "1"
+  },
+  {
+   "t": 770.0,
+   "type": "voice",
+   "end": 770.4,
+   "clip": "mc_countdown#10",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/3859a35d222061ceb366bd941903ea7361350d7485cc5d82172f26e36afedda3.wav"
+  },
+  {
+   "t": 770.0,
+   "type": "sub",
+   "end": 770.7,
+   "entry": "mc_countdown",
+   "line": 10,
+   "en": "One.",
+   "nl": "Een.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 771.0,
+   "type": "screen",
+   "name": "liftoff"
+  },
+  {
+   "t": 771.0,
+   "type": "ops",
+   "text": "CURTAIN DROPS, flashing lights"
+  },
+  {
+   "t": 771.0,
+   "type": "sound",
+   "name": "rocket_launch",
+   "end": 796.051
+  },
+  {
+   "t": 771.0,
+   "type": "voice",
+   "end": 771.4,
+   "clip": "mc_countdown#11",
+   "entry": "mc_countdown",
+   "speaker": "mission_control",
+   "fx": "radio",
+   "wav": "cache/tts/817f62ccf59e588e574c7f57bf555f7786bc9aadd96c0c2887dfef50dffabd09.wav"
+  },
+  {
+   "t": 771.0,
+   "type": "sub",
+   "end": 771.7,
+   "entry": "mc_countdown",
+   "line": 11,
+   "en": "Liftoff!",
+   "nl": "Lancering!",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 795.0,
+   "type": "ops",
+   "text": "Smoke machine off"
+  },
+  {
+   "t": 795.0,
+   "type": "sound",
+   "name": "celebration",
+   "end": 795.0,
+   "missing": true
+  },
+  {
+   "t": 802.0,
+   "type": "screen",
+   "name": "end"
+  },
+  {
+   "t": 802.0,
+   "type": "voice",
+   "end": 834.979,
+   "clip": "cmd_outro",
+   "entry": "cmd_outro",
+   "speaker": "commander",
+   "fx": "radio_light",
+   "wav": "cache/tts/fc0bc2b4b21b561a29532ed8eb1eb454d0849a9ca1d6c1a280250f188f99f7e3.wav"
+  },
+  {
+   "t": 802.0,
+   "type": "sub",
+   "end": 808.383,
+   "entry": "cmd_outro",
+   "line": 0,
+   "en": "Thank you, Unbox crew, for taking on new perspectives and exploring Unbox together.",
+   "nl": "Dank je wel, Unbox-crew, dat jullie nieuwe perspectieven hebben ingenomen en samen Unbox hebben verkend.",
+   "speaker": "COMMANDER",
+   "italic": false
+  },
+  {
+   "t": 808.383,
+   "type": "sub",
+   "end": 814.31,
+   "entry": "cmd_outro",
+   "line": 1,
+   "en": "This was a small taste of the new worlds that metaphors can help us discover.",
+   "nl": "Dit was een voorproefje van de nieuwe werelden die metaforen ons kunnen helpen ontdekken.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 814.31,
+   "type": "sub",
+   "end": 821.605,
+   "entry": "cmd_outro",
+   "line": 2,
+   "en": "You can use Unbox and its metaphors in many different settings that require working as a group.",
+   "nl": "Je kunt Unbox en zijn metaforen gebruiken in allerlei situaties waarin je als groep samenwerkt.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 821.605,
+   "type": "sub",
+   "end": 831.256,
+   "entry": "cmd_outro",
+   "line": 3,
+   "en": "If you would like to dive deeper into metaphors, visit the Unbox exhibition space around the corner, or check out our website.",
+   "nl": "Wil je dieper in metaforen duiken? Bezoek de Unbox-tentoonstelling om de hoek, of kijk op onze website.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 831.256,
+   "type": "sub",
+   "end": 835.279,
+   "entry": "cmd_outro",
+   "line": 4,
+   "en": "For now, this was Commander Lockton, signing off.",
+   "nl": "Voor nu was dit Commander Lockton. Over en uit.",
+   "speaker": null,
+   "italic": false
+  },
+  {
+   "t": 845.0,
+   "type": "ops",
+   "text": "House lights up. Point people to the exhibition and the bar."
+  }
+ ]
+}

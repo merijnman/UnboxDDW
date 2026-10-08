@@ -1,0 +1,13 @@
+# Build output. The audio cache lives in build/cache/; share it as a zip,
+# but the manifest may be committed so the team sees which takes are current.
+build/*
+!build/cache/
+build/cache/*
+!build/cache/manifest.json
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/

@@ -1,0 +1,33 @@
+[project]
+name = "unbox-show"
+version = "0.1.0"
+description = "Render the Unbox show (show.yaml) into finished video files"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "httpx>=0.27",
+    "pillow>=10.3",
+    "typer>=0.12",
+    "python-dotenv>=1.0",
+]
+
+[project.scripts]
+unbox = "unbox_show.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/unbox_show"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: renders the full 15-minute video (takes minutes)"]
+addopts = "-m 'not slow'"
