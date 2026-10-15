@@ -84,6 +84,24 @@ def test_turn_running_into_next_cue_is_an_error(mini_show_path):
         build_schedule(show, mini_clips(show, hello=8.5), SOUNDS)
 
 
+def test_interrupted_turn_is_cut_at_the_next_cue(mini_show_path):
+    show = load_show(mini_show_path)
+    show.timeline[1].interrupted = True
+    sched = build_schedule(show, mini_clips(show, hello=8.5), SOUNDS)  # would end at 00:10.5
+    voice = next(e for e in of_type(sched, "voice") if e["clip"] == "hello")
+    assert (voice["end"], voice["trim"]) == (10.0, True)
+    assert all(e["end"] <= 10.0 for e in of_type(sched, "sub") if e["entry"] == "hello")
+    assert "warnings" not in sched
+
+
+def test_squelch_voice_is_marked(mini_show_path):
+    show = load_show(mini_show_path)
+    show.voices["mission_control"].squelch = True
+    sched = build_schedule(show, mini_clips(show), SOUNDS)
+    marked = {e["entry"] for e in of_type(sched, "voice") if e.get("squelch")}
+    assert marked == {"count"}
+
+
 def test_voice_overlap_is_an_error(mini_show_path, mini_data):
     show = load_show(mini_show_path)
     clips = mini_clips(show, hello=5.0)
@@ -149,6 +167,13 @@ def test_audio_tags_are_spoken_but_not_shown(mini_show_path):
     # The subtitle starts at "Welcome", after the throat clearing, not at the tag.
     text = clips["hello"]["text"]
     assert subs[0]["t"] == pytest.approx(2.0 + 6.0 * text.index("Welcome") / len(text), abs=0.001)
+
+
+def test_subtitle_overrides_the_shown_text(mini_show_path):
+    show = load_show(mini_show_path)
+    show.timeline[1].lines[0].subtitle = "Welcome, crew. This is a tryout."
+    sched = build_schedule(show, mini_clips(show), SOUNDS)
+    assert [e for e in of_type(sched, "sub") if e["entry"] == "hello"][0]["en"] == "Welcome, crew. This is a tryout."
 
 
 def test_alignment_of_a_different_length_is_mapped_proportionally(mini_show_path):

@@ -237,6 +237,15 @@ def audition(
 
 
 @app.command()
+def script(show_path: Path = ShowOption) -> None:
+    """Readable script as a Word file (dist/unbox_script.docx), for the team to edit. No timings."""
+    from . import script_doc
+
+    show = _load(show_path)
+    typer.echo(f"Wrote {script_doc.write(show, show_path, _paths(show).dist / 'unbox_script.docx')}")
+
+
+@app.command()
 def handouts(show_path: Path = ShowOption) -> None:
     """Run sheet and Dutch transcript card (T18, not built yet)."""
     typer.echo("Not built yet (T18).", err=True)

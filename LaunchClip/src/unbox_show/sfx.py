@@ -63,6 +63,7 @@ def render(show: ShowFile, client: Client, cache: Cache, build_dir: Path, warn=p
             "fade_in": sound.fade_in,
             "fade_out": sound.fade_out,
             "filter": sound.filter,
+            "loop_length": sound.loop_length,
             "fake": sound.prompt is not None and client.name == "fake",
         }
     build_dir.mkdir(parents=True, exist_ok=True)

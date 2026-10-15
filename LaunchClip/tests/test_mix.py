@@ -96,4 +96,41 @@ def test_radio_turn_gets_squelch_clicks(build):
     out = mix.build_mix(schedule(voice_t=4.0, fx_name="radio"), SOUNDS, build, build / "mix.wav", _Show())
     data = samples(out)
     first = next(i for i, v in enumerate(data) if abs(v) > 200)
-    assert first / 48000 == pytest.approx(4.0 - mix.SQUELCH_SECONDS, abs=0.02)
+    assert first / 48000 == pytest.approx(4.0 - mix.SQUELCH_LEAD, abs=0.03)
+
+
+def test_squelch_voice_gets_crackle_without_radio_fx(build):
+    sched = schedule(voice_t=4.0)
+    sched["events"][0]["squelch"] = True
+    data = samples(mix.build_mix(sched, SOUNDS, build, build / "mix.wav", _Show()))
+    first = next(i for i, v in enumerate(data) if abs(v) > 200)
+    assert first / 48000 == pytest.approx(4.0 - mix.SQUELCH_LEAD, abs=0.03)
+
+
+def test_loop_starts_overlap_by_the_crossfade():
+    assert mix.loop_starts(5.0, 10.0, 10.0) == [0.0]
+    assert mix.loop_starts(25.0, 12.0, 10.0) == [0.0, 8.0, 16.0]
+
+
+def test_envelope_expression_interpolates_in_db():
+    expr = mix.envelope_expression([[2.0, 0.0], [4.0, -20.0]])
+    names = {"iff": lambda c, a, b: a if c else b, "lt": lambda a, b: a < b, "pow": pow}
+
+    def db_at(t):
+        import math
+        return 20 * math.log10(eval(expr.replace("if(", "iff("), names | {"t": t}))
+
+    assert db_at(0.0) == pytest.approx(0.0)
+    assert db_at(3.0) == pytest.approx(-10.0)
+    assert db_at(9.0) == pytest.approx(-20.0)
+
+
+def test_looped_sound_with_envelope(build):
+    sounds = SOUNDS | {"music": {"wav": "cache/sfx/bed.wav", "duration": 3.0, "loop": False, "gain_db": 0,
+                                 "fade_in": 0, "fade_out": 0, "loop_length": 3.0}}
+    sched = {"duration": 10.0, "bed": [], "bed_gain_db": 0, "duck_bed_under_speech_db": -6, "events": [
+        {"t": 1.0, "type": "sound", "name": "music", "end": 9.0, "envelope": [[1.0, 0.0], [9.0, 0.0]]}]}
+    data = samples(mix.build_mix(sched, sounds, build, build / "mix.wav", _Show(), with_fx=False))
+    loud = [abs(v) > 200 for v in data[::480]]  # every 10 ms
+    assert all(loud[110:890])  # sounds the whole 8 s, across the repeats
+    assert not any(loud[:95]) and not any(loud[905:])

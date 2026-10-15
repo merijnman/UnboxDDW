@@ -3,8 +3,8 @@
 Every clip is first brought to a reference loudness, so voices and effects sit
 at predictable levels whatever ElevenLabs delivered. Then:
 
-- voices get their fx (radio, radio_light, aside), radio turns a squelch click
-  before and after;
+- voices get their fx (radio, radio_light, aside); radio turns, and voices
+  with `squelch: true`, get a burst of radio crackle before and a click after;
 - beds loop under the whole show, sounds play at their times;
 - everything that is not a voice is ducked while someone speaks;
 - the master is lifted so voices sit at -16 LUFS, with peaks limited to -1.5 dB.
@@ -26,8 +26,12 @@ TARGET_LUFS = -16.0
 TRUE_PEAK = -1.5
 ASIDE_DB = -6.0      # an aside is spoken off-mic, so it stays quieter
 PACED_FADE = 0.05
-SQUELCH_SECONDS = 0.25
+SQUELCH_LEAD = 0.7      # crackle before a radio turn
+SQUELCH_LEAD_DB = -4.0
+SQUELCH_SECONDS = 0.5   # crackle after it, as loud as the lead
+SQUELCH_TAIL_DB = -4.0
 DUCK_RAMP_IN, DUCK_RAMP_OUT = 0.15, 0.4
+LOOP_XFADE = 2.0     # a sound placed for longer than its take repeats with this crossfade
 
 
 def _speech_intervals(events: list[dict]) -> list[tuple[float, float]]:
@@ -54,6 +58,24 @@ def duck_expression(intervals: list[tuple[float, float]], duck_db: float) -> str
     for term in terms[1:]:
         inside = f"max({inside},{term})"
     return f"1-{depth:.4f}*{inside}"
+
+
+def envelope_expression(points: list[list[float]]) -> str:
+    """volume= expression for [show time, dB] points: flat before the first and after the last, straight lines between."""
+    expr = f"{points[-1][1]}"
+    for (t0, db0), (t1, db1) in reversed(list(zip(points, points[1:]))):
+        slope = (db1 - db0) / (t1 - t0) if t1 > t0 else 0.0
+        expr = f"if(lt(t,{t1:.3f}),{db0}+{slope:.6f}*(t-{t0:.3f}),{expr})"
+    return f"pow(10,(if(lt(t,{points[0][0]:.3f}),{points[0][1]},{expr}))/20)"
+
+
+def loop_starts(length: float, take: float, piece: float) -> list[float]:
+    """Offsets of the repeats that fill `length`. One start when the take is long enough."""
+    starts = [0.0]
+    if length > take + 1e-6:
+        while starts[-1] + piece < length:
+            starts.append(starts[-1] + piece - LOOP_XFADE)
+    return starts
 
 
 def _rel(path: Path, build_dir: Path) -> str:
@@ -109,29 +131,43 @@ def build_mix(schedule: dict, sounds: dict, build_dir: Path, out: Path, show=Non
                 length = event["end"] - event["t"]
                 filters += [f"atrim=0:{length:.3f}", f"afade=t=out:st={length - PACED_FADE:.3f}:d={PACED_FADE}"]
             add(wav, filters + [delay(event["t"])], voices)
-            if event.get("fx") == "radio":
+            if event.get("fx") == "radio" or event.get("squelch"):
                 span = first_last.setdefault(event["entry"], [event["t"], event["end"]])
                 span[1] = max(span[1], event["end"])
         elif event["type"] == "sound" and not event.get("missing"):
             info = sounds[event["name"]]
             wav = build_dir / info["wav"]
             length = event["end"] - event["t"]
-            filters = [f"atrim=0:{length:.3f}"] + ([info["filter"]] if info.get("filter") else [])
-            filters.append(gain(wav, SOUND_LUFS, info["gain_db"]))
-            if info["fade_in"]:
-                filters.append(f"afade=t=in:st=0:d={info['fade_in']}")
-            if info["fade_out"]:
-                fade = min(info["fade_out"], length)
-                filters.append(f"afade=t=out:st={length - fade:.3f}:d={fade}")
-            add(wav, filters + [delay(event["t"])], others)
+            piece = min(info.get("loop_length") or info["duration"], info["duration"])
+            starts = loop_starts(length, info["duration"], piece)
+            envelope = event.get("envelope")
+            for k, offset in enumerate(starts):
+                last = k == len(starts) - 1
+                seg = length - offset if last else piece
+                filters = [f"atrim=0:{seg:.3f}"] + ([info["filter"]] if info.get("filter") else [])
+                filters.append(gain(wav, SOUND_LUFS, info["gain_db"]))
+                if k:
+                    filters.append(f"afade=t=in:st=0:d={LOOP_XFADE}")
+                elif info["fade_in"]:
+                    filters.append(f"afade=t=in:st=0:d={info['fade_in']}")
+                if not last:
+                    filters.append(f"afade=t=out:st={seg - LOOP_XFADE:.3f}:d={LOOP_XFADE}")
+                elif info["fade_out"]:
+                    fade = min(info["fade_out"], seg)
+                    filters.append(f"afade=t=out:st={seg - fade:.3f}:d={fade}")
+                filters.append(delay(event["t"] + offset))
+                if envelope:  # after the delay, so t is show time
+                    filters.append(f"volume=eval=frame:volume='{envelope_expression(envelope)}'")
+                add(wav, filters, others)
 
     if with_fx and crackle:
         wav = build_dir / crackle["wav"]
         for start, end in first_last.values():
-            for t in (start - SQUELCH_SECONDS, end):
-                filters = [f"atrim=0:{SQUELCH_SECONDS}", "lowpass=f=4000:poles=2",
-                           f"afade=t=in:st=0:d=0.03", f"afade=t=out:st={SQUELCH_SECONDS - 0.08:.2f}:d=0.08",
-                           gain(wav, SOUND_LUFS, -10), delay(t)]
+            for t, length, level in ((start - SQUELCH_LEAD, SQUELCH_LEAD, SQUELCH_LEAD_DB),
+                                     (end, SQUELCH_SECONDS, SQUELCH_TAIL_DB)):
+                filters = [f"atrim=0:{length}", "lowpass=f=4000:poles=2",
+                           f"afade=t=in:st=0:d=0.03", f"afade=t=out:st={length - 0.08:.2f}:d=0.08",
+                           gain(wav, SOUND_LUFS, level), delay(t)]
                 add(wav, filters, others)
 
     graph = list(chains)

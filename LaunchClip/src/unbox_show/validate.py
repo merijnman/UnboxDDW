@@ -9,7 +9,7 @@ from typing import Literal
 import yaml
 from pydantic import ValidationError
 
-from .model import ShowFile, has_tags, load_show
+from .model import ShowFile, has_tags, load_show, parse_time
 
 # Speech models we know to work with the with-timestamps endpoint (see ELEVENLABS.md).
 KNOWN_TTS_MODELS = {
@@ -99,6 +99,13 @@ def check(show: ShowFile) -> list[Issue]:
             seen_ids.setdefault(entry.id, entry.at)
 
         refs(where, entry)
+        if (entry.sound_until or entry.sound_envelope) and not entry.sound:
+            error(where, "`sound_until` and `sound_envelope` need a `sound`")
+        if entry.sound_until and parse_time(entry.sound_until) <= at:
+            error(where, "`sound_until` is not after `at`")
+        times = [parse_time(t) for t, _ in entry.sound_envelope or []]
+        if times != sorted(times):
+            error(where, "`sound_envelope` times must be ascending")
         if entry.timer and entry.timer.end_s(at) <= at:
             error(where, "timer ends before it starts")
 
@@ -130,6 +137,8 @@ def check(show: ShowFile) -> list[Issue]:
         for name in show.preshow.bed:
             if name not in show.sounds:
                 error("preshow.bed", f"unknown sound {name!r}")
+        if show.preshow.finale and show.preshow.finale not in show.sounds:
+            error("preshow.finale", f"unknown sound {show.preshow.finale!r}")
         chatter = show.preshow.chatter
         if chatter and chatter.voice not in show.voices:
             error("preshow.chatter", f"unknown speaker {chatter.voice!r}")

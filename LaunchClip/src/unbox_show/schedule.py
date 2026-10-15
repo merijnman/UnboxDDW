@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .model import Entry, ShowFile, format_time
+from .model import Entry, ShowFile, format_time, parse_time
 from .plan import paced_offsets
 
 LINE_TAIL = 0.3          # a subtitle stays up this long after its last character
@@ -45,10 +45,14 @@ def _actions(t: float, item, sounds: dict, duration: float) -> list[dict]:
     if item.sound:
         info = sounds.get(item.sound)
         event = {"t": t, "type": "sound", "name": item.sound}
+        until = getattr(item, "sound_until", None)
         if info is None:
             event.update(end=t, missing=True)
         else:
-            event["end"] = min(t + info["duration"], duration)
+            event["end"] = min(parse_time(until) if until else t + info["duration"], duration)
+        envelope = getattr(item, "sound_envelope", None)
+        if envelope:
+            event["envelope"] = [[parse_time(time), db] for time, db in envelope]
         events.append(event)
     return events
 
@@ -122,6 +126,8 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
             }
             if entry.delivery == "aside":
                 voice_event["aside"] = True
+            if voice.squelch:
+                voice_event["squelch"] = True
             if trim:
                 voice_event["trim"] = True
             events.append(voice_event)
@@ -140,6 +146,8 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
     }
     if entry.delivery == "aside":
         voice_event["aside"] = True
+    if voice.squelch:
+        voice_event["squelch"] = True
     events.append(voice_event)
     line_starts = [at + _line_start(clip, i, line.en) for i, line in enumerate(entry.lines)]
     for i, line in enumerate(entry.lines):
@@ -149,6 +157,20 @@ def _say_events(entry: Entry, show: ShowFile, clips: dict, sounds: dict) -> list
         events.append(_sub(line_starts[i], end, entry, i, voice.label if i == 0 else None))
         events.extend(_actions(line_starts[i], line, sounds, duration))
     return events
+
+
+def _cut_off(events: list[dict], cut: float) -> list[dict]:
+    """An interrupted turn: voice and subtitles stop at the cut, anything after it is dropped."""
+    kept = []
+    for event in events:
+        if event["t"] >= cut - EPS:
+            continue
+        if event["type"] == "voice" and event["end"] > cut:
+            event.update(end=cut, trim=True)
+        elif event["type"] == "sub":
+            event["end"] = min(event["end"], cut)
+        kept.append(event)
+    return kept
 
 
 def build_schedule(show: ShowFile, clips: dict, sounds: dict, strict: bool | None = None) -> dict:
@@ -169,9 +191,11 @@ def build_schedule(show: ShowFile, clips: dict, sounds: dict, strict: bool | Non
         if not entry.say:
             continue
         say_events = _say_events(entry, show, clips, sounds)
+        following = next((e for e in timeline[index + 1 :] if e.at_s > at), None)
+        if entry.interrupted and following is not None:
+            say_events = _cut_off(say_events, following.at_s)
         events.extend(say_events)
         turn_end = max(e["end"] for e in say_events if e["type"] == "voice")
-        following = next((e for e in timeline[index + 1 :] if e.at_s > at), None)
         if following is not None and turn_end > following.at_s + EPS:
             problems.append(
                 f"{entry.where()}: turn ends at {format_time(turn_end, 1)}, after the next cue "

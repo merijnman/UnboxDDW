@@ -8,8 +8,10 @@ from unbox_show.plan import build_plan, characters_per_voice, estimate_seconds, 
 # stated rule produces. Our grid rule ("Ten" one beat after the lead-in, then one line
 # per second) puts liftoff ten seconds after "Ten" and gives 13.4 s.
 REFERENCE_EXCEPTIONS = {"mc_countdown": 13.4}
-# Entries whose text changed after the table was made (8 October): not comparable any more.
-CHANGED_SINCE = {"cmd_select", "mc_spotlight", "mc_done"}
+# Entries whose text changed after the table was made (8 and 15 October): not comparable any more.
+CHANGED_SINCE = {"cmd_select", "mc_spotlight", "mc_done", "cmd_welcome", "cmd_metaphors", "mc_pick",
+                 "cmd_share", "mc_warning", "mc_alert", "cmd_outro", "mc_nominal",
+                 "mc_propellant"}
 
 
 def _reference_rows():
@@ -32,7 +34,7 @@ def test_estimates_match_the_reference_table():
         expected = REFERENCE_EXCEPTIONS.get(entry, length)
         assert abs(row.estimate - expected) <= 0.5, f"{entry}: {row.estimate:.1f} vs {expected}"
         checked += 1
-    assert checked >= 15
+    assert checked >= 8
 
 
 def test_estimate_rule():
@@ -61,8 +63,8 @@ def test_flags_overlap_and_tight_gaps(mini_show_path):
 def test_character_totals():
     show = load_show(SHOW_YAML)
     totals = characters_per_voice(show)
-    # BACKLOG says about 2,900 for the bare text; the audio tags add a few hundred.
-    assert 2800 <= sum(totals.values()) <= 3400
+    # BACKLOG says about 2,900 for the bare text; the audio tags and the 15 October rewrite add some.
+    assert 2800 <= sum(totals.values()) <= 3900
     assert "Characters per voice" in format_plan(show)
 
 

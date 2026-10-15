@@ -63,7 +63,7 @@ def test_state_at_follows_the_schedule():
     assert state_at(schedule, timer_start + 31.5).timer is None
     alarm = next(e for e in schedule["events"] if e["type"] == "sound" and e["name"] == "alarm")["t"]
     ops = state_at(schedule, alarm + 5)
-    assert ops.ops == "SMOKE MACHINE ON, alarm light on" and ops.screen == "alert"
+    assert ops.ops == "FLASHING LIGHTS ON" and ops.screen == "alert"
     assert state_at(schedule, alarm + 11).ops is None
 
 

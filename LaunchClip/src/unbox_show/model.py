@@ -112,6 +112,7 @@ class Voice(Strict):
     settings: VoiceSettings
     seed: int | None = None
     fx: str | None = None
+    squelch: bool = False  # radio crackle before and after every turn, also without the radio fx
     audition: str | None = None  # fixed test passage for `unbox audition`
 
 
@@ -125,6 +126,7 @@ class Sound(Strict):
     gain_db: float = 0.0
     fade_in: float = 0.0
     fade_out: float = 0.0
+    loop_length: float | None = None  # placed for longer than this: repeat the first loop_length s, crossfaded
 
 
 class Screen(Strict):
@@ -172,6 +174,7 @@ class Timer(Strict):
 class Line(Strict):
     en: str  # spoken; may contain audio tags like [chuckling] for eleven_v3/v4
     nl: str | None = None
+    subtitle: str | None = None  # shown instead of `en`, e.g. a new spelling without re-recording the take
     screen: str | None = None
     overlay: str | None = None
     big: str | None = None
@@ -180,8 +183,8 @@ class Line(Strict):
 
     @property
     def shown(self) -> str:
-        """The subtitle text: `en` without audio tags."""
-        return strip_tags(self.en)
+        """The subtitle text: `subtitle` if given, else `en` without audio tags."""
+        return strip_tags(self.subtitle or self.en)
 
 
 class Entry(Strict):
@@ -189,16 +192,26 @@ class Entry(Strict):
     id: str | None = None
     say: str | None = None
     delivery: Literal["aside"] | None = None
+    interrupted: bool = False  # the next cue cuts this turn off instead of failing the schedule
     pace_seconds: float | None = None
     lines: list[Line] = []
     screen: str | None = None
     overlay: str | None = None
     big: str | None = None
     sound: str | None = None
+    sound_until: str | None = None  # play `sound` until this time, looping it if needed (see Sound.loop_length)
+    sound_envelope: list[tuple[str, float]] | None = None  # [time, dB] points for `sound`, straight lines between them
     timer: Timer | None = None
     ops: str | None = None
 
-    _t = field_validator("at")(_check_time)
+    _t = field_validator("at", "sound_until")(_check_time)
+
+    @field_validator("sound_envelope")
+    @classmethod
+    def _envelope_times(cls, value):
+        for time, _db in value or []:
+            parse_time(time)
+        return value
 
     @property
     def at_s(self) -> float:
@@ -228,6 +241,7 @@ class Preshow(Strict):
     bed: list[str] = []
     bed_gain_db: float = -18
     chatter: Chatter | None = None
+    finale: str | None = None  # a sound (music) placed so that it ends exactly when the pre-show ends
 
     _t = field_validator("duration")(_check_time)
 

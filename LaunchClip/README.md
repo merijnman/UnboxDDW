@@ -33,6 +33,7 @@ See `BACKLOG.md` for the plan and `ELEVENLABS.md` for how the voices are made.
 | `unbox schedule` | Resolves the timeline into `build/schedule.json` | no |
 | `unbox subs` | Writes `build/subs.ass` and `dist/unbox_show.{en,nl}.srt` | no |
 | `unbox build` | All of the above, then the video | yes, after confirmation |
+| `unbox script` | Readable script for the team, `dist/unbox_script.docx` (no timings; edits go back into `show.yaml` by hand) | no |
 
 ### Artwork
 
