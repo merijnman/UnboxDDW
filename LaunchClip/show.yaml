@@ -23,7 +23,7 @@
 
 show:
   title: "Unbox - Mission to Metaphorical Space"
-  duration: "13:25"
+  duration: "14:25"
   audio_language: en
   subtitles: [en, nl]          # both on screen at the same time
   video: {width: 1920, height: 1080, fps: 25}
@@ -98,7 +98,7 @@ sounds:
   alarm:           {prompt: "Slow, deep sci-fi spaceship alarm: long rising and falling whooping tones, about one per second, spacey and reverberant, ominous rather than shrill", seconds: 9, gain_db: 4}
   computer_bleeps: {prompt: "Retro spaceship computer slowly recalculating: unhurried bleeps and bloops with short pauses between them, calm data processing", seconds: 7}
   rocket_launch:   {prompt: "Rocket launch: engine ignition, building rumble and roar, then fading into the distance", seconds: 25, gain_db: 4}
-  # Tension: from the alarm to liftoff. The volume is shaped in the timeline (sound_envelope).
+  # Tension: from the alarm to lift off. The volume is shaped in the timeline (sound_envelope).
   tension:         {prompt: "Urgent, heart-pounding sci-fi tension music for a spaceship emergency: a fast pulsing synth bass like a racing heartbeat, driving low drums and rising strings, suspenseful and cinematic, no resolution. Instrumental.", seconds: 58, music: true, gain_db: -4, fade_out: 1,
                     loop_length: 54}   # the take ends in silence after ~55 s; placed longer, it repeats the first 54 s
   # Pre-show: the last part of the 25-minute pre-show video, climaxing as the show starts (pre-show video: T16).
@@ -117,7 +117,7 @@ screens:
   alert:         {image: alert.png,         text_en: "ALERT",                                 text_nl: "ALARM"}
   recalculating: {image: alert.png,         text_en: "RECALCULATING STORAGE VOLUME...",       text_nl: "OPSLAGRUIMTE WORDT HERBEREKEND..."}
   one_item:      {image: one_item.png,      text_en: "Choose ONE item for the whole crew",    text_nl: "Kies EEN voorwerp voor de hele crew"}
-  load_rocket:   {image: rocket.png,        text_en: "Put your item in the rocket. Record your reasoning.", text_nl: "Stop je voorwerp in de raket. Leg jullie redenering vast."}
+  load_rocket:   {image: rocket.png,        text_en: "Put your object in the rocket. Write down why you chose it.", text_nl: "Stop jullie voorwerp in de raket. Schrijf op waarom jullie het kozen."}
   all_go:        {image: rocket.png,        text_en: "ALL SYSTEMS GO",                        text_nl: "ALLE SYSTEMEN GEREED"}
   countdown:     {image: rocket.png}
   liftoff:       {image: liftoff.png}
@@ -238,8 +238,8 @@ timeline:
     say: mission_control
     sound: timer_end
     lines:
-      - en: "Time is up. T minus ten minutes to launch."
-        nl: "De tijd is om. Nog tien minuten tot de lancering."
+      - en: "Time is up. T minus eleven minutes to launch."
+        nl: "De tijd is om. Nog elf minuten tot de lancering."
       - en: "Now that you have introduced yourselves, you need to decide what you will bring with you on this mission."
         nl: "Nu jullie elkaar kennen, moeten jullie beslissen wat je meeneemt op deze missie."
       - en: "Look at the stickers on your table."
@@ -295,8 +295,8 @@ timeline:
         nl: "Hier Mission Control. Attentie, alle stations: de tijd om te delen loopt ten einde."
       - en: "Crew is requested to collect materials for space travel, so make sure you understand the objects of all your crewmates."
         nl: "De crew wordt verzocht materialen voor de ruimtereis te verzamelen. Zorg dus dat je de voorwerpen van al je crewgenoten begrijpt."
-      - en: "T minus five minutes to launch!"
-        nl: "Nog vijf minuten tot de lancering!"
+      - en: "T minus six minutes to launch!"
+        nl: "Nog zes minuten tot de lancering!"
 
   - at: "07:30"
     ops: "Stand by: flashing lights, in 20 seconds"
@@ -317,14 +317,15 @@ timeline:
 
   - at: "07:50.6"
     sound: tension
-    sound_until: "12:23"
+    sound_until: "13:24"
     sound_envelope:            # dB on top of the sound's gain: loud alarm, background under the talk, loudest before go time
       - ["08:42", 0]
       - ["08:48", -9]
-      - ["11:20", -4]
-      - ["11:42", 0]
-      - ["12:21.5", 0]
-      - ["12:23", -30]
+      - ["11:40", -6]          # still background while the crews write down their reasoning
+      - ["12:30", -3]
+      - ["12:42", 0]
+      - ["13:22.5", 0]
+      - ["13:24", -30]
 
   - at: "07:52"
     id: comp_warning
@@ -367,32 +368,40 @@ timeline:
     lines:
       - en: "[serious, sad] Crew, please select the one object that can represent as many of your crew members' needs as possible."
         nl: "Crew, kies het ene voorwerp dat voor de behoeften van zo veel mogelijk crewleden kan staan."
-      - en: "You have three minutes to decide."
-        nl: "Jullie hebben drie minuten om te beslissen."
+      - en: "You have four minutes."
+        nl: "Jullie hebben vier minuten."
       - en: "Work together to see how that one object can represent your needs as a crew."
         nl: "Zoek samen uit hoe dat ene voorwerp voor jullie behoeften als crew kan staan."
 
   - at: "08:44"
-    timer: {seconds: 180}
+    timer: {seconds: 240}      # three minutes to decide, the last minute to put the object in the rocket and write why
     ops: "Flashing lights off"
 
 
   - at: "09:44"
+    id: mc_three_minutes
+    say: mission_control
+    lines:
+      - en: "Storage bay recalibrated. Three minutes remaining."
+        nl: "Laadruim opnieuw gekalibreerd. Nog drie minuten."
+
+  - at: "10:44"
     id: mc_two_minutes
     say: mission_control
     lines:
-      - en: "Storage bay recalibrated. Two minutes remaining."
-        nl: "Laadruim opnieuw gekalibreerd. Nog twee minuten."
+      - en: "[serious] Two minutes remaining. Choose wisely, crew."
+        nl: "Nog twee minuten. Kies verstandig, crew."
 
-  - at: "10:44"
-    id: mc_one_minute
+  - at: "11:44"
+    id: mc_document
     say: mission_control
     lines:
-      - en: "[serious] One minute remaining. Choose wisely, crew."
-        nl: "Nog een minuut. Kies verstandig, crew."
+      - en: "One minute remaining. Crew: please put your object in the rocket, and write down why you chose it to represent your crew."
+        nl: "Nog een minuut. Crew: stop jullie voorwerp in de raket, en schrijf op waarom jullie het kozen om jullie crew te vertegenwoordigen."
+        screen: load_rocket
 
-  # ---- 5. Countdown and launch ------------------------------------- 11:45 ---
-  - at: "11:45"
+  # ---- 5. Countdown and launch ------------------------------------- 12:45 ---
+  - at: "12:45"
     id: cmd_go
     say: commander
     sound: timer_end
@@ -405,10 +414,10 @@ timeline:
       - en: "[shouting] Brace yourselves: preparing for launch!"
         nl: "Zet je schrap: we maken ons klaar voor de lancering!"
 
-  - at: "11:56"
+  - at: "12:56"
     ops: "Stand by for launch: smoke machine, flashing lights, curtain"
 
-  - at: "12:01"
+  - at: "13:01"
     id: mc_all_go
     say: mission_control
     lines:
@@ -416,7 +425,7 @@ timeline:
         nl: "Mission Control aan crew: alle systemen gereed. Maak je klaar om het onverwachte uit te pakken!"
         screen: all_go
 
-  - at: "12:09"
+  - at: "13:09"
     id: mc_countdown
     say: mission_control
     pace_seconds: 1.0          # after the first line: one line per second, each rendered separately
@@ -432,15 +441,15 @@ timeline:
       - {en: "Three.", nl: "Drie.",   big: "3", ops: "SMOKE MACHINE ON"}
       - {en: "Two.",   nl: "Twee.",   big: "2"}
       - {en: "One.",   nl: "Een.",    big: "1"}
-      - {en: "[triumphant] Liftoff!", nl: "Lancering!", screen: liftoff, sound: rocket_launch, ops: "CURTAIN DROPS, flashing lights"}
+      - {en: "[triumphant] Liftoff!", subtitle: "Lift off!", nl: "Lancering!", screen: liftoff, sound: rocket_launch, ops: "CURTAIN DROPS, flashing lights"}
 
-  # ---- 6. Unbox revealed, sign-off --------------------------------- 12:28 ---
+  # ---- 6. Unbox revealed, sign-off --------------------------------- 13:28 ---
   # The sign-off follows the launch quickly, before people start to leave.
-  - at: "12:28"
+  - at: "13:28"
     sound: celebration
     ops: "Smoke machine off"
 
-  - at: "12:31"
+  - at: "13:31"
     id: cmd_outro
     say: commander
     lines:
@@ -458,7 +467,7 @@ timeline:
         subtitle: "For now, this was Commander Matt A. Fore, signing off."
         nl: "Voor nu was dit Commander Matt A. Fore. Over en uit."
 
-  - at: "13:06"
+  - at: "14:06"
     ops: "House lights up. Point people to the exhibition, the Unbox team and the bar."
 
 # =============================================================================

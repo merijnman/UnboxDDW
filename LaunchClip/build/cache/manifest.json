@@ -24,10 +24,10 @@
     "date": "2026-10-15T10:02:41+00:00"
   },
   "cmd_select": {
-    "hash": "5555cc8e4751ff3bc2fd37ed688f11619a2d30f3a18a85cad88a9405f41010af",
-    "duration": 13.28,
-    "characters": 228,
-    "date": "2026-10-15T08:48:10+00:00"
+    "hash": "9b51906eb082d6a93f4364a17157d6910e0bc8f65cfbe23b7f36ce779881a0b7",
+    "duration": 13.12,
+    "characters": 217,
+    "date": "2026-10-16T08:13:06+00:00"
   },
   "cmd_share": {
     "hash": "fe3c2f375551fe153becdce3c1fdaafbb0efada7cb8c0dc71948bc823616f3d7",
@@ -137,6 +137,12 @@
     "characters": 21,
     "date": "2026-10-15T08:48:23+00:00"
   },
+  "mc_document": {
+    "hash": "eb38fbe41ce44d7e8d15f395ff56464d44ed4465e68a187a1d52b931d1769a06",
+    "duration": 7.28,
+    "characters": 121,
+    "date": "2026-10-16T08:13:11+00:00"
+  },
   "mc_done": {
     "hash": "d4f893f11e49b1dee95982666ec9a47fc38bbccf4e0c7be4bc4e1d852f6fd3a7",
     "duration": 5.12,
@@ -162,10 +168,10 @@
     "date": "2026-10-15T08:48:13+00:00"
   },
   "mc_pick": {
-    "hash": "fb3b4adb01d1244f14bc96d099817f28174e8835528b91572b90b19db8468883",
-    "duration": 25.76,
-    "characters": 422,
-    "date": "2026-10-15T11:35:37+00:00"
+    "hash": "1c1d51568f11aa7ce9f4d7e0cb09d38dbe8de72d3fd8b3c55a759068720a0603",
+    "duration": 25.52,
+    "characters": 425,
+    "date": "2026-10-16T08:12:58+00:00"
   },
   "mc_propellant": {
     "hash": "094f9b224e593f2a91a7026482454799d8e8ae075e862f56ddc120eef920eba7",
@@ -185,16 +191,22 @@
     "characters": 83,
     "date": "2026-10-15T08:47:48+00:00"
   },
+  "mc_three_minutes": {
+    "hash": "3333dd20a7004b863da1c0aa7d0668bcf0657b0925a33a6473be17c0298ff962",
+    "duration": 3.6,
+    "characters": 50,
+    "date": "2026-10-16T08:13:08+00:00"
+  },
   "mc_two_minutes": {
-    "hash": "718c52cb18e99db4ed430bf1485159c778cd4b54ec2bd197e0bf2ac415b5198d",
-    "duration": 3.52,
-    "characters": 48,
-    "date": "2026-10-15T08:48:11+00:00"
+    "hash": "9be88f419c1055de8fea6854a7ac49032d2d5a55f4d06efcf7de40d59864db5e",
+    "duration": 3.28,
+    "characters": 53,
+    "date": "2026-10-16T08:13:09+00:00"
   },
   "mc_warning": {
-    "hash": "8d0b557047d75acf8b146f1acac73f1e70a7c5901dc8db7a15ea8cb51d0dc6db",
+    "hash": "79c3365a22ef0712078103fb7a06cd5a5d821491a472c90fb0b2f4841b83295f",
     "duration": 14.32,
-    "characters": 232,
-    "date": "2026-10-15T08:47:54+00:00"
+    "characters": 231,
+    "date": "2026-10-16T08:13:03+00:00"
   }
 }
